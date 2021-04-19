@@ -1,0 +1,4 @@
+Laurynas, klientai
+Tadas, raumenu_grupes, raumenys
+Vilius,pratimai_raumenys
+Marius,pratimai_treniruociu_planai
