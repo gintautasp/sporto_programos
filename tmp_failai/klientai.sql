@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2021 at 10:49 PM
+-- Generation Time: Apr 20, 2021 at 07:10 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 7.4.16
 
@@ -29,7 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `klientai` (
   `id` int(11) NOT NULL,
-  `vardas` varchar(255) NOT NULL,
+  `pav` varchar(255) NOT NULL,
   `amzius` int(11) NOT NULL,
   `ugis` int(11) NOT NULL,
   `lytis` enum('Vyras','Moteris') NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `klientai` (
 -- Dumping data for table `klientai`
 --
 
-INSERT INTO `klientai` (`id`, `vardas`, `amzius`, `ugis`, `lytis`, `svoris`, `pasiruosimo_lygis`, `traumosLigos`) VALUES
+INSERT INTO `klientai` (`id`, `pav`, `amzius`, `ugis`, `lytis`, `svoris`, `pasiruosimo_lygis`, `traumosLigos`) VALUES
 (1, 'Simonas Simonaitis', 27, 190, 'Vyras', 74, '5val/savaitę paskutinius 2m', 'Kelio sąnario trauma'),
 (3, 'Jonas Jonaitis', 33, 169, 'Vyras', 88, 'Apie 2val/savaitę paskutinius 2m', 'Stuburo išvarža');
 
