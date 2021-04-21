@@ -36,7 +36,7 @@ CREATE TABLE `klientai` (
   `svoris` int(11) NOT NULL,
   `pasiruosimo_lygis` text CHARACTER SET utf8 NOT NULL,
   `traumosLigos` text CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
 
 --
 -- Dumping data for table `klientai`
