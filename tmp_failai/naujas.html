@@ -1,0 +1,64 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <metacharset = "utf-8">
+
+    <style>
+    </style>
+    </head>
+    <body>
+      <form>
+        <h1>Sukurti vartotoja</h1>
+
+        <label for="id">vartotojo ID</label><br>
+        <input type="text" id="id" name="id" value=""><br>
+
+        <label for="vardas">Vartotojo Vardas</label><br>
+        <input type="text" id="vardas" name="vardas" value=""><br>
+
+        <label for="pavarde">Vartotojo Pavarde</label><br>
+        <input type="text" id="pavarde" name="pavarde" value=""><br>
+
+        <label for="svoris">Vartotojo Svoris</label><br>
+        <input type="text" id="svoris" name="svoris" value=""><br>
+
+        <label for="ugis">Vartotojo Ugis</label><br>
+        <input type="text" id="ugis" name="ugis" value=""><br>
+
+        <label for="trauma">Varototjo Traumos</label><br>
+        <input type="text" id="trauma" name="trauma" value=""><br>
+
+        <label for="kmi">Kuno mases indeksas</label><br>
+        <input type="text" id="kmi" name="kmi" value=""><br>
+
+        <h2>Pasirinki treniruojama raumenu grupe</h2>
+
+        <select id="raumenu_grupe" name="raumenu_grupe">
+    			<option value="1">Krutine</option>
+    			<option value="1">Nugara</option>
+    			<option value="1">Kojos</option>
+          <option value="1">Rankos</option>
+          <option value="1">Pilvo presas</option>
+    		</select><br>
+
+        <h3>Pasirinkti treniruojamos grupes raumeni</h3>
+          <input type="checkbox" name="pasir2[]" id="var3"> - <label for="var3">var3:</label><br>
+          <input type="checkbox" name="pasir2[]" id="var4"> - <label for="var4">var4:</label><br>
+
+
+
+      </form>
+      <table>
+        <tr><th>id_raumens</th><th>pav</th><th>id_raumenu_grupes</th></tr>
+        <tr><td>3</td><td>tricepsas</td><td>5</td></tr>
+      	<tr><td>4</td><td>peciai</td><td>5</td></tr>
+      	<tr><td>7</td><td>bicepsas</td><td>5</td></tr>
+      	<tr><td>8</td><td>dvigalvis</td><td>4</td></tr>
+      	<tr><td>9</td><td>keturgalvis</td><td>4</td></tr>
+      	<tr><td>10</td><td>blauzda</td><td>4</td></tr>
+      	<tr><td>11</td><td>sedmenys</td><td>4</td></tr>
+        <tr><td>12</td><td>Krutine</td><td>3</td></tr>
+      	<tr><td>13</td><td>Nugara</td><td>1</td></tr>
+      	<tr><td>14</td><td>Pilvo presas</td><td>2</td></tr>
+      </table>
+    </body>
