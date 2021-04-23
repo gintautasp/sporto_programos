@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://localhost:8080/sporto_programos/klientai/index.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="./LaurynoDizainas-index.jsp_files/jquery-ui.css">
+		<link rel="stylesheet" href="./LaurynoDizainas-index.jsp_files/style.css">
+		<style>
+			th {
+				background-color: #F9575E
+			}
+			
+			#listKlientai th, #listKlientai td {
+				margin: 5px; 
+				padding: 1px;
+				border: 1px solid black;
+			}
+			#users th, #users td {
+				margin: 5px; 
+				padding: 5px;
+				border: 1px solid black;
+			}
+			body {
+				background-image: url("img/sportoPav.jpg");
+				background-color: #cccccc;
+			}
+		</style>  
+		<script src="./LaurynoDizainas-index.jsp_files/jquery-3.6.0.min.js.atsisiųsti" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>  <!-- Reikia kad veiktu 'reda' funkcija -->
+		<script src="./LaurynoDizainas-index.jsp_files/jquery-1.12.4.js.atsisiųsti"></script>
+		<script src="./LaurynoDizainas-index.jsp_files/jquery-ui.js.atsisiųsti"></script>
+		<script>
+			$( document ).ready ( function() {
+	
+				kriterijai2 = { id: 0, pav: 0, amzius:0, ugis: 0, lytis: 0, svoris: 0 , pasiruosimas:0, traumos:0};
+	
+				$( '.reda' ).click ( function() {
+
+					kriterijai2.id				= $( this ).data('id');
+					kriterijai2.pav		  		= $( this ).data( 'pav' );
+					kriterijai2.amzius  			= $( this ).data( 'amzius' );
+					kriterijai2.ugis  				= $( this ).data( 'ugis' );
+					kriterijai2.lytis  				= $( this ).data( 'lytis' );
+					kriterijai2.svoris  			= $( this ).data( 'svoris' );			
+					kriterijai2.pasiruosimas  		= $( this ).data( 'pasiruosimo_lygis' );			
+					kriterijai2.traumos  			= $( this ).data( 'traumosLigos' );			
+					
+					$( '#kliento_id' ).val ( kriterijai2.id );						//nurodom id iš ivedimo eilutes apacioje, kad pakeisti jo reikšmę
+					$( '#pav' ).val ( kriterijai2.pav );
+					$( '#amzius' ).val ( kriterijai2.amzius );
+					$( '#ugis' ).val ( kriterijai2.ugis );
+					$( '#lytis' ).val ( kriterijai2.lytis );			
+					$( '#svoris' ).val ( kriterijai2.svoris );			
+					$( '#pasiruosimo_lygis' ).val ( kriterijai2.pasiruosimas );			
+					$( '#traumosLigos' ).val ( kriterijai2.traumos );			
+				});		
+		
+				$( '.trinti' ).click ( function() {
+				
+					r = confirm("Ar tikrai norite ištrinti?");
+					
+					if (r){
+					
+						id_kliento = $( this ).data('id');
+						$('#klientu_idd').val (id_kliento);
+						$('#salink').submit();
+					}
+				});	
+				$( '.valyti' ).click ( function() {
+
+					$( '#kliento_id' ).val ( "0" );						//nurodom id iš ivedimo eilutes apacioje, kad pakeisti jo reikšmę
+					$( '#pav' ).val ( "Vardas Pavardė" );
+					$( '#amzius' ).val ( "1" );
+					$( '#ugis' ).val ( "1" );
+					$( '#lytis' ).val ( "" );			
+					$( '#svoris' ).val ( "1" );
+					$( '#pasiruosimas' ).val ( "(val/sav) / pask. metus" );
+					$( '#traumos' ).val ( "Atkreiptinos traumos/ligos" );
+					
+				});
+			});
+	
+			 if ( window.history.replaceState ) {  							//perkrovus puslapį išmeta išsaugotą vedimo info 
+				
+				window.history.replaceState( null, null, window.location.href ); 
+			}  
+			
+			
+			$( function() {
+			
+				var dialog, form,
+				 
+				id = $( "#id" ),
+				pav = $( "#pav" ),
+				amzius = $( "#amzius" ),
+				ugis = $( "#ugis" ),
+				lytis = $( "#lytis" ),
+				svoris = $( "#svoris" ),
+				pasiruosimo_lygis = $( "#pasiruosimo_lygis" ),
+				traumosLigos = $( "#traumosLigos" ),
+				
+				allFields = $( [] ).add( id ).add( pav ).add( amzius ).add( ugis ).add( lytis ).add( svoris ).add( pasiruosimo_lygis ).add( traumosLigos ),
+				tips = $( ".validateTips" );
+				 
+				function updateTips( t ) {
+					tips
+					.text( t )
+					.addClass( "ui-state-highlight" );
+					setTimeout(function() {
+						tips.removeClass( "ui-state-highlight", 1500 );
+					}, 500 );
+				}
+				 
+				function checkLength( o, n, min, max ) {
+					if ( o.val().length > max || o.val().length < min ) {
+						o.addClass( "ui-state-error" );
+						updateTips( "Length of " + n + " must be between " +
+						min + " and " + max + "." );
+						return false;
+					} else {
+					return true;
+					}
+				}
+				 
+				function checkRegexp( o, regexp, n ) {
+					if ( !( regexp.test( o.val() ) ) ) {
+						o.addClass( "ui-state-error" );
+						updateTips( n );
+						return false;
+					} else {
+					return true;
+					}
+				}
+				 
+				function addUser() {					<!-- atidaro ivedimo langa -->
+					var valid = true;
+					allFields.removeClass( "ui-state-error" );
+					 
+					valid = valid && checkLength( pav, "Vardas", 3, 30 );
+					valid = valid && checkLength( amzius, "Amžius", 1, 2 );
+					valid = valid && checkLength( ugis, "Ūgis", 1, 3 );
+					valid = valid && checkLength( svoris, "Svoris", 1, 3 );
+					valid = valid && checkLength( pasiruosimo_lygis, "Pasiruosimo lygis", 5, 80 );
+					valid = valid && checkLength( traumosLigos, "Traumos / Ligos", 5, 30);
+				 
+					valid = valid && checkRegexp( pav, /^[a-ząčęėįšųūž]([0-9a-ząčęėįšųūž_\s])+$/i, "Vardą gali sudaryti tik raidės nuo a-z , kol kas tik nelietuviškos" );
+				 
+					if ( valid ) {
+					$("#ivedimoForm").submit();
+						/*$( "#users tbody" ).append( "<tr>" +
+							"<td>" + id.val() + "</td>" +
+							"<td>" + pav.val() + "</td>" +
+							"<td>" + amzius.val() + "</td>" +
+							"<td>" + ugis.val() + "</td>" +
+							"<td>" + lytis.val() + "</td>" +
+							"<td>" + svoris.val() + "</td>" +
+							"<td>" + pasiruosimo_lygis.val() + "</td>" +
+							"<td>" + traumosLigos.val() + "</td>" +
+						"</tr>" );
+				
+						$( '#id' ).val ( "0" );
+						$( '#pav' ).val ( pav );
+						$( '#amzius' ).val ( amzius );
+						$( '#ugis' ).val ( ugis );
+						$( '#lytis' ).val ( lytis );			
+						$( '#svoris' ).val ( svoris );
+						$( '#pasiruosimo_lygis' ).val ( pasiruosimo_lygis );
+						$( '#traumosLigos' ).val ( traumosLigos );
+						
+						dialog.dialog( "close" );*/
+					}
+					return valid;
+				}
+				 
+				dialog = $( "#dialog-form" ).dialog({                     <!--  ivedimo lango struktura  -->
+					autoOpen: false,
+					height: 450,
+					width: 400,
+					modal: true,
+					buttons: {
+						"Sukurti": addUser,
+						Cancel: function() {
+						dialog.dialog( "close" );
+						}
+					},
+					close: function() {
+					form[ 0 ].reset();
+					allFields.removeClass( "ui-state-error" );
+					}
+				});
+				 
+				/*form = dialog.find( "form" ).on( "submit", function( event ) {  <!-- leidzia pakartotinai atidaryti ivedimo langa -->
+					event.preventDefault();
+					addUser();
+				});*/
+				 
+				$( "#create-user" ).button().on( "click", function() {             <!-- atidaro ivedimo langa -->
+				      dialog.dialog( "open" );
+				});
+			} );	 
+		</script>
+	</head>
+<body>
+
+
+
+
+
+
+
+
+
+<h2 align="center" style="color:white"><strong>Klientų informacija</strong></h2>
+<div id="users-contain" class="ui-widget">
+
+null
+										
+<table style="border: 8px double #00EFFE; padding: 2px; margin: 10px; margin-left: auto; margin-right: auto" id="users" class="ui-widget ui-widget-content">		<!--Lenteles parametrai-->
+<tbody><tr>
+
+</tr>
+<tr>							<!-- Virsus -->
+	<th>ID</th>
+	<th>Pavadinimas</th>
+	<th>Amžius</th>
+	<th>Ūgis cm</th>
+	<th>Lytis</th>
+	<th>Svoris kg</th>
+	<th>Pasiruošimo lygis</th>
+	<th>Traumos bei ligos</th>
+	<th>Redag. / Trinti</th>
+</tr><tr style="background-color: #FFF37D; padding: 1px ">    
+	<td>1</td>
+	<td><a href="http://localhost:8080/sporto_programos/klientai/index.jsp">Simonas Simonaitis</a></td>
+	<td>27</td>
+	<td>190</td>
+	<td>Vyras</td>
+	<td>74</td>
+	<td>5val/savaitę</td>
+	<td>Kelio sąnario trauma</td>
+	<td>
+		<input data-id="1" data-pav="Simonas Simonaitis" data-amzius="27" data-ugis="190" data-lytis="Vyras" data-svoris="74" data-pasiruosimas="5val/savaitę" data-traumos="Kelio sąnario trauma" type="button" value="Redaguoti" class="reda">
+		<input data-id="1" type="button" value="X" class="trinti">
+	</td>
+</tr>
+
+										
+<tr style="background-color: #FFF37D; padding: 1px ">    
+	<td>3</td>
+	<td><a href="http://localhost:8080/sporto_programos/klientai/index.jsp">Jonas Jonaitis</a></td>
+	<td>33</td>
+	<td>169</td>
+	<td>Vyras</td>
+	<td>88</td>
+	<td>2val/savaitę</td>
+	<td>Stuburo išvarža</td>
+	<td>
+		<input data-id="3" data-pav="Jonas Jonaitis" data-amzius="33" data-ugis="169" data-lytis="Vyras" data-svoris="88" data-pasiruosimas="2val/savaitę" data-traumos="Stuburo išvarža" type="button" value="Redaguoti" class="reda">
+		<input data-id="3" type="button" value="X" class="trinti">
+	</td>
+</tr>
+
+										
+<tr style="background-color: #FFF37D; padding: 1px ">    
+	<td>8</td>
+	<td><a href="http://localhost:8080/sporto_programos/klientai/index.jsp">Simonas Simonaitis</a></td>
+	<td>27</td>
+	<td>190</td>
+	<td>Vyras</td>
+	<td>74</td>
+	<td>5val/savaitę paskutinius 2m</td>
+	<td>Kelio sąnario trauma</td>
+	<td>
+		<input data-id="8" data-pav="Simonas Simonaitis" data-amzius="27" data-ugis="190" data-lytis="Vyras" data-svoris="74" data-pasiruosimas="5val/savaitę paskutinius 2m" data-traumos="Kelio sąnario trauma" type="button" value="Redaguoti" class="reda">
+		<input data-id="8" type="button" value="X" class="trinti">
+	</td>
+</tr>
+
+										
+<tr style="background-color: #FFF37D; padding: 1px ">    
+	<td>9</td>
+	<td><a href="http://localhost:8080/sporto_programos/klientai/index.jsp">Jonas Jonaitis</a></td>
+	<td>33</td>
+	<td>169</td>
+	<td>Vyras</td>
+	<td>88</td>
+	<td>Apie 2val/savaitę paskutinius 2m</td>
+	<td>Stuburo išvarža</td>
+	<td>
+		<input data-id="9" data-pav="Jonas Jonaitis" data-amzius="33" data-ugis="169" data-lytis="Vyras" data-svoris="88" data-pasiruosimas="Apie 2val/savaitę paskutinius 2m" data-traumos="Stuburo išvarža" type="button" value="Redaguoti" class="reda">
+		<input data-id="9" type="button" value="X" class="trinti">
+	</td>
+</tr>
+
+										
+<tr style="background-color: #FFF37D; padding: 1px ">    
+	<td>10</td>
+	<td><a href="http://localhost:8080/sporto_programos/klientai/index.jsp">Vardas PavardÄ</a></td>
+	<td>1</td>
+	<td>1</td>
+	<td>Vyras</td>
+	<td>1</td>
+	<td>(val/sav) / pask. metus</td>
+	<td>Atkreiptinos traumos/ligos</td>
+	<td>
+		<input data-id="10" data-pav="Vardas PavardÄ" data-amzius="1" data-ugis="1" data-lytis="Vyras" data-svoris="1" data-pasiruosimas="(val/sav) / pask. metus" data-traumos="Atkreiptinos traumos/ligos" type="button" value="Redaguoti" class="reda">
+		<input data-id="10" type="button" value="X" class="trinti">
+	</td>
+</tr>
+
+
+</tbody></table>  <!-- Ivedimo lenteles parametrai-->
+</div>
+<button id="create-user" style="border: 8px outset #FF4F4F; background-color: #FF9B9B; color:black;" class="ui-button ui-corner-all ui-widget"><strong>Sukurti naują klientą</strong></button>
+
+
+<form id="salink" method="POST" action="http://localhost:8080/sporto_programos/klientai/index.jsp">
+	<input type="hidden" id="klientu_idd" name="idd" value="0">
+	<input type="hidden" name="trinti" id="trinti" value="trinti">
+</form>
+<div tabindex="-1" role="dialog" class="ui-dialog ui-corner-all ui-widget ui-widget-content ui-front ui-dialog-buttons ui-draggable ui-resizable" aria-describedby="dialog-form" aria-labelledby="ui-id-1" style="display: none; position: absolute;"><div class="ui-dialog-titlebar ui-corner-all ui-widget-header ui-helper-clearfix ui-draggable-handle"><span id="ui-id-1" class="ui-dialog-title">Naujas klientas</span><button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>Close</button></div><div id="dialog-form" class="ui-dialog-content ui-widget-content">
+	<p class="validateTips">Užpildykite visus laukus</p>
+	<fieldset>
+		<form method="post" action="http://localhost:8080/sporto_programos/klientai/index.jsp" id="ivedimoForm">
+		<table align="center" style="border: 5px solid black" id="listKlientai">
+		<!-- Apacia -->	
+		<tbody><tr>		<th>Kliento vardas	</th>	<td>	<input type="text" name="pav" value="Vardas Pavardė" id="pav" class="text ui-widget-content ui-corner-all">								</td></tr>
+		<tr>		<th>Amžius		</th>	<td>	<input type="number" name="amzius" value="1" id="amzius" class="text ui-widget-content ui-corner-all">									</td></tr>
+		<tr>		<th>Ūgis cm		</th>	<td>	<input type="number" name="ugis" value="1" id="ugis" class="text ui-widget-content ui-corner-all">										</td></tr>
+		<tr>		<th>Lytis			</th>	<td>	<select name="lytis" id="lytis" class="text ui-widget-content ui-corner-all">
+												<option value="" selected="" disabled="" hidden="">Pasirinkite lytį</option>
+												<option value="Vyras">Vyras</option>
+												<option value="Moteris">Moteris</option> </select>																		</td></tr>
+		<tr>		<th>Svoris kg		</th>	<td><input type="number" name="svoris" value="1" id="svoris" class="text ui-widget-content ui-corner-all">									</td></tr>
+		<tr>		<th>Pasiruošimo lygis	</th>	<td><input type="text" name="pasiruosimo_lygis" value="(val/sav) / pask. metus" id="pasiruosimo_lygis" class="text ui-widget-content ui-corner-all">		</td></tr>
+		<tr>		<th>Traumos bei ligos	</th>	<td><input type="text" name="traumosLigos" value="Atkreiptinos traumos/ligos" id="traumosLigos" class="text ui-widget-content ui-corner-all">			</td></tr>
+		</tbody></table>
+		<input type="hidden" id="kliento_id" name="id" value="0">  
+		<input type="hidden" name="add" value="Papildyti">
+</form>
+</fieldset>
+</div><div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"><div class="ui-dialog-buttonset"><button type="button" class="ui-button ui-corner-all ui-widget">Sukurti</button><button type="button" class="ui-button ui-corner-all ui-widget">Cancel</button></div></div><div class="ui-resizable-handle ui-resizable-n" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-s" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-w" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-sw" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-ne" style="z-index: 90;"></div><div class="ui-resizable-handle ui-resizable-nw" style="z-index: 90;"></div></div></body></html>
