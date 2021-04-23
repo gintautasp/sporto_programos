@@ -5,14 +5,52 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<link href="../ext/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
 		<style>
-			th {
-				background-color: #A40A3A
+			body{
+				background-image: url("commons/svoris.jpg");
+				background-repeat: no-repeat;
+				background-size: cover;
+				background-color: #000000
+			}
+			.glow {
+				font-size: 40px;
+				font-family: arial;
+				color: #fff;
+				text-align: center;
+				animation: glow 1s ease-in-out infinite alternate;
+			}
+			@-webkit-keyframes glow {
+				from {
+				text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+				}to {
+				text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+				}
+			}
+			table {
+				
+				border-radius:6px;
+			}
+			td, th {
+				text-align: center;
+				font-weight: bold;
+				border-radius:6px;
+				background-color: #9370DB;				
+			}
+			.button {
+				background-color: #D8BFD8;
+				border: none;
+				color: black;
+				padding: 7px 10px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 20px;
+				margin: 4px 2px;
 			}
 		</style>	
-	
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="	crossorigin="anonymous">
-	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="../ext/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	
 	<script>
 	$( document ).ready ( function() {
@@ -43,8 +81,35 @@
 			$( '#remove' ).submit();
 			
 		});
+			
+		$( "#dialog" ).dialog({
+			autoOpen: false,
+			width: 1010,
+			buttons: [
+			{
+				text: "Ok",
+				click: function() {
+				$( this ).dialog( "close" );
+				}
+			},
+				{
+				text: "Cancel",
+				click: function() {
+				$( this ).dialog( "close" );
+				}
+			}
+			]
+		});
+		$( ".dialog-link" ).each(function( event ) {
+			$(this).click(function(){
+				$( "#dialog" ).dialog( "open" );
+					//event.preventDefault();
+				});
+			});
 	});
-	</script>
+
+	
+	</script>	
 	</head>
 <body>
 <%@page import="java.sql.DriverManager"%>
@@ -64,8 +129,8 @@
 	int resultSetChange = 0;
 
 %>
-<h2 align="center"><strong>Pratimai</strong></h2>
-<table align="center" cellpadding="5" cellspacing="5" border="1">
+<h2 class="glow" align="center"><strong>Pratimai</strong></h2>
+<table align="center" cellpadding="4" cellspacing="2">
 <tr>
 
 </tr>
@@ -146,8 +211,8 @@
 				
 				String sql_ins;
 											
-				String pratimai2_id=request.getParameter("pratimai2_idx");
-				out.println (pratimai2_idx );
+				String pratimai2_id=request.getParameter("pratimai.id");
+				//out.println (pratimai2_idx );
 					sql_ins=
 						"DELETE FROM `pratimai` WHERE `pratimai`.`id` = "+ "'" + pratimai2_id + "'" +";";
 						
@@ -165,14 +230,15 @@
 			pratimai2.id_kito_lygio = Integer.parseInt(resultSet.getString ( "id_kito_lygio" ));
 			pratimai2.id = Integer.parseInt(resultSet.getString("id"));
 %>
-<tr style="background-color: #DEB887">
+<tr style="background-color: #DEB887" >
 	<td><%= resultSet.getString ( "id" ) %></td>
 	<td><%= resultSet.getString ( "pav" ) %></td>
 	<td><%= resultSet.getString ("pastabos" ) %></td>
 	<td><%=resultSet.getString ( "lygis_sunkumo" ) %></td>
 	<td><%=resultSet.getString ( "id_kito_lygio" ) %></td>
-	<td><input class="edit" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="Keisti" id="keiciam">
-		<input class="remove" data-id="<%=pratimai2.id%>" type="button" value="X" ></td>
+	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
+		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%=pratimai2.id%>" type="button" value="X">
+		
 </tr>
 <% 		
 		}
@@ -187,8 +253,10 @@
 
 </table>
 <center>
-<form method="post" action="">
-<table align="center" cellpadding="5" cellspacing="5" border="1">
+
+<div id="dialog" title="Pavadinimas">
+	<form method="post" action="">
+	<table align="center" cellpadding="5" cellspacing="5" >
 <tr>	
 	<th>Pratimas</th>
 	<th>Pastabos</th>
@@ -202,7 +270,7 @@
 	</td>
 	<td>
 		<input type="text" name="pastabos" id="pastabos" value="">
-	</td>
+	</td>	
 	<td>
 		<input type="number" name="lygis_sunkumo" id="lygis_sunkumo" value="">
 	</td>
@@ -210,11 +278,13 @@
 		<input type="number" name="id_kito_lygio" id="id_kito_lygio" value="">
 	</td>
 	<td> 
-		<input type="submit" name="add" value="papildyti">
-	</td>
-	
-</tr>
-</table>
+		<input type="submit" name="add" value="papildyti" class="ui-button ui-corner-all ui-widget">
+	</td>	
+	</tr>
+	</table>
+</div>
+
+
 <input type="hidden" class="edit" id="pratimai2_id" name="pratimai2_id" value="0">
 </form>
 <form method="post" action="" id="remove">
