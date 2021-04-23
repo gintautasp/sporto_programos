@@ -1,4 +1,4 @@
-package commons;
+package pratimai;
 
 public class Pratimai{
 	
