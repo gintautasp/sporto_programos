@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader, pratimai.*" %>
+<%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,commons.*" %>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -10,49 +10,126 @@
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<title> Planai</title>
-	<style>
+	<style> <!--Page style-->
+		html {
+			min-height: 100%;
+			height:100%;
+		}
 		body{
-			background-image: url("");
-			background-repeat: no-repeat;
-			background-size: cover;
-			background-color: #000000
+			padding: 0;
+			margin: 0;
+			width: 100%;
+			height:100%;
 		}
-		.glow {
-			font-size: 40px;
-			font-family: arial;
-			color: #fff;
+		#main {
+			display: flex;
+			height:100%;
+			width:100%;
+		}
+		#mainContent {
+			flex: 60%;
+			background-color: #f9fbdc;
+		}
+		#leftSide {
+			flex: 20%;
+			margin-left: px;
+			background-color: #FFC33C;
+		}
+		#rightSide {
+			flex: 20%;
+			margin-left: px;
+			background-color: #FFC33C;
+		}
+		#title{
+			margin: auto;
+			width: 95%;
+			border: 3px solid #000000;
+			padding: 20px;
 			text-align: center;
-			animation: glow 1s ease-in-out infinite alternate;
 		}
-		@-webkit-keyframes glow {
-			from {
-			text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-			}to {
-			text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-			}
-		}
-		table {
-			
-			border-radius:6px;
-		}
-		td, th {
+		#footer
+		{
+			clear: both;
+			border: 1px groove #aaaaaa;
+			background: #06B2F8;
+			color: White;
+			padding: 0;
 			text-align: center;
-			font-weight: bold;
-			border-radius:6px;
-			background-color: #9370DB;				
+			vertical-align: middle;
+			line-height: normal;
+			margin: 0;
+			position: fixed;
+			bottom: 0px;
+			width: 100%;
 		}
-		.button {
-			background-color: #D8BFD8;
-			border: none;
+		.modify-excersise {
+			width: 100%;
+		}
+	</style>
+	<style> <!--Navigation style-->
+		#navbar a:hover {
+			background-color: #ddd;
 			color: black;
-			padding: 7px 10px;
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			font-size: 20px;
-			margin: 4px 2px;
 		}
-	</style>	
+
+		#navbar a.active {
+			background-color: #4CAF50;
+			color: white;
+		}
+		#navbar a {
+			float: left;
+			display: block;
+			color:  #201c1c;
+			text-align: center;
+			padding: 20px 16px;
+			text-decoration: none;
+			font-size: 17px;
+		}
+		#navbar {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 0;
+			overflow: hidden;
+			background-color: #FFC33C;
+			border-collapse: collapse;
+			border: 3px solid black;
+		}
+
+		#navbar a {
+			position: -webkit-sticky;
+			position: sticky;
+			float: left;
+			display: block;
+			color: #201c1c;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 17px;
+			margin-left: -3px
+		}
+
+		#navbar a:hover {
+			background-color: #06B2F8;
+			color: black;
+			margin-left: -3px
+		}
+
+		#navbar a.active {
+			background-color: #FF4C65;
+			color: #201c1c;
+			margin-left: -3px
+		}
+		
+	</style>
+	<style> <!--Table style-->
+		table{
+			border-collapse: collapse;
+		}
+		#navtable td{
+			border-collapse: collapse;
+			border-right: 3px solid black;
+		}
+	</style>
 	<style><!--Display popup style-->
 		label, input { display:block; }
 		input.text { margin-bottom:12px; width:95%; padding: .4em; }
@@ -200,6 +277,7 @@
 	ResultSet resultSet = null;
 	int resultSetChange = 0;
 	
+	Pratimai pratimai   = new Pratimai();
 	
 	try {
 	     
@@ -212,7 +290,6 @@
 		e.printStackTrace();
 	}
 	
-	Pratimai pratimai = new Pratimai();
 	try { 
 	
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );		
