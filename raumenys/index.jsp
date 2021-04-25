@@ -1,13 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,raumenys.Raumenys" %>
-
-try{
-		String jdbcutf8 = "";
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
-
-		String add;
+<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,raumenys.RaumenysIrGrupes" %>
 
 <html lang="en">
 
@@ -188,7 +182,6 @@ try{
 </head>
 
 <body>
-
   <%@page import="java.sql.DriverManager"%>
   <%@page import="java.sql.ResultSet"%>
   <%@page import="java.sql.Statement"%>
@@ -204,8 +197,6 @@ try{
   	ResultSet resultSet = null;
   	int resultSetChange = 0;
 
-	Raumenys raumenys   = new Raumenys();
-	//Pratimai raumenys = new Pratimai();
 	try{
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -216,12 +207,9 @@ try{
 	try{
 		String jdbcutf8 = "";
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
-		Statement statement = null, statement_change = null;
-		ResultSet resultSet = null;
-		int resultSetChange = 0;
 		statement=connection.createStatement();
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
-		+ "FROM `raumenys` LEFT JOIN `raumenu_grupe` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupe`.`id` ) WHERE 1";
+		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
 
   %>
@@ -254,36 +242,32 @@ try{
     </thead>
     <tbody>
     <%
-    //Pratimai pratimai2 = new Pratimai(); // ar ir cia reikia pakeisti i raumeys
+		RaumenysIrGrupes raumenys2 = new RaumenysIrGrupes();
 
-		Raumenys raumenys = new Raumenys();
-
-while( resultSet.next() ){
-//susikurti klase pagal raumnis ir raumenu grupes
-raumenys.pav = resultSet.getString ( "pav" );
-raumenys.raumenu_grupe = resultSet.getString  ("raumenu_grupe");
-//raumenys.lygis_sunkumo = Integer.parseInt(resultSet.getString ( "lygis_sunkumo" ));
-//raumenys.id_kito_lygio = Integer.parseInt(resultSet.getString ( "id_kito_lygio" ));
-raumenys.id_raumens = Integer.parseInt(resultSet.getString("id_raumens"));
-raumenys.id_raumenu_grupes = Integer.parseInt(resultSet.getString("id_raumenu_grupes"));
-
+		while( resultSet.next() ) {
+		
+			raumenys2.pav = resultSet.getString ( "pav" );
+			raumenys2.raumenu_grupe = resultSet.getString  ("raumenu_grupe");
+			raumenys2.id_raumens = Integer.parseInt(resultSet.getString("id_raumens"));
+			raumenys2.id_raumenu_grupes = Integer.parseInt(resultSet.getString("id_raumenu_grupes"));
+%>
 <tr style="background-color: #DEB887" >
-	<td><%= resultSet.getString ( "id_raumens" ) %></td>
-	<td><%= resultSet.getString ( "pav" ) %></td>
-	<td><%= resultSet.getString ( "id_raumenu_grupes" ) %></td>
-	<td><%= resultSet.getString ( "raumenu_grupe" ) %></td>
-	//<td><%= resultSet.getString ( "id_kito_lygio" ) %></td>
-	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%=raumenys.pav%>" data-id_raumens="<%=raumenys.id_raumens%>" data-id_raumenu_grupes="<%=raumenys.id_raumenu_grupes%>" data-raumenu_grupe="<%=raumenys.raumenu_grupe%>" data-id="" type="button" value="&#9881" id="keiciam">
-		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%=raumenys.id%>" type="button" value="X">
+	<td><%= raumenys2.id_raumens %></td>
+	<td><%= raumenys2.pav %></td>
+	<td><%= raumenys2.id_raumenu_grupes %></td>
+	<td><%= raumenys2.raumenu_grupe %></td>
+	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%= raumenys2.pav %>" data-id_raumens="<%= raumenys2.id_raumens %>" data-id_raumenu_grupes="<%= raumenys2.id_raumenu_grupes %>" data-raumenu_grupe="<%= raumenys2.raumenu_grupe %>" data-id="" type="button" value="&#9881" id="keiciam">
+		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%= raumenys2.id_raumens %>" type="button" value="X">
 
 </tr>
 <%
 		}
-		}catch (Exception e) {
+		
+	} catch (Exception e) {
 
-			e.printStackTrace();
+		e.printStackTrace();
 
-		}
+	}
 
 
 %>
