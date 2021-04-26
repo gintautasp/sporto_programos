@@ -1,24 +1,29 @@
 
 	package crud;
+	
+	import commons.*;
 
-	public class Crudx extends DbMySql {
+	public class Crudx {
 		
 		public String lent;
 		public String[] laukai;
 		public String[] n_pav;
 		public String sal;
+		public DbMySql db_mysql;
+		
 
 		public boolean res_select;
 		
 		public Crudx() {
 		}
 		
-		public Crudx ( String lentele, String[] laukeliai ) {
+		public Crudx ( DbMySql db_mysql, String lentele, String[] laukeliai ) {
 			
 			super();
 			
 			lent = lentele;
 			laukai = laukeliai;
+			this.db_mysql = db_mysql;
 		}
 		
 		public QuerySaveResult delete ( String id_trinamo ) {
@@ -31,7 +36,7 @@
 					;
 			qrs.query_save += " WHERE `id`=" + id_trinamo
 					;
-			qrs.flag_result_save = update ( "delete", qrs.query_save ); 
+			qrs.flag_result_save = db_mysql.update ( "delete", qrs.query_save ); 
 
 			return qrs;
 		}
@@ -53,7 +58,7 @@
 							+ "1"
 							+  by
 				;
-			res_select = select ( "select", sql_sel, laukai );
+			res_select = db_mysql.select ( "select", sql_sel, laukai );
 			
 			return sql_sel;
 		}
@@ -81,7 +86,7 @@
 			}
 			qrs.query_save += " )";
 			
-			qrs.flag_result_save = update ( "insert", qrs.query_save );
+			qrs.flag_result_save = db_mysql.update ( "insert", qrs.query_save );
 
 			return qrs;
 		}
@@ -101,7 +106,7 @@
 			
 			qrs.query_save += " WHERE " + by;
 			
-			qrs.flag_result_save = update ( "update", qrs.query_save );			
+			qrs.flag_result_save = db_mysql.update ( "update", qrs.query_save );			
 			
 			return qrs;
 		}

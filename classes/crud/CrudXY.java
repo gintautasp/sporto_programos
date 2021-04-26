@@ -1,23 +1,25 @@
 
 	package crud;
+	
+	import commons.*;
 
 	public class CrudXY extends Crudx {
 		
 		public CrudXY() {
 		}
 		
-		public CrudXY ( String lentele, String[] laukeliai ) {
+		public CrudXY ( DbMySql db_mysql, String lentele, String[] laukeliai ) {
 			
-			super( lentele, laukeliai );
+			super( db_mysql, lentele, laukeliai );
 		}
 		
-		public QuerySaveResult save ( String id_rec, String[] fields_rec ) {
+		public QuerySaveResult save (  String id_rec, String[] fields_rec ) {
 			
 			QuerySaveResult qrs = new QuerySaveResult();
 
 			if  ( (  id_rec == null ) || ( id_rec.equals ( "0" ) ) ) {																																	// Miestai miestas = new Miestai ( lent_miestu );
 		
-				qrs = insert ( fields_rec );
+				qrs = this.insert ( fields_rec );
 				
 			} else {
 			
@@ -25,7 +27,7 @@
 
 				String salyga = " `id`=" + id_rec;
 				
-				qrs = update ( fields_rec, salyga );
+				qrs = this.update ( fields_rec, salyga );
 			}			
 			return qrs;
 		} 
@@ -46,7 +48,7 @@
 				+ "if ( r == true ) {\n\n"
 
 				// +	"alert( id_rec + '1' )\n"
-				+	"document.getElementById ( 'm_del' ).value = id_rec\n"
+				+	"document.getElementById ( 'r_del' ).value = id_rec\n"
 				// +	"alert( id_rec  + '2' )\n"
 				+	"forma_del = document.getElementById ( 'del_rec' )\n"
 				//+	"alert( forma_del );\n"

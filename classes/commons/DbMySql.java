@@ -1,5 +1,5 @@
 
-	package crud;
+	package commons;
 
 	import java.sql.DriverManager;
 	import java.sql.ResultSet;
@@ -10,7 +10,7 @@
 	
 		public String driverName = "com.mysql.jdbc.Driver";
 		public String connectionUrl = "jdbc:mysql://localhost:3306/";
-		public String dbName = "kelionesx";
+		public String dbName = "sporto_programos";
 		public String userId = "root";
 		public String password = "";
 		
