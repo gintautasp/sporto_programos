@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,commons.Pratimai" %>
+<%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,pratimai.Pratimai" %>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -12,20 +12,18 @@
 				background-repeat: no-repeat;
 				background-size: cover;
 				background-color: #000000
+			}			
+			@font-face {
+				font-family: 'Race Sport Free Regular';
+				font-style: normal;
+				font-weight: normal;
+				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 			}
-			.glow {
-				font-size: 40px;
-				font-family: arial;
-				color: #fff;
-				text-align: center;
-				animation: glow 1s ease-in-out infinite alternate;
-			}
-			@-webkit-keyframes glow {
-				from {
-				text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-				}to {
-				text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-				}
+			.font-face {
+				font-family: 'Race Sport Free Regular';
+				font-style: normal;
+				font-weight: normal;
+				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 			}
 			table {
 				
@@ -35,7 +33,8 @@
 				text-align: center;
 				font-weight: bold;
 				border-radius:6px;
-				background-color: #9370DB;				
+				background-color: #9370DB;
+				
 			}
 			.button {
 				background-color: #D8BFD8;
@@ -47,6 +46,36 @@
 				display: inline-block;
 				font-size: 20px;
 				margin: 4px 2px;
+			}
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+				position: -webkit-sticky; /* Safari */
+				position: sticky;
+				top: 0;
+			}
+
+			li {
+				float: left;
+			}
+
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			li a:hover {
+				background-color: #111;
+			}
+
+			.active {
+				background-color: #4CAF50;
 			}
 		</style>	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -129,18 +158,31 @@
 	int resultSetChange = 0;
 
 %>
-<h2 class="glow" align="center"><strong>Pratimai</strong></h2>
+
+<ul>
+  <li><a class="font-face" href="#pagrindinis">Pagrindinis</a></li>
+  <li><a class="font-face" href="#paskyra">Vartotojas</a></li>
+  <li><a class="font-face" href="#planai">Planai</a></li>
+  <li><a class="font-face" href="#pratimai">Pratimai</a></li>
+  <li><a class="font-face" href="#mityba">Mityba</a></li>
+  <li><a class="font-face" href="#naujienos">Naujienos</a></li>
+  <li><a class="font-face" href="#kontaktai">Kontaktai</a></li>
+  <li><a class="font-face" href="#apie">Apie</a></li>
+</ul>
+
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai</strong></h2>
+
 <table align="center" cellpadding="4" cellspacing="2">
 <tr>
 
 </tr>
 <tr>
-	<th>Id</th>
-	<th>Pratimas</th>
-	<th>Pastabos</th>
-	<th>Sunkumo lygis</th>
-	<th>x</th>	
-	<th>Veiksmai</th>
+	<th class="font-face">Id</th>
+	<th class="font-face">Pratimas</th>
+	<th class="font-face">Pastabos</th>
+	<th class="font-face">Sunkumo lygis</th>
+	<th class="font-face">x</th>	
+	<th class="font-face">Veiksmai</th>
 	
 </tr>
 <%
@@ -231,15 +273,15 @@
 			pratimai2.id = Integer.parseInt(resultSet.getString("id"));
 %>
 <tr style="background-color: #DEB887" >
-	<td><%= resultSet.getString ( "id" ) %></td>
-	<td><%= resultSet.getString ( "pav" ) %></td>
-	<td><%= resultSet.getString ("pastabos" ) %></td>
-	<td><%=resultSet.getString ( "lygis_sunkumo" ) %></td>
-	<td><%=resultSet.getString ( "id_kito_lygio" ) %></td>
+	<td class="font-face" style="color:#fff"><%= resultSet.getString ( "id" ) %></td>
+	<td class="font-face" style="color:#fff"><%= resultSet.getString ( "pav" ) %></td>
+	<td style="color:#fff"><%= resultSet.getString ("pastabos" ) %></td>
+	<td style="color:#fff"><%=resultSet.getString ( "lygis_sunkumo" ) %></td>
+	<td style="color:#fff"><%=resultSet.getString ( "id_kito_lygio" ) %></td>
 	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
 		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%=pratimai2.id%>" type="button" value="X">
-		
 </tr>
+
 <% 		
 		}
 		}catch (Exception e) {
@@ -252,6 +294,9 @@
 %>
 
 </table>
+<div align="center">
+<input class="ui-button ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">
+</div>
 <center>
 
 <div id="dialog" title="Pavadinimas">
@@ -283,7 +328,80 @@
 	</tr>
 	</table>
 </div>
-
+<div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
 
 <input type="hidden" class="edit" id="pratimai2_id" name="pratimai2_id" value="0">
 </form>

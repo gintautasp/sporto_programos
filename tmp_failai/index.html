@@ -4,9 +4,66 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jQuery UI Dialog - Modal form</title>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https:/code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
   <style>
+
+  body{
+      background-image: url("commons/svoris.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-color: #000000
+    }
+    .glow {
+      font-size: 40px;
+      font-family: arial;
+      color: #fff;
+      text-align: center;
+      animation: glow 1s ease-in-out infinite alternate;
+    }
+    @-webkit-keyframes glow {
+      from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+      }to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+      }
+    }
+    table {
+
+      border-radius:6px;
+    }
+    td, th {
+      text-align: center;
+      font-weight: bold;
+      border-radius:6px;
+      background-color: #9370DB;
+    }
+    .button {
+      background-color: #D8BFD8;
+      border: none;
+      color: black;
+      padding: 7px 10px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin: 4px 2px;
+    }
+
+    /*
+    body {
+    font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+    font-size: 1em;
+    }
+
+    .ui-draggable, .ui-droppable {
+    background-position: top;
+    }
+    */
+
     label, input { display:block; }
     input.text { margin-bottom:12px; width:95%; padding: .4em; }
     fieldset { padding:0; border:0; margin-top:25px; }
@@ -21,24 +78,21 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    var dialog, form,
+    var dialog,
 
-      // From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-      emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-      name = $( "#name" ),
-      email = $( "#email" ),
-      password = $( "#password" ),
-      allFields = $( [] ).add( name ).add( email ).add( password ),
-      tips = $( ".validateTips" );
+    raumenu_grupe = $( "#raumenu_grupe" ),
+    raumens_pav = $( "#raumens_pav" ),
+    allFields = $( [] ).add( raumenu_grupe ).add( raumens_pav ),
+    tips = $( ".validateTips" );
 
     function updateTips( t ) {
-      tips
-        .text( t )
-        .addClass( "ui-state-highlight" );
-      setTimeout(function() {
-        tips.removeClass( "ui-state-highlight", 1500 );
-      }, 500 );
-    }
+        tips
+          .text( t )
+          .addClass( "ui-state-highlight" );
+        setTimeout(function() {
+          tips.removeClass( "ui-state-highlight", 1500 );
+        }, 500 );
+      }
 
     function checkLength( o, n, min, max ) {
       if ( o.val().length > max || o.val().length < min ) {
@@ -69,7 +123,7 @@
       valid = valid && checkLength( raumens_pav, "raumens pav", 6, 80 );
 
       valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
-      valid = valid && checkRegexp( raumens_pav, "bicepsas" );
+      valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
       if ( valid ) {
         $( "#users tbody" ).append( "<tr>" +
@@ -101,11 +155,19 @@
     form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
       PridetiRaumeni();
+
     });
 
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
     });
+
+    /*  $.ajax({
+      url: "file:///darbai.csv",
+      }).done(function(data) {
+        alert(data);
+      });
+    */
   } );
   </script>
 </head>
@@ -139,8 +201,6 @@
     </thead>
     <tbody>
       <tr>
-        <td></td>
-        <td></td>
       </tr>
     </tbody>
   </table>
