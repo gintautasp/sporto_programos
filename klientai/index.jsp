@@ -5,7 +5,6 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href="/resources/demos/style.css">
 		<link href="../ext/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
@@ -16,19 +15,17 @@
 				background-size: cover;
 				background-color: #000000
 			}
-			.glow {
-				font-size: 40px;
-				font-family: arial;
-				color: #fff;
-				text-align: center;
-				animation: glow 1s ease-in-out infinite alternate;
+			@font-face {
+				font-family: 'Race Sport Free Regular';
+				font-style: normal;
+				font-weight: normal;
+				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 			}
-			@-webkit-keyframes glow {
-				from {
-				text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-				}to {
-				text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #e60073, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-				}
+			.font-face {
+				font-family: 'Race Sport Free Regular';
+				font-style: normal;
+				font-weight: normal;
+				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 			}
 			table {
 				
@@ -51,14 +48,51 @@
 				margin: 5px; 
 				padding: 5px;
 				border: 1px solid black;
-			}
+			} 
 			mygtukas{
-			text-align: center;
+				background-color: #D8BFD8;
+				border: none;
+				color: black;
+				padding: 7px 10px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 20px;
+				margin: 4px 2px;
+			}
+			ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+				position: -webkit-sticky; /* Safari */
+				position: sticky;
+				top: 0;
+			}
+			li {
+				float: left;
+			}
+			li a {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+
+			li a:hover {
+				background-color: #111;
+			}
+
+			.active {
+				background-color: #4CAF50;
 			}
 		</style>  
 		<script  src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>  <!-- Reikia kad veiktu 'reda' funkcija -->
-		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="../ext/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 		<script>
 		
 			 if ( window.history.replaceState ) {  							//perkrovus puslapį išmeta išsaugotą vedimo info 
@@ -90,9 +124,9 @@
 				lytis = $( "#lytis" ),
 				svoris = $( "#svoris" ),
 				pasiruosimo_lygis = $( "#pasiruosimo_lygis" ),
-				traumosLigos = $( "#traumosLigos" ),
+				traumos_ligos = $( "#traumos_ligos" ),
 				
-				allFields = $( [] ).add( id ).add( pav ).add( amzius ).add( ugis ).add( lytis ).add( svoris ).add( pasiruosimo_lygis ).add( traumosLigos ),
+				allFields = $( [] ).add( id ).add( pav ).add( amzius ).add( ugis ).add( lytis ).add( svoris ).add( pasiruosimo_lygis ).add( traumos_ligos ),
 				tips = $( ".validateTips" );
 				 
 				function updateTips( t ) {
@@ -107,8 +141,8 @@
 				function checkLength( o, n, min, max ) {
 					if ( o.val().length > max || o.val().length < min ) {
 						o.addClass( "ui-state-error" );
-						updateTips( "Length of " + n + " must be between " +
-						min + " and " + max + "." );
+						updateTips( "Kriterijaus " + n + " ilgumas turi būti nuo " +
+						min + " iki " + max + "." );
 						return false;
 					} else {
 					return true;
@@ -134,7 +168,7 @@
 					valid = valid && checkLength( ugis, "Ūgis", 1, 3 );
 					valid = valid && checkLength( svoris, "Svoris", 1, 3 );
 					valid = valid && checkLength( pasiruosimo_lygis, "Pasiruosimo lygis", 5, 80 );
-					valid = valid && checkLength( traumosLigos, "Traumos / Ligos", 5, 30);
+					valid = valid && checkLength( traumos_ligos, "Traumos / Ligos", 5, 30);
 				 
 					valid = valid && checkRegexp( pav, /^[a-ząčęėįšųūž]([0-9a-ząčęėįšųūž_\s])+$/i, "Vardą gali sudaryti tik raidės" );
 				 
@@ -151,24 +185,18 @@
 					width: 400,
 					modal: true,
 					buttons: {
-						"Sukurti": addUser,
+						"Įvesti": addUser,
 						Cancel: function() {
 						dialog.dialog( "close" );
 						}
 					},
 					close: function() {
-					form[ 0 ].reset();
 					allFields.removeClass( "ui-state-error" );
 					}
 				});
 				 
 				$( "#create-user" ).button().on( "click", function() {             <!-- atidaro ivedimo langa -->
 				      dialog.dialog( "open" );
-				});
-				
-				form = dialog.find( "form" ).on( "submit", function( event ) {  <!-- leidzia pakartotinai atidaryti ivedimo langa -->
-				event.preventDefault();
-				addUser();
 				});
 				
 				$( '.reda' ).click ( function() {
@@ -191,7 +219,7 @@
 					$( '#lytis' ).val ( kriterijai2.lytis );			
 					$( '#svoris' ).val ( kriterijai2.svoris );			
 					$( '#pasiruosimo_lygis' ).val ( kriterijai2.pasiruosimas );			
-					$( '#traumosLigos' ).val ( kriterijai2.traumos );
+					$( '#traumos_ligos' ).val ( kriterijai2.traumos );
 				
 					dialog.dialog( "open" );
 				
@@ -229,22 +257,22 @@
 	7	valstybe	char(3)	utf8_lithuanian_ci		
 */
 %>
-<h2 align="center" class="glow"><strong>Klientų informacija</strong></h2>
-<div id="users-contain" class="ui-widget">
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Klientų informacija</strong></h2>
+<div id="users-contain" class="ui-widget"> 
 <table style="padding: 2px; margin: 10px; margin-left: auto; margin-right: auto" id="users" >		<!--Lenteles parametrai-->
 <tr >
 
 </tr>
 <tr>							<!-- Virsus -->
-	<th >ID</th>
-	<th>Pavadinimas</th>
-	<th>Amžius</th>
-	<th>Ūgis cm</th>
-	<th>Lytis</th>
-	<th>Svoris kg</th>
-	<th>Pasiruošimo lygis</th>
-	<th>Traumos bei ligos</th>
-	<th>Redag. / Trinti</th>
+	<th class="font-face">ID</th>
+	<th class="font-face">Pavadinimas</th>
+	<th class="font-face">Amžius</th>
+	<th class="font-face">Ūgis cm</th>
+	<th class="font-face">Lytis</th>
+	<th class="font-face">Svoris kg</th>
+	<th class="font-face">Pasiruošimo lygis</th>
+	<th class="font-face">Traumos bei ligos</th>
+	<th class="font-face">Redag. / Trinti</th>
 	
 </tr></strong>
 <%
@@ -279,7 +307,7 @@
 		kriterijai.lytis =  request.getParameter( "lytis" );
 		kriterijai.svoris =  request.getParameter( "svoris" );	
 		kriterijai.pasiruosimas =  request.getParameter( "pasiruosimo_lygis" );	
-		kriterijai.traumos =  request.getParameter( "traumosLigos" );	
+		kriterijai.traumos =  request.getParameter( "traumos_ligos" );	
 			
 			String sql_ins ="";			
 			if (Integer.parseInt(kriterijai2.id) !=0){
@@ -292,14 +320,14 @@
 						+"`lytis`='"+ kriterijai.lytis +"', "
 						+"`svoris` = '"+ kriterijai.svoris +"',"
 						+"`pasiruosimo_lygis` = '"+ kriterijai.pasiruosimas +"',"
-						+"`traumosLigos` = '"+ kriterijai.traumos +"'"
+						+"`traumos_ligos` = '"+ kriterijai.traumos +"'"
 						+ " WHERE `klientai`.`id` = "+kriterijai2.id+";";
 			
 			}else{
 			
 				sql_ins = 
 				"INSERT INTO `klientai`"
-					+ " ( `id`,`pav`, `amzius`, `ugis`,`lytis`, `svoris`,`pasiruosimo_lygis`,`traumosLigos` )"
+					+ " ( `id`,`pav`, `amzius`, `ugis`,`lytis`, `svoris`,`pasiruosimo_lygis`,`traumos_ligos` )"
 					+ " VALUES ( "	
 						+"NULL"
 						+ ", '" + kriterijai.pav + "' "
@@ -343,17 +371,17 @@
 			kriterijai2.lytis = resultSet.getString  ("lytis" ) ;
 			kriterijai2.svoris = resultSet.getString ( "svoris" );
 			kriterijai2.pasiruosimas = resultSet.getString ( "pasiruosimo_lygis" );
-			kriterijai2.traumos = resultSet.getString ( "traumosLigos" );
+			kriterijai2.traumos = resultSet.getString ( "traumos_ligos" );
 %>										
-<tr style="background-color: #FFF37D; padding: 1px " >    
-	<td><%=kriterijai2.id %></td>
-	<td><a href=""><%=kriterijai2.pav %></a></td>
-	<td><%=kriterijai2.amzius %></td>
-	<td><%=kriterijai2.ugis  %></td>
-	<td><%=kriterijai2.lytis%></td>
-	<td><%=kriterijai2.svoris %></td>
-	<td><%=kriterijai2.pasiruosimas %></td>
-	<td><%=kriterijai2.traumos %></td>
+<tr style="background-color: ##DEB887; padding: 1px " >    
+	<td class="font-face" style="color:#fff"><%=kriterijai2.id %></td>
+	<td class="font-face" style="color:#fff"><a href=""><%=kriterijai2.pav %></a></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.amzius %></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.ugis  %></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.lytis%></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.svoris %></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.pasiruosimas %></td>
+	<td class="font-face" style="color:#fff"><%=kriterijai2.traumos %></td>
 	<td>
 		<input data-id="<%=kriterijai2.id%>"data-pav="<%=kriterijai2.pav%>" data-amzius="<%=kriterijai2.amzius%>" data-ugis="<%=kriterijai2.ugis%>" data-lytis="<%=kriterijai2.lytis%>" data-svoris="<%=kriterijai2.svoris%>" data-pasiruosimo_lygis="<%=kriterijai2.pasiruosimas%>" data-traumos_ligos="<%=kriterijai2.traumos%>" type="button" value="Redaguoti" class="reda">
 		<input data-id="<%=kriterijai2.id%>"type="button" value="X" class="trinti" >
@@ -371,7 +399,7 @@
 </table >  <!-- Ivedimo lenteles parametrai-->
 </div > 
 <div style="text-align: center;"> 
-<button id="create-user" style="border: 8px outset #40FAFD; background-color: #9370DB; color:black; text-align: center; background-image: url('../klientai/img/klientas.jpg');background-repeat:no-repeat;width:250px;height:60px;"><strong>Sukurti naują klientą</strong></button>
+<button id="create-user" class="ui-button ui-corner-all ui-widget dialog-link button font-face"><strong>Sukurti naują klientą</strong></button>
 </div>
 <div id="dialog-form" title="Naujas klientas" >
 	<p class="validateTips">Užpildykite visus laukus</p>
@@ -379,16 +407,16 @@
 		<form method="post" action="" id="ivedimoForm">
 		<table style="border: 5px solid black" id="listKlientai">
 		<!-- Apacia -->	
-		<tr>		<th>Kliento vardas	</th>	<td>	<input type="text" name="pav" value="Vardas Pavardė" id="pav" class="text ui-widget-content ui-corner-all">								</td></tr>
-		<tr>		<th>Amžius		</th>	<td>	<input type="number" name="amzius" value="1" id="amzius" class="text ui-widget-content ui-corner-all">									</td></tr>
-		<tr>		<th>Ūgis cm		</th>	<td>	<input type="number" name="ugis" value="1" id="ugis" class="text ui-widget-content ui-corner-all">										</td></tr>
+		<tr>		<th>Kliento vardas	</th>	<td>	<input type="text" name="pav" value="Vardas Pavardė" id="pav" class="text ui-widget-content ui-corner-all">							</td></tr>
+		<tr>		<th>Amžius		</th>	<td>	<input type="number" name="amzius" value="1" id="amzius" class="text ui-widget-content ui-corner-all">								</td></tr>
+		<tr>		<th>Ūgis cm		</th>	<td>	<input type="number" name="ugis" value="1" id="ugis" class="text ui-widget-content ui-corner-all">									</td></tr>
 		<tr>		<th>Lytis			</th>	<td>	<select name="lytis" id="lytis" class="text ui-widget-content ui-corner-all">
 												<option value="" selected disabled hidden>Pasirinkite lytį</option>
 												<option value="Vyras">Vyras</option>
 												<option value="Moteris">Moteris</option> </select>																		</td></tr>
 		<tr>		<th>Svoris kg		</th>	<td ><input type="number" name="svoris" value="1" id="svoris" class="text ui-widget-content ui-corner-all">									</td></tr>
 		<tr>		<th>Pasiruošimo lygis	</th>	<td ><input type="text" name="pasiruosimo_lygis" value="(val/sav) / pask. metus" id="pasiruosimo_lygis" class="text ui-widget-content ui-corner-all">		</td></tr>
-		<tr>		<th>Traumos bei ligos	</th>	<td ><input type="text" name="traumosLigos" value="Atkreiptinos traumos/ligos" id="traumosLigos" class="text ui-widget-content ui-corner-all">			</td></tr>
+		<tr>		<th>Traumos bei ligos	</th>	<td ><input type="text" name="traumos_ligos" value="Atkreiptinos traumos/ligos" id="traumos_ligos" class="text ui-widget-content ui-corner-all">			</td></tr>
 		</table>
 		<input type="hidden" id="kliento_id" name="id" value="0">  
 		<input type="hidden" name="add" value="Papildyti">
