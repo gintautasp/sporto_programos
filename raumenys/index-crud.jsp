@@ -15,8 +15,8 @@
 		e.printStackTrace();
 	}
 
-	String[] lauk_raumenys= { "id_raumens", "pav", "id_raumenu_grupes" };
-	String[] lent_raumenys = new String [ lauk_raumenys.length ];
+	String[] lent_raumenys= { "id_raumens", "pav", "id_raumenu_grupes" };
+	String[] lauk_raumenys = new String [ lent_raumenys.length ];
 
 	DbMySql db_mysql = new DbMySql();
 
@@ -81,12 +81,12 @@
 		<script>
 			<%= crud_raumenys.jsRedagavimui ( "id_raumens" ) %>
 			<%= crud_raumenys.jsValymui() %>
-			<%= crud_raumenys.jsTrynimui ( "programos" ) %>
+			<%= crud_raumenys.jsTrynimui ( "raumenys" ) %>
 		</script>
 	</head>
 <body>
 <form method="post" action="">
-	<table style="border: 5px solid black" id="listKlientai">
+	<table style="border: 5px solid black" id="listRaumenys">
 		<tr>		<th>Raumenu grupe				</th>	<td>	<input type="text" name="raumenu_grupe" value="Raumenų grupė" id="pav" class="text ui-widget-content ui-corner-all">		</td></tr>
 		<tr>		<th>Raumens pavadinimas	</th>	<td>	<input type="text" name="pav" value="pav" id="id_raumens" class="text ui-widget-content ui-corner-all">									</td></tr>
 				<input type="button" name="clear" value="valyti" onClick = "iValyma()">
@@ -116,7 +116,7 @@
 
 			AssocArrayList lst_row_fields = crud_raumenys.db_mysql.giveSelectedRow();
 
-			for ( int i = 1; i < lent_raumenys.length; i++ ) {
+			for ( int i = 1; i < lauk_raumenys.length; i++ ) {
 				rec_data += " data-"  + ( lent_raumenys[ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_raumenys[ i ]  ) ) + "\"";
 			}
 			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
@@ -128,7 +128,7 @@
 	</td>
 
 <%
-		for ( int i = 1; i < lent_raumenys.length; i++ ) {
+		for ( int i = 1; i < lauk_raumenys.length; i++ ) {
 %>
 	<td><%=  lst_row_fields.giveMe (  lent_raumenys [ i ]  ) %></td>
 <%
