@@ -15,12 +15,12 @@
 		e.printStackTrace();
 	}
 
-	String[] lent_raumenys= { "id_raumens", "pav", "id_raumenu_grupes" };
-	String[] lent_raumenys = new String [ lent_raumenys.length ];
+	String[] lauk_raumenys= { "id_raumens", "pav", "id_raumenu_grupes" };
+	String[] lent_raumenys = new String [ lauk_raumenys.length ];
 
 	DbMySql db_mysql = new DbMySql();
 
-	CrudXY crud_raumenys = new CrudXY ( db_mysql, "raumenys", lent_raumenys);
+	CrudXY crud_raumenys = new CrudXY ( db_mysql, "raumenys", lauk_raumenys);
 	try {
 
 		QuerySaveResult qrs = new QuerySaveResult();
@@ -33,9 +33,9 @@
 
 			for ( int i = 1; i<lent_raumenys.length; i++ ) {
 
-				lent_raumenys [ i ] = request.getParameter ( lent_raumenys[ i ] );
+				lauk_raumenys [ i ] = request.getParameter ( lent_raumenys[ i ] );
 			}
-			qrs = crud_raumenys.save ( id_raumens, lent_raumenys );
+			qrs = crud_raumenys.save ( id_raumens, lauk_raumenys );
 		 }
 
 		String del;
