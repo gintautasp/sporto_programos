@@ -39,6 +39,12 @@
 			row_values = new AssocArrayList();
 		}
 		
+		/**
+		* vykdo standartinį veiksmą vykdantį java duomenų bazės update užklausą
+		* @param String query_name - užklausos pavadinimas, bet kokia unikali eilutė, kad atskirti užklausų struktūras, užklausų struktūrų masyve, pvz.: įterpimas į lentelę
+		* @param String sql_update - SQL užklausa vykdatnti duomenų keitimą, gali būti INSERT ..,  UPDATE .., ALTER .., RENAME .. ir pan.
+		* @return int požymis 0 - užklausa vykdymas nesėkmingas arba 1 užklausos vykdymas sėkmingas
+		*/
 		public int update ( String query_name, String sql_update ) {
 			
 			int result_update = 0;
@@ -55,7 +61,13 @@
 			return result_update;
 		}
 		
-		public boolean select ( String query_name, String sql_select,  String[] row_columns ) {
+		/**
+		* vykdo standartinį veiksmą vykdantį java duomenų bazės išrinimo užklausą SELECT, taip pat iškelia vėliavėlę nurodančią, kad rezultate yra gautų nepasiimtų eilučių .t.y. rezultatą po įvykdymo next() su ResultSet tipo objektu, 
+		* @param String query_name - užklausos pavadinimas, bet kokia unikali eilutė, kad atskirti užklausų struktūras, užklausų struktūrų masyve, pvz.: įterpimas į lentelę
+		* @param String sql_update - SQL užklausa vykdatnti duomenų keitimą, gali būti SELECT .. ir pan.  ?
+		* @param String[]  row_columns - užklausos rezultatų lentelės stulpelių laukų pavadinimai, naudojami pasimant duomenis su giveSelectedRow
+		*/		
+		public boolean select ( String query_name, String sql_select, String[] row_columns ) {
 			
 			row_cols = row_columns;
 		
@@ -67,12 +79,16 @@
 			
 			} catch ( Exception e ) {
 			
-				System.out.println ( "Can't execute query" );						
+				System.out.println ( "Can't execute query : " + sql_select );	
 			}
 			
 			return flag_got_rows;
 		}
 		
+		/**
+		* paima eilutės duomenis,  iš rezultatų, gautų įvykdžius SELECT užklausą, metodo select pagalba, pagal stulpelių pavadinimus, kurie buvo nurodyti vykdant select metodą
+		* @return AssocArrayList - eilutės laukų reikšmės
+		*/
 		public AssocArrayList giveSelectedRow() {
 			
 			try {

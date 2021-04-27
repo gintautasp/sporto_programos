@@ -98,7 +98,7 @@
         tips
           .text( t )
           .addClass( "ui-state-highlight" );
-        setTimeout(function() {
+        	setTimeout(function() {
           tips.removeClass( "ui-state-highlight", 1500 );
         }, 500 );
       }
@@ -138,8 +138,8 @@
         $( "#users tbody" ).append( "<tr>" +
           "<td>" + raumenu_grupe.val() + "</td>" +
           "<td>" + raumens_pav.val() + "</td>" +
-        "</tr>" );
-        dialog.dialog( "close" );
+        	"</tr>" );
+        	dialog.dialog( "close" );
       }
       return valid;
     }
@@ -211,7 +211,6 @@
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
-
   %>
 
 <div id="dialog-form" title="prideti nauja raumeni">
@@ -245,16 +244,16 @@
 		RaumenysIrGrupes raumenys2 = new RaumenysIrGrupes();
 
 		while( resultSet.next() ) {
-		
+
 			raumenys2.pav = resultSet.getString ( "pav" );
 			raumenys2.raumenu_grupe = resultSet.getString  ("raumenu_grupe");
 			raumenys2.id_raumens = Integer.parseInt(resultSet.getString("id_raumens"));
 			raumenys2.id_raumenu_grupes = Integer.parseInt(resultSet.getString("id_raumenu_grupes"));
 %>
 <tr style="background-color: #DEB887" >
-	<td><%= raumenys2.id_raumens %></td>
+	//<td><%= raumenys2.id_raumens %></td>
 	<td><%= raumenys2.pav %></td>
-	<td><%= raumenys2.id_raumenu_grupes %></td>
+	//<td><%= raumenys2.id_raumenu_grupes %></td>
 	<td><%= raumenys2.raumenu_grupe %></td>
 	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%= raumenys2.pav %>" data-id_raumens="<%= raumenys2.id_raumens %>" data-id_raumenu_grupes="<%= raumenys2.id_raumenu_grupes %>" data-raumenu_grupe="<%= raumenys2.raumenu_grupe %>" data-id="" type="button" value="&#9881" id="keiciam">
 		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%= raumenys2.id_raumens %>" type="button" value="X">
@@ -262,7 +261,7 @@
 </tr>
 <%
 		}
-		
+
 	} catch (Exception e) {
 
 		e.printStackTrace();
