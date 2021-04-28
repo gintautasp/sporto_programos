@@ -33,7 +33,7 @@
 			} catch ( Exception e ) {
 				
 				System.out.println ( "Can't connect to db" );
-				// e.printTrace();
+				e.printStackTrace();
 			}
 			statements = new AssocArrayList();
 			row_values = new AssocArrayList();
