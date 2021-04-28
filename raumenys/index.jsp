@@ -215,6 +215,11 @@
 	try{
 		String jdbcutf8 = "";
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
+		
+		// cia keliam irasyma i duomenu baze
+		
+		
+		
 		statement=connection.createStatement();
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
@@ -224,13 +229,13 @@
 <div id="dialog-form" title="prideti nauja raumeni">
   <p class="validateTips">Privalu užpildyti visus laukelius</p>
 
-  <form id="raumenu_sarasas">
+  <form id="raumenu_sarasas" method="POST" action="">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
-
+	<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
