@@ -145,7 +145,7 @@
     }
     */
     if ( valid ) {
-      $( "#raumenu_sarasas" ).submit(); 
+      $( "#raumenu_sarasas" ).submit();
     }
     return valid;
   }
@@ -168,12 +168,13 @@
       }
     });
 
-    form = dialog.find( "form" ).on( "submit", function( event ) {
+    /*form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
       PridetiRaumeni();
 
     });
-
+    */
+    
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
     });
