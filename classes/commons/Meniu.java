@@ -8,11 +8,11 @@ package commons;
  */
 public enum Meniu {
 	
-	Raumenys("/raumenys")
-	, Pratimai("/pratimai")
-	, Planai("/trenyruociu-planai")
-	, Klientai("/klientai")
-	, Programos("/programos");
+	Raumenys("/sporto_programos/raumenys")
+	, Pratimai("/sporto_programos/pratimai")
+	, Planai("/sporto_programos/trenyruociu-planai")
+	, Klientai("/sporto_programos/klientai")
+	, Programos("/sporto_programos/programos");
 	
 	
 	private final String itemurl;
