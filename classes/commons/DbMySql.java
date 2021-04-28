@@ -8,11 +8,11 @@
 
 	public class DbMySql {
 	
-		public String driverName = "com.mysql.jdbc.Driver";
-		public String connectionUrl = "jdbc:mysql://localhost:3306/";
-		public String dbName = "sporto_programos";
-		public String userId = "root";
-		public String password = "";
+		private String driverName = "com.mysql.jdbc.Driver";
+		private String connectionUrl = "jdbc:mysql://localhost:3306/";
+		private String dbName = "sporto_programos";
+		private String userId = "root";
+		private String password = "";
 		
 		public Connection connection;
 		

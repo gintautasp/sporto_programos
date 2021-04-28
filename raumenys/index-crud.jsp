@@ -20,7 +20,7 @@
 
 	DbMySql db_mysql = new DbMySql();
 
-	CrudXY crud_raumenys = new CrudXY ( db_mysql, "raumenys", lauk_raumenys);
+	CrudXY crud_raumenys = new CrudXY ( db_mysql, "raumenys", lent_raumenys);
 	try {
 
 		QuerySaveResult qrs = new QuerySaveResult();

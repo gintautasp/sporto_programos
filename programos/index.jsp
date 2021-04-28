@@ -76,6 +76,21 @@
 			td {
 				background-color: #DEB887;
 			}
+			nav {
+				width: 700px;
+				text-align: center;
+				margin: 12px auto;
+			}
+			nav a {
+				display: inline-block;
+				border: 1px solid brown;
+				background: yellow;
+				padding: 12px;
+				margin: 12px;
+			}
+			nav a:hover {
+				background: lightgreen;
+			}
 		</style>
 
 		<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
@@ -86,6 +101,17 @@
 		</script>
 	</head>
 <body>
+<nav>
+<%
+	
+	for (Meniu m : Meniu.values()) {
+		//System.out.printf("Your weight on %s is %f%n", p, p.surfaceWeight(mass));
+%>
+		<a href="<%= m.itemurl() %>"><%= m %></a>
+<%
+	}
+%>
+</nav>
 <form method="post" action="">
 	<table>
 		<tr>
