@@ -134,7 +134,7 @@
       valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
       valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
-      if ( valid ) {
+      /*if ( valid ) {
         $( "#users tbody" ).append( "<tr>" +
           "<td>" + raumenu_grupe.val() + "</td>" +
           "<td>" + raumens_pav.val() + "</td>" +
@@ -143,6 +143,13 @@
       }
       return valid;
     }
+    */
+    if ( valid ) {
+      $( "#raumenu_sarasas" ).submit(); 
+    }
+    return valid;
+  }
+
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
@@ -156,7 +163,7 @@
         }
       },
       close: function() {
-        form[ 0 ].reset();
+        //form[ 0 ].reset();
         allFields.removeClass( "ui-state-error" );
       }
     });
@@ -216,7 +223,7 @@
 <div id="dialog-form" title="prideti nauja raumeni">
   <p class="validateTips">Privalu užpildyti visus laukelius</p>
 
-  <form>
+  <form id="raumenu_sarasas">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
