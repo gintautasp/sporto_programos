@@ -134,7 +134,7 @@
       valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
       valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
-      if ( valid ) {
+      /*if ( valid ) {
         $( "#users tbody" ).append( "<tr>" +
           "<td>" + raumenu_grupe.val() + "</td>" +
           "<td>" + raumens_pav.val() + "</td>" +
@@ -143,6 +143,13 @@
       }
       return valid;
     }
+    */
+    if ( valid ) {
+      $( "#raumenu_sarasas" ).submit();
+    }
+    return valid;
+  }
+
 
     dialog = $( "#dialog-form" ).dialog({
       autoOpen: false,
@@ -156,16 +163,17 @@
         }
       },
       close: function() {
-        form[ 0 ].reset();
+        //form[ 0 ].reset();
         allFields.removeClass( "ui-state-error" );
       }
     });
 
-    form = dialog.find( "form" ).on( "submit", function( event ) {
+    /*form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
       PridetiRaumeni();
 
     });
+    */
 
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
@@ -207,6 +215,11 @@
 	try{
 		String jdbcutf8 = "";
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
+
+		// cia keliam irasyma i duomenu baze
+
+
+
 		statement=connection.createStatement();
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
@@ -216,13 +229,13 @@
 <div id="dialog-form" title="prideti nauja raumeni">
   <p class="validateTips">Privalu užpildyti visus laukelius</p>
 
-  <form>
+  <form id="raumenu_sarasas" method="POST" action="">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
-
+	<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
