@@ -218,40 +218,41 @@
 
 		// cia keliam irasyma i duomenu baze
 
-    String add;
+		RaumenysIrGrupes raumenys = new RaumenysIrGrupes();
 
-      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		    String add;
 
-        raumenys.pav = request.getParameter("pav");
-        raumenys.id_raumens =Integer.parseInt(request.getParameter("id_raumens"));
-        raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
+		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 
-        String sql_ins ="";
+			raumenys.pav = request.getParameter("pav");
+			raumenys.id_raumens = Integer.parseInt ( request.getParameter("id_raumens") );
+			raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
 
-          if (raumenys.id_raumens !=0){
+			String sql_ins ="";
 
-            sql_ins=
-              "UPDATE `raumenys` SET "
-              + '=' + "'"             +             raumenys.id_raumens         + "'"
-              + ","	+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
-              + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
-              + ","	+ "WHERE 'id_raumens'=' + raumenys.id_raumens';";
-          } else {
+			  if (raumenys.id_raumens !=0){
 
-            sql_ins =
-              "INSERT INTO `raumenys`"
-              + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
-              + " VALUES ( "
-              + "'" 	   	+ raumenys.pav               +"'"
-              + "," + "'" + raumenys.id_raumens        +"'"
-              + "," + "'" + raumenys.id_raumenu_grupes +"'"
-              + " )";
-          out.println ( sql_ins );
-            statement_change = connection.createStatement();
-            resultSetChange = statement_change.executeUpdate(sql_ins);
+			    sql_ins=
+			      "UPDATE `raumenys` SET "
+				+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
+			      + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
+			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
+			  } else {
 
-          }
-      }
+			    sql_ins =
+			      "INSERT INTO `raumenys`"
+			      + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
+			      + " VALUES ( "
+			      + "'" 	   	+ raumenys.pav               +"'"
+			      + "," + "'" + raumenys.id_raumens        +"'"
+			      + "," + "'" + raumenys.id_raumenu_grupes +"'"
+			      + " )";
+			  out.println ( sql_ins );
+			    statement_change = connection.createStatement();
+			    resultSetChange = statement_change.executeUpdate(sql_ins);
+
+			  }
+		      }
 
         statement=connection.createStatement();
         String sql ="SELECT * FROM `raumenys`  WHERE 1";
@@ -266,7 +267,7 @@
           String raumenys2_id=request.getParameter("raumenys.id");
 
             sql_ins=
-              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id_raumens + "'" +";";
+              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id+ "'" +";";
 
           System.out.println(sql_ins);
           statement=connection.createStatement();
@@ -275,7 +276,7 @@
         }
 
 	statement=connection.createStatement();
-		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
+		sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
   %>
@@ -289,7 +290,9 @@
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
-	<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
+	//<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
+      <input type="hidden" class="edit" id="raumenys2_id" name="raumenys2_id" value="0">
+      <input type="hidden" name="trinti" id="trinti" value="trinti">
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
