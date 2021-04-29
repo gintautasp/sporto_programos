@@ -19,13 +19,13 @@
 				font-family: 'Race Sport Free Regular';
 				font-style: normal;
 				font-weight: normal;
-				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
+				src: local('Race Sport Free Regular'), url(../pratimai/RaceSport-nR1j0.woff) format('woff');
 			}
 			.font-face {
 				font-family: 'Race Sport Free Regular';
 				font-style: normal;
 				font-weight: normal;
-				src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
+				src: local('Race Sport Free Regular'), url(../pratimai/RaceSport-nR1j0.woff) format('woff');
 			}
 			table {
 				
@@ -38,7 +38,7 @@
 				background-color: #9370DB;				
 			}
 
-			
+			<!--
 			#listKlientai th, #listKlientai td {
 				margin: 5px; 
 				padding: 1px;
@@ -48,7 +48,7 @@
 				margin: 5px; 
 				padding: 5px;
 				border: 1px solid black;
-			} 
+			} -->
 			mygtukas{
 				background-color: #D8BFD8;
 				border: none;
@@ -257,7 +257,18 @@
 	7	valstybe	char(3)	utf8_lithuanian_ci		
 */
 %>
-<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Klientų informacija</strong></h2>
+<ul>
+  <li><a class="font-face" href="#pagrindinis">Pagrindinis</a></li>
+  <li><a class="font-face" href="#paskyra">Vartotojas</a></li>
+  <li><a class="font-face" href="#planai">Planai</a></li>
+  <li><a class="font-face" href="#pratimai">Pratimai</a></li>
+  <li><a class="font-face" href="#mityba">Mityba</a></li>
+  <li><a class="font-face" href="#naujienos">Naujienos</a></li>
+  <li><a class="font-face" href="#kontaktai">Kontaktai</a></li>
+  <li><a class="font-face" href="#apie">Apie</a></li>
+</ul>
+
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Klientu informacija</strong></h2>
 <div id="users-contain" class="ui-widget"> 
 <table style="padding: 2px; margin: 10px; margin-left: auto; margin-right: auto" id="users" >		<!--Lenteles parametrai-->
 <tr >
@@ -267,14 +278,14 @@
 	<th class="font-face">ID</th>
 	<th class="font-face">Pavadinimas</th>
 	<th class="font-face">Amžius</th>
-	<th class="font-face">Ūgis cm</th>
+	<th class="font-face">Ugis cm</th>
 	<th class="font-face">Lytis</th>
 	<th class="font-face">Svoris kg</th>
-	<th class="font-face">Pasiruošimo lygis</th>
+	<th class="font-face">Pasiruosimo lygis</th>
 	<th class="font-face">Traumos bei ligos</th>
-	<th class="font-face">Redag. / Trinti</th>
+	<th class="font-face">Veiksmai</th>
 	
-</tr></strong>
+</tr>
 <%
 
 	Kliento_krit kriterijai = new Kliento_krit ();
@@ -372,16 +383,17 @@
 			kriterijai2.svoris = resultSet.getString ( "svoris" );
 			kriterijai2.pasiruosimas = resultSet.getString ( "pasiruosimo_lygis" );
 			kriterijai2.traumos = resultSet.getString ( "traumos_ligos" );
-%>										
+%>	
+
 <tr style="background-color: ##DEB887; padding: 1px " >    
-	<td class="font-face" style="color:#fff"><%=kriterijai2.id %></td>
-	<td class="font-face" style="color:#fff"><a href=""><%=kriterijai2.pav %></a></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.amzius %></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.ugis  %></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.lytis%></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.svoris %></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.pasiruosimas %></td>
-	<td class="font-face" style="color:#fff"><%=kriterijai2.traumos %></td>
+	<td style="color:#fff"><%=kriterijai2.id %></td>
+	<td style="color:#fff"><a href="/sporto_programos/klientai_treniruociu_planai?ik=<%= kriterijai2.id %>"><%=kriterijai2.pav %></a></td>
+	<td style="color:#fff"><%=kriterijai2.amzius %></td>
+	<td style="color:#fff"><%=kriterijai2.ugis  %></td>
+	<td style="color:#fff"><%=kriterijai2.lytis%></td>
+	<td style="color:#fff"><%=kriterijai2.svoris %></td>
+	<td style="color:#fff"><%=kriterijai2.pasiruosimas %></td>
+	<td style="color:#fff"><%=kriterijai2.traumos %></td>
 	<td>
 		<input data-id="<%=kriterijai2.id%>"data-pav="<%=kriterijai2.pav%>" data-amzius="<%=kriterijai2.amzius%>" data-ugis="<%=kriterijai2.ugis%>" data-lytis="<%=kriterijai2.lytis%>" data-svoris="<%=kriterijai2.svoris%>" data-pasiruosimo_lygis="<%=kriterijai2.pasiruosimas%>" data-traumos_ligos="<%=kriterijai2.traumos%>" type="button" value="Redaguoti" class="reda">
 		<input data-id="<%=kriterijai2.id%>"type="button" value="X" class="trinti" >
@@ -399,7 +411,7 @@
 </table >  <!-- Ivedimo lenteles parametrai-->
 </div > 
 <div style="text-align: center;"> 
-<button id="create-user" class="ui-button ui-corner-all ui-widget dialog-link button font-face"><strong>Sukurti naują klientą</strong></button>
+<button id="create-user" class="ui-button ui-corner-all ui-widget dialog-link button font-face"><strong>Sukurti nauja klienta</strong></button>
 </div>
 <div id="dialog-form" title="Naujas klientas" >
 	<p class="validateTips">Užpildykite visus laukus</p>
