@@ -217,41 +217,42 @@
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
 
 		// cia keliam irasyma i duomenu baze
+		
+		RaumenysIrGrupes raumenys = new RaumenysIrGrupes();
 
-    String add;
+		    String add;
 
-      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 
-        raumenys.pav = request.getParameter("pav");
-        raumenys.id_raumens =request.getParameter("id_raumens");
-        raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
+			raumenys.pav = request.getParameter("pav");
+			raumenys.id_raumens = Integer.parseInt ( request.getParameter("id_raumens") );
+			raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
 
-        String sql_ins ="";
+			String sql_ins ="";
 
-          if (raumenys.id !=0){
+			  if (raumenys.id_raumens !=0){
 
-            sql_ins=
-              "UPDATE `raumenys` SET `id`"
-              + '=' + "'"             +             raumenys.id_raumens         + "'"
-              + ","	+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
-              + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
-              + ","	+ "WHERE 1;";
-          } else {
+			    sql_ins=
+			      "UPDATE `raumenys` SET "
+				+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
+			      + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
+			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
+			  } else {
 
-            sql_ins =
-              "INSERT INTO `raumenys`"
-              + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
-              + " VALUES ( "
-              + "'" 	   	+ raumenys.pav               +"'"
-              + "," + "'" + raumenys.id_raumens        +"'"
-              + "," + "'" + raumenys.id_raumenu_grupes +"'"
-              + " )";
-          out.println ( sql_ins );
-            statement_change = connection.createStatement();
-            resultSetChange = statement_change.executeUpdate(sql_ins);
+			    sql_ins =
+			      "INSERT INTO `raumenys`"
+			      + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
+			      + " VALUES ( "
+			      + "'" 	   	+ raumenys.pav               +"'"
+			      + "," + "'" + raumenys.id_raumens        +"'"
+			      + "," + "'" + raumenys.id_raumenu_grupes +"'"
+			      + " )";
+			  out.println ( sql_ins );
+			    statement_change = connection.createStatement();
+			    resultSetChange = statement_change.executeUpdate(sql_ins);
 
-          }
-      }
+			  }
+		      }
 
         statement=connection.createStatement();
         String sql ="SELECT * FROM `raumenys`  WHERE 1";
@@ -266,7 +267,7 @@
           String raumenys2_id=request.getParameter("raumenys.id_raumens");
           
             sql_ins=
-              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id_raumens + "'" +";";
+              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id+ "'" +";";
 
           System.out.println(sql_ins);
           statement=connection.createStatement();
@@ -275,7 +276,7 @@
         }
 
 	statement=connection.createStatement();
-		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
+		sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
   %>
