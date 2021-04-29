@@ -223,19 +223,19 @@
       if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 
         raumenys.pav = request.getParameter("pav");
-        raumenys.id_raumens =request.getParameter("id_raumens");
+        raumenys.id_raumens =Integer.parseInt(request.getParameter("id_raumens"));
         raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
 
         String sql_ins ="";
 
-          if (raumenys.id !=0){
+          if (raumenys.id_raumens !=0){
 
             sql_ins=
-              "UPDATE `raumenys` SET `id`"
+              "UPDATE `raumenys` SET "
               + '=' + "'"             +             raumenys.id_raumens         + "'"
               + ","	+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
               + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
-              + ","	+ "WHERE 1;";
+              + ","	+ "WHERE 'id_raumens'=' + raumenys.id_raumens';";
           } else {
 
             sql_ins =
@@ -263,8 +263,8 @@
 
           String sql_ins;
 
-          String raumenys2_id=request.getParameter("raumenys.id_raumens");
-          
+          String raumenys2_id=request.getParameter("raumenys.id");
+
             sql_ins=
               "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id_raumens + "'" +";";
 
