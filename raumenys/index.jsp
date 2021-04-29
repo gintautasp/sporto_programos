@@ -174,7 +174,7 @@
 
     });
     */
-    
+
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
     });
@@ -224,7 +224,7 @@
 <div id="dialog-form" title="prideti nauja raumeni">
   <p class="validateTips">Privalu užpildyti visus laukelius</p>
 
-  <form id="raumenu_sarasas">
+  <form id="raumenu_sarasas" methot = "POST" action = "">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
