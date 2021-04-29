@@ -1,0 +1,581 @@
+[1mdiff --git a/classes/common/SqlQueries.java b/classes/common/SqlQueries.java[m
+[1mindex 0d4ddbd..e1b7bd5 100644[m
+[1m--- a/classes/common/SqlQueries.java[m
+[1m+++ b/classes/common/SqlQueries.java[m
+[36m@@ -1,13 +1,12 @@[m
+[31m-package library;[m
+[32m+[m[32mpackage common;[m
+ [m
+ public class SqlQueries{[m
+ 	[m
+[31m-	public static String readTreniruociuPlanai(){[m
+[31m-		[m
+[31m-		return 	"SELECT * FROM `pratimai_treniruociu_planai`";[m
+[32m+[m	[32mpublic static String readTreniruociuPlanas(){[m
+[32m+[m		[32mreturn 	"SELECT * FROM `treniruociu_planai`";[m
+ 	}[m
+ 	[m
+[31m-	public static String insertTreniruociuPlanai(String pav){[m
+[32m+[m	[32mpublic static String insertTreniruociuPlanas(String pav){[m
+ 		return "INSERT INTO "[m
+ 			+	"`treniruociu_planai` "[m
+ 			+	"(`pav`)" [m
+[36m@@ -16,16 +15,20 @@[m [mpublic class SqlQueries{[m
+ 			+	")";[m
+ 	}[m
+ 	[m
+[31m-	public static String deleteTreniruociuPlanai(String id){[m
+[32m+[m	[32mpublic static String deleteTreniruociuPlanas(int id){[m
+ 		return "DELETE FROM `treniruociu_planai` "[m
+ 			+	"WHERE `treniruociu_planai`.`id` = `" + id + "`";[m
+ 	}[m
+ 	[m
+[31m-	public static String updateCharacterSheet(String id, String pav){[m
+[31m-		return 	"UPDATE `characters`"[m
+[32m+[m	[32mpublic static String updateTreniruociuPlanas(int id, String pav){[m
+[32m+[m		[32mreturn 	"UPDATE `treniruociu_planai`"[m
+ 			+	"SET"[m
+ 			+		"`pav` = '" + pav + "'"[m
+ 			+	"WHERE `treniruociu_planai`.`id` =`" + id + "`";[m
+ 	}[m
+ 	[m
+[32m+[m	[32mpublic static String readTreniruociuPratimai(int planoId){[m
+[32m+[m		[32mreturn 	"SELECT * FROM `pratimai_treniruociu_planai`"[m[41m [m
+[32m+[m			[32m+	"WHERE `id_planai` = `"+ planoId + "`";[m
+[32m+[m	[32m}[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/classes/common/SqlRunner.java b/classes/common/SqlRunner.java[m
+[1mindex 1b30bc4..e4d46c2 100644[m
+[1m--- a/classes/common/SqlRunner.java[m
+[1m+++ b/classes/common/SqlRunner.java[m
+[36m@@ -1,69 +1,100 @@[m
+[31m-package library;[m
+[32m+[m[32mpackage common;[m
+ [m
+ import java.sql.*;[m
+ import java.util.*;[m
+[32m+[m[32mimport planai.*;[m
+[32m+[m[32mimport pratimai.*;[m
+ [m
+ public class SqlRunner{[m
+ 	[m
+ 	public Connection connection = null;[m
+ 	[m
+ 	public SqlRunner(Connection conn){[m
+[31m-		try{[m
+[31m-			System.out.println( "Connecting to database..." );[m
+[31m-			connection = conn;[m
+[31m-		}catch ( SQLException se ) {[m
+[31m-			se.printStackTrace();[m
+[32m+[m[41m		[m
+[32m+[m		[32mSystem.out.println( "Connecting to database..." );[m
+[32m+[m		[32mconnection = conn;[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic List<Planas> getTreniruociuPlanas() throws SQLException {[m
+[32m+[m		[32mList<Planas> planai = new ArrayList<Planas>();[m
+[32m+[m[41m		[m
+[32m+[m		[32mString sql = SqlQueries.readTreniruociuPlanas();[m
+[32m+[m
+[32m+[m		[32mtry ([m
+[32m+[m			[32mPreparedStatement statement = this.connection.prepareStatement(sql);[m
+[32m+[m			[32mResultSet rezultatuRinkinys = statement.executeQuery();[m
+[32m+[m		[32m) {[m
+[32m+[m			[32mwhile (rezultatuRinkinys.next()) {[m
+[32m+[m				[32mPlanas planas = new Planas();[m
+[32m+[m[41m				[m
+[32m+[m				[32mplanas.setId(rezultatuRinkinys.getInt("id"));[m
+[32m+[m				[32mplanas.setPav(rezultatuRinkinys.getString("pav"));[m
+[32m+[m				[32mplanas.setPratimai(this.getPratimaiPagalPlanas(planas.getId()));[m
+[32m+[m[41m				[m
+[32m+[m				[32mplanai.add(planas);[m
+[32m+[m			[32m}[m
+ 		}[m
+[32m+[m
+[32m+[m		[32mreturn planai;[m
+ 	}[m
+ 	[m
+[31m-	public List<PlayerCharacter> getCharactersFromDb() throws SQLException {[m
+[31m-		List<PlayerCharacter> characters = new ArrayList<PlayerCharacter>();[m
+[32m+[m	[32mpublic List<Pratimai> getPratimaiPagalPlanas(int pratimaiId) throws SQLException {[m
+[32m+[m		[32mList<Pratimai> planai = new ArrayList<Pratimai>();[m
+ 		[m
+[31m-		String sql = SqlQueries.getCharacters();[m
+[32m+[m		[32mString sql = SqlQueries.readTreniruociuPratimai(pratimaiId);[m
+ [m
+ 		try ([m
+ 			PreparedStatement statement = this.connection.prepareStatement(sql);[m
+[31m-			ResultSet resultSet = statement.executeQuery();[m
+[32m+[m			[32mResultSet rezultatuRinkinys = statement.executeQuery();[m
+ 		) {[m
+[31m-			while (resultSet.next()) {[m
+[31m-				PlayerCharacter character = new PlayerCharacter();[m
+[32m+[m			[32mwhile (rezultatuRinkinys.next()) {[m
+[32m+[m				[32mPratimai pratimai = new Pratimai();[m
+ 				[m
+[31m-				character.setId(resultSet.getInt("id"));[m
+[31m-				character.setName(resultSet.getString("name"));[m
+[31m-				character.setXp(resultSet.getDouble("experience"));[m
+[32m+[m				[32mpratimai.pav = rezultatuRinkinys.getString("pav");[m
+[32m+[m				[32mpratimai.pastabos = rezultatuRinkinys.getString("pastabos");[m
+[32m+[m				[32mpratimai.lygis_sunkumo = rezultatuRinkinys.getInt("lygis_sunkumo");[m
+[32m+[m				[32mpratimai.id_kito_lygio = rezultatuRinkinys.getInt("id_kito_lygio");[m
+[32m+[m				[32mpratimai.id = rezultatuRinkinys.getInt("id");[m
+ 				[m
+[31m-				characters.add(character);[m
+[32m+[m[41m				[m
+[32m+[m				[32mplanai.add(pratimai);[m
+ 			}[m
+ 		}[m
+ [m
+[31m-		return characters;[m
+[32m+[m		[32mreturn planai;[m
+ 	}[m
+ 	[m
+[31m-	public int insertCharacterIntoDb(String system ,String name, String xp) throws SQLException{[m
+[31m-		String sql = SqlQueries.insertCharacterSheet(system, name, xp);[m
+[31m-		System.out.println(sql);[m
+[31m-		int result = 0;[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic void insertPlanasDb(String pav) throws SQLException{[m
+[32m+[m		[32mString sql = SqlQueries.insertTreniruociuPlanas(pav);[m
+[32m+[m[41m		[m
+ 		try ([m
+ 			PreparedStatement statement = this.connection.prepareStatement(sql);[m
+ 			[m
+ 		){[m
+[31m-			result = statement.executeUpdate();[m
+[32m+[m			[32mstatement.executeUpdate();[m
+ 		}[m
+[31m-		[m
+[31m-		return result;[m
+ 	}[m
+ 	[m
+[31m-	public int updateCharacterSheet(String id, String system ,String name, String xp) throws SQLException{[m
+[31m-		String sql = SqlQueries.updateCharacterSheet(id, system, name, xp);[m
+[31m-		System.out.println(sql);[m
+[31m-		int result = 0;[m
+[32m+[m	[32mpublic void deletePlanasIsDb(int id) throws SQLException{[m
+[32m+[m		[32mString sql = SqlQueries.deleteTreniruociuPlanas(id);[m
+[32m+[m[41m		[m
+ 		try ([m
+ 			PreparedStatement statement = this.connection.prepareStatement(sql);[m
+ 			[m
+ 		){[m
+[31m-			result = statement.executeUpdate();[m
+[32m+[m			[32mstatement.executeUpdate();[m
+ 		}[m
+[32m+[m	[32m}[m
+[32m+[m[41m	[m
+[32m+[m	[32mpublic void updateTreniruociuPlanas(int id, String pav) throws SQLException{[m
+[32m+[m		[32mString sql = SqlQueries.updateTreniruociuPlanas(id, pav);[m
+ 		[m
+[31m-		return result;[m
+[32m+[m		[32mtry ([m
+[32m+[m			[32mPreparedStatement statement = this.connection.prepareStatement(sql);[m
+[32m+[m[41m			[m
+[32m+[m		[32m){[m
+[32m+[m			[32mstatement.executeUpdate();[m
+[32m+[m		[32m}[m
+ 	}[m
+ }[m
+\ No newline at end of file[m
+[1mdiff --git a/classes/planai/Planai.java b/classes/planai/Planai.java[m
+[1mdeleted file mode 100644[m
+[1mindex d09f612..0000000[m
+[1m--- a/classes/planai/Planai.java[m
+[1m+++ /dev/null[m
+[36m@@ -1,60 +0,0 @@[m
+[31m-package planai;[m
+[31m-[m
+[31m-import pratimai.*;[m
+[31m-import java.util.*;[m
+[31m-[m
+[31m-public class Planas{[m
+[31m-	[m
+[31m-	private int id;[m
+[31m-	private String pav;[m
+[31m-	private List<Pratimai> pratimai;[m
+[31m-	[m
+[31m-	public Planas(){}[m
+[31m-	[m
+[31m-	public Planas(int id, String pav){[m
+[31m-		this.id = id;[m
+[31m-		this.pav = pav;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public Planas(int id, String pav, List<Pratimai> pratimai){[m
+[31m-		this.id = id;[m
+[31m-		this.pav = pav;[m
+[31m-		this.pratimai = pratimai;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public int getId(){[m
+[31m-		return this.id;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public String getPav(){[m
+[31m-		return this.pav;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public void setId(){[m
+[31m-		this.id = id;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public void setPav(){[m
+[31m-		this.pav = pav;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public void setPratimai(List<Pratimai> pratimai){[m
+[31m-		this.pratimai = pratimai;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public void addPratimas(Pratimai pratimas){[m
+[31m-		this.pratimai.add(pratimas);[m
+[31m-	}[m
+[31m-	[m
+[31m-	public List<Pratimai> getPratimai(){[m
+[31m-		return this.pratimai;[m
+[31m-	}[m
+[31m-	[m
+[31m-	public Pratimai getPratimas(int indeksas){[m
+[31m-		return this.pratimai.get(indeksas);[m
+[31m-	}[m
+[31m-	[m
+[31m-	public int getPratimaiLength(){[m
+[31m-		return pratimai.size();[m
+[31m-	}[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/trenyruociu-planai/index.jsp b/trenyruociu-planai/index.jsp[m
+[1mindex 244529a..1e07ee5 100644[m
+[1m--- a/trenyruociu-planai/index.jsp[m
+[1m+++ b/trenyruociu-planai/index.jsp[m
+[36m@@ -2,6 +2,8 @@[m
+ <%@page pageEncoding="UTF-8" language="java"%>[m
+ <%@page contentType="text/html;charset=UTF-8"%>[m
+ <%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader, pratimai.*" %>[m
+[32m+[m[32m<%@page language="java" import="commons.*" %>[m
+[32m+[m[32m<%@page language="java" import="crud.*" %>[m
+ <html>[m
+ <head>[m
+ 	<meta charset="utf-8">[m
+[36m@@ -12,24 +14,22 @@[m
+ 	<title> Planai</title>[m
+ 	<style>[m
+ 		body{[m
+[31m-			background-image: url("");[m
+[32m+[m			[32mbackground-image: url("commons/svoris.jpg");[m
+ 			background-repeat: no-repeat;[m
+ 			background-size: cover;[m
+ 			background-color: #000000[m
+[32m+[m		[32m}[m[41m			[m
+[32m+[m		[32m@font-face {[m
+[32m+[m			[32mfont-family: 'Race Sport Free Regular';[m
+[32m+[m			[32mfont-style: normal;[m
+[32m+[m			[32mfont-weight: normal;[m
+[32m+[m			[32msrc: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');[m
+ 		}[m
+[31m-		.glow {[m
+[31m-			font-size: 40px;[m
+[31m-			font-family: arial;[m
+[31m-			color: #fff;[m
+[31m-			text-align: center;[m
+[31m-			animation: glow 1s ease-in-out infinite alternate;[m
+[31m-		}[m
+[31m-		@-webkit-keyframes glow {[m
+[31m-			from {[m
+[31m-			text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;[m
+[31m-			}to {[m
+[31m-			text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;[m
+[31m-			}[m
+[32m+[m		[32m.font-face {[m
+[32m+[m			[32mfont-family: 'Race Sport Free Regular';[m
+[32m+[m			[32mfont-style: normal;[m
+[32m+[m			[32mfont-weight: normal;[m
+[32m+[m			[32msrc: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');[m
+ 		}[m
+ 		table {[m
+ 			[m
+[36m@@ -39,7 +39,8 @@[m
+ 			text-align: center;[m
+ 			font-weight: bold;[m
+ 			border-radius:6px;[m
+[31m-			background-color: #9370DB;				[m
+[32m+[m			[32mbackground-color: #9370DB;[m
+[32m+[m[41m			[m
+ 		}[m
+ 		.button {[m
+ 			background-color: #D8BFD8;[m
+[36m@@ -52,7 +53,33 @@[m
+ 			font-size: 20px;[m
+ 			margin: 4px 2px;[m
+ 		}[m
+[31m-	</style>	[m
+[32m+[m		[32mul {[m
+[32m+[m			[32mlist-style-type: none;[m
+[32m+[m			[32mmargin: 0;[m
+[32m+[m			[32mpadding: 0;[m
+[32m+[m			[32moverflow: hidden;[m
+[32m+[m			[32mbackground-color: #333;[m
+[32m+[m			[32mposition: -webkit-sticky; /* Safari */[m
+[32m+[m			[32mposition: sticky;[m
+[32m+[m			[32mtop: 0;[m
+[32m+[m		[32m}[m
+[32m+[m		[32mli {[m
+[32m+[m			[32mfloat: left;[m
+[32m+[m		[32m}[m
+[32m+[m		[32mli a {[m
+[32m+[m			[32mdisplay: block;[m
+[32m+[m			[32mcolor: white;[m
+[32m+[m			[32mtext-align: center;[m
+[32m+[m			[32mpadding: 14px 16px;[m
+[32m+[m			[32mtext-decoration: none;[m
+[32m+[m		[32m}[m
+[32m+[m		[32mli a:hover {[m
+[32m+[m			[32mbackground-color: #111;[m
+[32m+[m		[32m}[m
+[32m+[m		[32m.active {[m
+[32m+[m			[32mbackground-color: #4CAF50;[m
+[32m+[m		[32m}[m
+[32m+[m	[32m</style>[m[41m		[m
+ 	<style><!--Display popup style-->[m
+ 		label, input { display:block; }[m
+ 		input.text { margin-bottom:12px; width:95%; padding: .4em; }[m
+[36m@@ -88,10 +115,8 @@[m
+ [m
+ 	// From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29[m
+ 	emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,[m
+[31m-	name = $( "#name" ),[m
+[31m-	email = $( "#email" ),[m
+[31m-	password = $( "#password" ),[m
+[31m-	allFields = $( [] ).add( name ).add( email ).add( password ),[m
+[32m+[m	[32mpav = $( "#pav" ),[m
+[32m+[m	[32mallFields = $( [] ).add( pav ),[m
+ 	tips = $( ".validateTips" );[m
+  [m
+ 	function updateTips( t ) {[m
+[36m@@ -128,19 +153,13 @@[m
+ 		var valid = true;[m
+ 		allFields.removeClass( "ui-state-error" );[m
+ [m
+[31m-		valid = valid && checkLength( name, "username", 3, 16 );[m
+[31m-		valid = valid && checkLength( email, "email", 6, 80 );[m
+[31m-		valid = valid && checkLength( password, "password", 5, 16 );[m
+[32m+[m		[32mvalid = valid && checkLength( pav, "pav", 3, 100 );[m
+ [m
+[31m-		valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );[m
+[31m-		valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );[m
+[31m-		valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );[m
+[32m+[m		[32mvalid = valid && checkRegexp( pav, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );[m
+ [m
+ 		if ( valid ) {[m
+ 			$( "#users tbody" ).append( "<tr>" +[m
+ 			"<td>" + name.val() + "</td>" +[m
+[31m-			"<td>" + email.val() + "</td>" +[m
+[31m-			"<td>" + password.val() + "</td>" +[m
+ 			"</tr>" );[m
+ 			dialog.dialog( "close" );[m
+ 		}[m
+[36m@@ -183,24 +202,7 @@[m
+ 	</script>[m
+ </head>[m
+ <body>[m
+[31m-<%@page import="java.sql.DriverManager"%>[m
+[31m-<%@page import="java.sql.ResultSet"%>[m
+[31m-<%@page import="java.sql.Statement"%>[m
+[31m-<%@page import="java.sql.Connection"%>[m
+ <%[m
+[31m-	String driverName = "com.mysql.jdbc.Driver";[m
+[31m-	String connectionUrl = "jdbc:mysql://localhost/";[m
+[31m-	String dbName = "sporto_programos";[m
+[31m-	String userId = "root";[m
+[31m-	String password = "";[m
+[31m-	String jdbcutf8 = "";[m
+[31m-	[m
+[31m-	Connection connection = null;[m
+[31m-	Statement statement = null, statement_change = null;[m
+[31m-	ResultSet resultSet = null;[m
+[31m-	int resultSetChange = 0;[m
+[31m-	[m
+[31m-	[m
+ 	try {[m
+ 	     [m
+ 		request.setCharacterEncoding ( "UTF-8" );[m
+[36m@@ -212,18 +214,36 @@[m
+ 		e.printStackTrace();[m
+ 	}[m
+ 	[m
+[31m-	Pratimai pratimai = new Pratimai();[m
+[32m+[m	[32mString[] lent_programos = { "id", "pav" };[m
+[32m+[m	[32mString[] lauk_programos = new String [ lent_programos.length ];[m
+[32m+[m	[32mDbMySql db_mysql = new DbMySql();[m
+[32m+[m[41m	[m
+[32m+[m	[32mCrudXY crud_programos = new CrudXY ( db_mysql, "treniruociu_planai", lent_programos );[m
+ 	try { [m
+ 	[m
+[31m-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );		[m
+[32m+[m		[32mQuerySaveResult qrs = new QuerySaveResult();[m
+[32m+[m		[32mString add = request.getParameter ( "add" );[m[41m 		[m
+ 	[m
+[32m+[m		[32mif ( ( ( add  ) != null ) && add.equals ( "saugoti" ) ) {[m
+ 		[m
+[31m-		statement=connection.createStatement();		[m
+[31m-		String sql ="SELECT * FROM `klientai_treniruociu_planai` `ktp` "[m
+[31m-			      + "LEFT JOIN `treniruociu_planai` `tp` on `ktp`.`id_treniruotes_plano`=`tp`.`id` "[m
+[31m-			      + "WHERE `ktp`.`id_kliento` = 1 ";[m
+[31m-[m
+[31m-		resultSet = statement.executeQuery(sql);[m
+[32m+[m			[32mString id_programos = request.getParameter ( "id_programos" );[m
+[32m+[m			[32m// out.println ( "id programos.: ." + id_programos + "." );[m[41m			[m
+[32m+[m[41m		[m
+[32m+[m			[32mfor ( int i = 1; i<lent_programos.length; i++ ) {[m
+[32m+[m[41m			[m
+[32m+[m				[32mlauk_programos [ i ] = request.getParameter ( lent_programos [ i ] );[m
+[32m+[m			[32m}[m
+[32m+[m			[32mqrs = crud_programos.save ( id_programos, lauk_programos );[m[41m	[m
+[32m+[m		[32m }[m[41m [m
+[32m+[m[41m		 [m
+[32m+[m		[32mString del;[m
+[32m+[m[41m	[m
+[32m+[m		[32mif ( ( ( del = request.getParameter ( "del" )  ) != null ) && del.equals ( "del1rec" ) ) {[m
+[32m+[m[41m		[m
+[32m+[m			[32mString id_programos = request.getParameter ( "p_del" );[m
+[32m+[m			[32m// out.println ( "id programos.: ." + id_programos + "." );[m[41m		[m
+[32m+[m			[32mqrs = crud_programos.delete ( id_programos );[m
+[32m+[m		[32m}[m[41m		 [m
+ 		 [m
+ 	}  catch ( Exception e ) {[m
+ 	[m
+[36m@@ -235,10 +255,8 @@[m
+  [m
+ 	<form>[m
+ 		<fieldset>[m
+[31m-			<label for="name">Data</label>[m
+[31m-			<input type="date" name="date" id="date" class="text ui-widget-content ui-corner-all">[m
+[31m-			<label for="email">Rezultatai</label>[m
+[31m-			<input type="text" name="Result" id="Result" class="text ui-widget-content ui-corner-all">[m
+[32m+[m			[32m<label for="email">Pavadinimas</label>[m
+[32m+[m			[32m<input type="text" name="pav" id="pav" class="text ui-widget-content ui-corner-all">[m
+ 			[m
+ 			<ul id="sortable1" class="connectedSortable">[m
+ 				<li class="ui-state-default">Item 1</li>[m
+[36m@@ -256,63 +274,66 @@[m
+ 	</form>[m
+ </div>[m
+ [m
+[32m+[m[32m<ul>[m
+[32m+[m	[32m<li><a class="font-face" href="#pagrindinis">Pagrindinis</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#paskyra">Vartotojas</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#planai">Planai</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#pratimai">Pratimai</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#mityba">Mityba</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#naujienos">Naujienos</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#kontaktai">Kontaktai</a></li>[m
+[32m+[m	[32m<li><a class="font-face" href="#apie">Apie</a></li>[m
+[32m+[m[32m</ul>[m
+ [m
+[32m+[m[32m<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai</strong></h2>[m
+ [m
+[31m-<div id="main">[m
+[31m-	<div id="leftSide">[m
+[31m-	</div>[m
+[31m-	<div id="mainContent">[m
+[31m-		<div id="title">[m
+[31m-			<h1>Sporto programa<h1>[m
+[31m-		</div>[m
+[31m-		<div id="navbar">[m
+[31m-			<table id = "navtable">[m
+[31m-				<tr>[m
+[31m-					<td><a class="active" href="javascript:void(0)">Pagrindinis</a></td>[m
+[31m-					<td><a href="javascript:void(0)">Planas</a></td>[m
+[31m-					<td><a href="javascript:void(0)">Pratimai</a></td>[m
+[31m-				<tr>[m
+[31m-			</table>[m
+[31m-		</div>[m
+[32m+[m
+[32m+[m[32m<table align="center" cellpadding="4" cellspacing="2">[m
+[32m+[m[32m<tr>[m
+[32m+[m
+[32m+[m[32m</tr>[m
+[32m+[m[32m<tr>[m
+[32m+[m	[32m<th class="font-face">Id</th>[m
+[32m+[m	[32m<th class="font-face">Pavadinimas</th>[m
+[32m+[m	[32m<th class="font-face">Veiksmai</th>[m
+[32m+[m[32m</tr>[m
+[32m+[m[32m<%[m
+[32m+[m	[32mtry {[m
+[32m+[m[41m	[m
+[32m+[m		[32mString sql = crud_programos.select( "" );[m
+[32m+[m[41m		 [m
+[32m+[m		[32mwhile( crud_programos.db_mysql.flag_got_rows ) {[m
+ 		[m
+[31m-		<table align="center" cellpadding="5" cellspacing="5" border="5">[m
+[31m-		<tr>	[m
+[31m-			<th >Id</th>[m
+[31m-			<th>Data</th>[m
+[31m-			<th>Rezultatai</th>[m
+[31m-			<th>Trenyruotės pavadininas</th>[m
+[31m-			<td> <button type="button" class="modify-excersise" >New</button> </td>[m
+[31m-		</tr>[m
+[31m-		<%[m
+[31m-		try{ [m
+[31m-			[m
+[31m-			while( resultSet.next() ){[m
+[31m-			String id = resultSet.getString ( "ktp.id" );[m
+[31m-			String data = resultSet.getString ( "data" );[m
+[31m-			String resultatai = resultSet.getString ( "rezultatai" );[m
+[31m-			String pav = resultSet.getString ( "pav" );[m
+[31m-			[m
+[31m-		%>[m
+[31m-		<tr>[m
+[31m-			<td><%= id %></td>[m
+[31m-			<td><%= data %></td>[m
+[31m-			<td><%= resultatai %></td>[m
+[31m-			<td><%= pav %></td>[m
+[31m-			<td> <button type="button" class="modify-excersise" >Select</button> </td>[m
+[32m+[m			[32mString rec_data = "";[m
+ 			[m
+[31m-		</tr>[m
+[31m-		<%[m
+[32m+[m			[32mAssocArrayList lst_row_fields = crud_programos.db_mysql.giveSelectedRow();[m
+[32m+[m			[32mfor ( int i = 1; i < lauk_programos.length; i++ ) {[m
+[32m+[m				[32mrec_data += " data-"  + ( lent_programos [ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_programos [ i ]  ) ) + "\"";[m
+ 			}[m
+[31m-		} catch (Exception e) {									[m
+[31m-			e.printStackTrace();[m
+[32m+[m			[32mString id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );[m
+[32m+[m[32m%>[m
+[32m+[m[32m<tr style="background-color: #DEB887" >[m
+[32m+[m[32m<%[m
+[32m+[m		[32mfor ( int i = 0; i < lent_programos.length; i++ ) {[m
+[32m+[m[32m%>[m
+[32m+[m	[32m<td class="font-face" style="color:#fff"><%=  lst_row_fields.giveMe (  lent_programos [ i ]  ) %></td>[m
+[32m+[m[32m<%[m
+ 		}[m
+[31m-		%>[m
+[31m-		</table>[m
+[31m-		[m
+[31m-	</div>[m
+[32m+[m[32m%>[m
+[32m+[m	[32m<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="" data-pastabos="" data-lygis_sunkumo="" data-id_kito_lygio="" data-id="" type="button" value="&#9881" id="keiciam">[m
+[32m+[m		[32m<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="" type="button" value="X"></td>[m
+[32m+[m[32m</tr>[m
+[32m+[m[32m<%[m[41m [m
+[32m+[m		[32m}[m
+[32m+[m	[32m} catch ( Exception e ) {[m
+ 	[m
+[31m-	<div id="rightSide">[m
+[31m-	</div>[m
+[32m+[m		[32me.printStackTrace();[m
+[32m+[m	[32m}[m
+[32m+[m[32m%>[m
+[32m+[m[32m</table>[m
+[32m+[m	[32m<div align="center">[m
+[32m+[m	[32m<input class="ui-button ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">[m
+ </div>[m
+[32m+[m
+ </body>[m
+ </html>[m
+\ No newline at end of file[m

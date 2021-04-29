@@ -60,6 +60,33 @@
 
 			return sql_sel;
 		}
+		
+		public String select ( String by, String joins, String[] laukai_add ) {
+
+			String comma = "";
+			String sql_sel = "SELECT \n";
+
+			for ( int i = 0; i < laukai.length; i++ ) {
+
+				sql_sel += comma + " `" + laukai [ i ] + "` \n";
+				comma = ",";
+			}
+			for ( int i = 0; i < laukai_add.length; i++ ) {
+
+				sql_sel += comma + laukai_add [ i ] + "\n";
+			}
+
+			sql_sel 	+= " FROM\n"
+					+ " `" + lent + "` \n"
+					+ joins +"\n"
+					+ " WHERE \n"
+							+ "1\n"
+							+  by
+				;
+			res_select = db_mysql.select ( "select", sql_sel, laukai );
+
+			return sql_sel;
+		}
 
 		public QuerySaveResult insert ( String[] reiksmes ) {
 
