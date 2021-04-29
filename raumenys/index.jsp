@@ -218,9 +218,63 @@
 
 		// cia keliam irasyma i duomenu baze
 
+    String add;
 
+      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 
-		statement=connection.createStatement();
+        raumenys.pav = request.getParameter("pav");
+        raumenys.id_raumens =request.getParameter("id_raumens");
+        raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
+
+        String sql_ins ="";
+
+          if (raumenys.id !=0){
+
+            sql_ins=
+              "UPDATE `raumenys` SET `id`"
+              + '=' + "'"             +             raumenys.id_raumens         + "'"
+              + ","	+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
+              + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
+              + ","	+ "WHERE 1;";
+          } else {
+
+            sql_ins =
+              "INSERT INTO `raumenys`"
+              + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
+              + " VALUES ( "
+              + "'" 	   	+ raumenys.pav               +"'"
+              + "," + "'" + raumenys.id_raumens        +"'"
+              + "," + "'" + raumenys.id_raumenu_grupes +"'"
+              + " )";
+          out.println ( sql_ins );
+            statement_change = connection.createStatement();
+            resultSetChange = statement_change.executeUpdate(sql_ins);
+
+          }
+      }
+
+        statement=connection.createStatement();
+        String sql ="SELECT * FROM `raumenys`  WHERE 1";
+        resultSet = statement.executeQuery(sql);
+
+        String remove= "";
+
+        if  ( ( ( remove = request.getParameter("trinti")  ) != null ) && remove.equals ( "trinti" ) ){
+
+          String sql_ins;
+
+          String raumenys2_id=request.getParameter("raumenys.id_raumens");
+          
+            sql_ins=
+              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id_raumens + "'" +";";
+
+          System.out.println(sql_ins);
+          statement=connection.createStatement();
+          int istrinta=statement.executeUpdate(sql_ins);
+
+        }
+
+	statement=connection.createStatement();
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
