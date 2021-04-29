@@ -1,69 +1,100 @@
-package library;
+package common;
 
 import java.sql.*;
 import java.util.*;
+import planai.*;
+import pratimai.*;
 
 public class SqlRunner{
 	
 	public Connection connection = null;
 	
 	public SqlRunner(Connection conn){
-		try{
-			System.out.println( "Connecting to database..." );
-			connection = conn;
-		}catch ( SQLException se ) {
-			se.printStackTrace();
-		}
+		
+		System.out.println( "Connecting to database..." );
+		connection = conn;
 	}
 	
-	public List<PlayerCharacter> getCharactersFromDb() throws SQLException {
-		List<PlayerCharacter> characters = new ArrayList<PlayerCharacter>();
+	public List<Planas> getTreniruociuPlanas() throws SQLException {
+		List<Planas> planai = new ArrayList<Planas>();
 		
-		String sql = SqlQueries.getCharacters();
+		String sql = SqlQueries.readTreniruociuPlanas();
 
 		try (
 			PreparedStatement statement = this.connection.prepareStatement(sql);
-			ResultSet resultSet = statement.executeQuery();
+			ResultSet rezultatuRinkinys = statement.executeQuery();
 		) {
-			while (resultSet.next()) {
-				PlayerCharacter character = new PlayerCharacter();
+			while (rezultatuRinkinys.next()) {
+				Planas planas = new Planas();
 				
-				character.setId(resultSet.getInt("id"));
-				character.setName(resultSet.getString("name"));
-				character.setXp(resultSet.getDouble("experience"));
+				planas.setId(rezultatuRinkinys.getInt("id"));
+				planas.setPav(rezultatuRinkinys.getString("pav"));
+				planas.setPratimai(this.getPratimaiPagalPlanas(planas.getId()));
 				
-				characters.add(character);
+				planai.add(planas);
 			}
 		}
 
-		return characters;
+		return planai;
 	}
 	
-	public int insertCharacterIntoDb(String system ,String name, String xp) throws SQLException{
-		String sql = SqlQueries.insertCharacterSheet(system, name, xp);
-		System.out.println(sql);
-		int result = 0;
+	public List<Pratimai> getPratimaiPagalPlanas(int pratimaiId) throws SQLException {
+		List<Pratimai> planai = new ArrayList<Pratimai>();
+		
+		String sql = SqlQueries.readTreniruociuPratimai(pratimaiId);
+
+		try (
+			PreparedStatement statement = this.connection.prepareStatement(sql);
+			ResultSet rezultatuRinkinys = statement.executeQuery();
+		) {
+			while (rezultatuRinkinys.next()) {
+				Pratimai pratimai = new Pratimai();
+				
+				pratimai.pav = rezultatuRinkinys.getString("pav");
+				pratimai.pastabos = rezultatuRinkinys.getString("pastabos");
+				pratimai.lygis_sunkumo = rezultatuRinkinys.getInt("lygis_sunkumo");
+				pratimai.id_kito_lygio = rezultatuRinkinys.getInt("id_kito_lygio");
+				pratimai.id = rezultatuRinkinys.getInt("id");
+				
+				
+				planai.add(pratimai);
+			}
+		}
+
+		return planai;
+	}
+	
+	
+	public void insertPlanasDb(String pav) throws SQLException{
+		String sql = SqlQueries.insertTreniruociuPlanas(pav);
+		
 		try (
 			PreparedStatement statement = this.connection.prepareStatement(sql);
 			
 		){
-			result = statement.executeUpdate();
+			statement.executeUpdate();
 		}
-		
-		return result;
 	}
 	
-	public int updateCharacterSheet(String id, String system ,String name, String xp) throws SQLException{
-		String sql = SqlQueries.updateCharacterSheet(id, system, name, xp);
-		System.out.println(sql);
-		int result = 0;
+	public void deletePlanasIsDb(int id) throws SQLException{
+		String sql = SqlQueries.deleteTreniruociuPlanas(id);
+		
 		try (
 			PreparedStatement statement = this.connection.prepareStatement(sql);
 			
 		){
-			result = statement.executeUpdate();
+			statement.executeUpdate();
 		}
+	}
+	
+	public void updateTreniruociuPlanas(int id, String pav) throws SQLException{
+		String sql = SqlQueries.updateTreniruociuPlanas(id, pav);
 		
-		return result;
+		try (
+			PreparedStatement statement = this.connection.prepareStatement(sql);
+			
+		){
+			statement.executeUpdate();
+		}
 	}
 }

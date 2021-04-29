@@ -2,6 +2,56 @@
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
 <%@ page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader, pratimai.*" %>
+<%@page language="java" import="commons.*" %>
+<%@page language="java" import="crud.*" %>
+<%
+	try {
+	     
+		request.setCharacterEncoding ( "UTF-8" );
+		response.setContentType ( "text/html; charset=UTF-8" );
+		response.setCharacterEncoding ( "UTF-8" );		
+		
+	} catch ( Exception e ) { 
+	
+		e.printStackTrace();
+	}
+	
+	String[] lent_programos = { "id", "pav" };
+	String[] lauk_programos = new String [ lent_programos.length ];
+	DbMySql db_mysql = new DbMySql();
+	
+	CrudXY crud_programos = new CrudXY ( db_mysql, "treniruociu_planai", lent_programos );
+	try { 
+	
+		QuerySaveResult qrs = new QuerySaveResult();
+		String add = request.getParameter ( "add" ); 		
+		System.out.println("msg " + add);	
+		if ( ( ( add  ) != null ) && add.equals ( "saugoti" ) ) {
+		
+			String id_planas = request.getParameter ( "id_planas" );
+			System.out.println(id_planas);		
+			
+			for ( int i = 1; i<lent_programos.length; i++ ) {
+			
+				lauk_programos [ i ] = request.getParameter ( lent_programos [ i ] );
+			}
+			qrs = crud_programos.save ( id_planas, lauk_programos );	
+		 } 
+		 
+		String del;
+	
+		if ( ( ( del = request.getParameter ( "del" )  ) != null ) && del.equals ( "del1rec" ) ) {
+		
+			String id_planas = request.getParameter ( "p_del" );
+			// out.println ( "id programos.: ." + id_planas + "." );		
+			qrs = crud_programos.delete ( id_planas );
+		}		 
+		 
+	}  catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -12,24 +62,22 @@
 	<title> Planai</title>
 	<style>
 		body{
-			background-image: url("");
+			background-image: url("commons/svoris.jpg");
 			background-repeat: no-repeat;
 			background-size: cover;
 			background-color: #000000
+		}			
+		@font-face {
+			font-family: 'Race Sport Free Regular';
+			font-style: normal;
+			font-weight: normal;
+			src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 		}
-		.glow {
-			font-size: 40px;
-			font-family: arial;
-			color: #fff;
-			text-align: center;
-			animation: glow 1s ease-in-out infinite alternate;
-		}
-		@-webkit-keyframes glow {
-			from {
-			text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
-			}to {
-			text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
-			}
+		.font-face {
+			font-family: 'Race Sport Free Regular';
+			font-style: normal;
+			font-weight: normal;
+			src: local('Race Sport Free Regular'), url('RaceSport-nR1j0.woff') format('woff');
 		}
 		table {
 			
@@ -39,7 +87,8 @@
 			text-align: center;
 			font-weight: bold;
 			border-radius:6px;
-			background-color: #9370DB;				
+			background-color: #9370DB;
+			
 		}
 		.button {
 			background-color: #D8BFD8;
@@ -52,7 +101,33 @@
 			font-size: 20px;
 			margin: 4px 2px;
 		}
-	</style>	
+		ul {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+			position: -webkit-sticky; /* Safari */
+			position: sticky;
+			top: 0;
+		}
+		li {
+			float: left;
+		}
+		li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+		li a:hover {
+			background-color: #111;
+		}
+		.active {
+			background-color: #4CAF50;
+		}
+	</style>		
 	<style><!--Display popup style-->
 		label, input { display:block; }
 		input.text { margin-bottom:12px; width:95%; padding: .4em; }
@@ -87,11 +162,8 @@
 	var dialog, form,
 
 	// From http://www.whatwg.org/specs/web-apps/current-work/multipage/states-of-the-type-attribute.html#e-mail-state-%28type=email%29
-	emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
-	name = $( "#name" ),
-	email = $( "#email" ),
-	password = $( "#password" ),
-	allFields = $( [] ).add( name ).add( email ).add( password ),
+	pav = $( "#pav" ),
+	allFields = $( [] ).add( pav ),
 	tips = $( ".validateTips" );
  
 	function updateTips( t ) {
@@ -124,36 +196,29 @@
 		}
 	}
 
-	function addUser() {
+	function pridetiPratima() {
 		var valid = true;
 		allFields.removeClass( "ui-state-error" );
 
-		valid = valid && checkLength( name, "username", 3, 16 );
-		valid = valid && checkLength( email, "email", 6, 80 );
-		valid = valid && checkLength( password, "password", 5, 16 );
+		valid = valid && checkLength( pav, "pav", 3, 100 );
 
-		valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
-		valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
-		valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+		valid = valid && checkRegexp( pav, /^[a-z]([0-9a-z_\s])+$/i, "Pavadinimas turi susidaryti iš raidžių, skaičių ir tarpų" );
 
 		if ( valid ) {
-			$( "#users tbody" ).append( "<tr>" +
-			"<td>" + name.val() + "</td>" +
-			"<td>" + email.val() + "</td>" +
-			"<td>" + password.val() + "</td>" +
-			"</tr>" );
+			//console.log(form);
+			form.submit();
 			dialog.dialog( "close" );
 		}
 		return valid;
 	}
 
-	dialog = $( "#dialog-form" ).dialog({
+	dialog = $( "#dialog" ).dialog({
 		autoOpen: false,
 		height: 500,
 		width: 500,
 		modal: true,
 		buttons: {
-		"Create an account": addUser,
+		"Patvirtinti": pridetiPratima,
 		Cancel: function() {
 			dialog.dialog( "close" );
 		}
@@ -164,15 +229,13 @@
 		}
 	});
 
-	form = dialog.find( "form" ).on( "submit", function( event ) {
-		event.preventDefault();
-		addUser();
-	});
+	form = dialog.find( "form" );
 
-	$( ".modify-excersise" ).button().on( "click", function() {
+	$( ".dialog-link" ).button().on( "click", function() {
 		dialog.dialog( "open" );
 		});
 	} );
+
 	</script>
 	<script>
 		$( function() {
@@ -181,64 +244,24 @@
 			}).disableSelection();
 		} );
 	</script>
+	
+	<script>
+		<%= crud_programos.jsRedagavimui ( "id_planas" ) %> 
+		<%= crud_programos.jsValymui() %>
+		<%= crud_programos.jsTrynimui ( "pratimas" ) %>
+	</script>
 </head>
 <body>
-<%@page import="java.sql.DriverManager"%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.Connection"%>
-<%
-	String driverName = "com.mysql.jdbc.Driver";
-	String connectionUrl = "jdbc:mysql://localhost/";
-	String dbName = "sporto_programos";
-	String userId = "root";
-	String password = "";
-	String jdbcutf8 = "";
-	
-	Connection connection = null;
-	Statement statement = null, statement_change = null;
-	ResultSet resultSet = null;
-	int resultSetChange = 0;
-	
-	
-	try {
-	     
-		request.setCharacterEncoding ( "UTF-8" );
-		response.setContentType ( "text/html; charset=UTF-8" );
-		response.setCharacterEncoding ( "UTF-8" );		
-		
-	} catch ( Exception e ) { 
-	
-		e.printStackTrace();
-	}
-	
-	Pratimai pratimai = new Pratimai();
-	try { 
-	
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );		
-	
-		
-		statement=connection.createStatement();		
-		String sql ="SELECT * FROM `klientai_treniruociu_planai` `ktp` "
-			      + "LEFT JOIN `treniruociu_planai` `tp` on `ktp`.`id_treniruotes_plano`=`tp`.`id` "
-			      + "WHERE `ktp`.`id_kliento` = 1 ";
-
-		resultSet = statement.executeQuery(sql);
-		 
-	}  catch ( Exception e ) {
-	
-		e.printStackTrace();
-	}
-%>
-<div id="dialog-form" title="Create new user">
+<div id="dialog" title="Create new user">
   <p class="validateTips">All form fields are required.</p>
  
-	<form>
+	<form method="POST">
 		<fieldset>
-			<label for="name">Data</label>
-			<input type="date" name="date" id="date" class="text ui-widget-content ui-corner-all">
-			<label for="email">Rezultatai</label>
-			<input type="text" name="Result" id="Result" class="text ui-widget-content ui-corner-all">
+			<label for="pav">Pavadinimas</label>
+			<input type="text" name="pav" id="pav" class="text ui-widget-content ui-corner-all">
+			<input type="hidden" id="id_planas" name="id_planas" value="0">
+			<input type="hidden" id="alert" name="alert" value="0">
+			<input type="hidden" id="add" name="add" value="saugoti">
 			
 			<ul id="sortable1" class="connectedSortable">
 				<li class="ui-state-default">Item 1</li>
@@ -256,63 +279,66 @@
 	</form>
 </div>
 
+<ul>
+	<li><a class="font-face" href="#pagrindinis">Pagrindinis</a></li>
+	<li><a class="font-face" href="#paskyra">Vartotojas</a></li>
+	<li><a class="font-face" href="#planai">Planai</a></li>
+	<li><a class="font-face" href="#pratimai">Pratimai</a></li>
+	<li><a class="font-face" href="#mityba">Mityba</a></li>
+	<li><a class="font-face" href="#naujienos">Naujienos</a></li>
+	<li><a class="font-face" href="#kontaktai">Kontaktai</a></li>
+	<li><a class="font-face" href="#apie">Apie</a></li>
+</ul>
+
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai</strong></h2>
 
 
-<div id="main">
-	<div id="leftSide">
-	</div>
-	<div id="mainContent">
-		<div id="title">
-			<h1>Sporto programa<h1>
-		</div>
-		<div id="navbar">
-			<table id = "navtable">
-				<tr>
-					<td><a class="active" href="javascript:void(0)">Pagrindinis</a></td>
-					<td><a href="javascript:void(0)">Planas</a></td>
-					<td><a href="javascript:void(0)">Pratimai</a></td>
-				<tr>
-			</table>
-		</div>
-		
-		<table align="center" cellpadding="5" cellspacing="5" border="5">
-		<tr>	
-			<th >Id</th>
-			<th>Data</th>
-			<th>Rezultatai</th>
-			<th>Trenyruotės pavadininas</th>
-			<td> <button type="button" class="modify-excersise" >New</button> </td>
-		</tr>
-		<%
-		try{ 
-			
-			while( resultSet.next() ){
-			String id = resultSet.getString ( "ktp.id" );
-			String data = resultSet.getString ( "data" );
-			String resultatai = resultSet.getString ( "rezultatai" );
-			String pav = resultSet.getString ( "pav" );
-			
-		%>
-		<tr>
-			<td><%= id %></td>
-			<td><%= data %></td>
-			<td><%= resultatai %></td>
-			<td><%= pav %></td>
-			<td> <button type="button" class="modify-excersise" >Select</button> </td>
-			
-		</tr>
-		<%
-			}
-		} catch (Exception e) {									
-			e.printStackTrace();
-		}
-		%>
-		</table>
-		
-	</div>
+<table align="center" cellpadding="4" cellspacing="2">
+<tr>
+
+</tr>
+<tr>
+	<th class="font-face">Id</th>
+	<th class="font-face">Pavadinimas</th>
+	<th class="font-face">Veiksmai</th>
+</tr>
+<%
+	try {
 	
-	<div id="rightSide">
-	</div>
+		String sql = crud_programos.select( "" );
+		 
+		while( crud_programos.db_mysql.flag_got_rows ) {
+		
+			String rec_data = "";
+			
+			AssocArrayList lst_row_fields = crud_programos.db_mysql.giveSelectedRow();
+			for ( int i = 1; i < lauk_programos.length; i++ ) {
+				rec_data += " data-"  + ( lent_programos [ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_programos [ i ]  ) ) + "\"";
+			}
+			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
+%>
+<tr>
+<%
+		for ( int i = 0; i < lent_programos.length; i++ ) {
+%>
+	<td class="font-face" style="color:#fff"><%=  lst_row_fields.giveMe (  lent_programos [ i ]  ) %></td>
+<%
+		}
+%>
+	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" id="toEdit_<%= id_rec  %>" data-id_gal="<%= id_rec  %>" <%= rec_data %> type="button" value="&#9881">
+		<input class="ui-button ui-corner-all ui-widget button" id="toDelete_<%= id_rec  %>" data-id_gal="<%= id_rec %>" type="button" value="X"></td>
+</tr>
+<% 
+		}
+	} catch ( Exception e ) {
+	
+		e.printStackTrace();
+	}
+%>
+</table>
+	<div align="center">
+	<input class="ui-button ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">
 </div>
+
 </body>
 </html>

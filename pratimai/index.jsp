@@ -57,9 +57,11 @@
 				position: sticky;
 				top: 0;
 			}
+
 			li {
 				float: left;
 			}
+
 			li a {
 				display: block;
 				color: white;
@@ -67,9 +69,11 @@
 				padding: 14px 16px;
 				text-decoration: none;
 			}
+
 			li a:hover {
 				background-color: #111;
 			}
+
 			.active {
 				background-color: #4CAF50;
 			}
@@ -132,6 +136,7 @@
 				});
 			});
 	});
+
 	
 	</script>	
 	</head>
@@ -146,10 +151,12 @@
 	String dbName = "sporto_programos";
 	String userid = "root";
 	String password = "";
+
 	Connection connection = null;
 	Statement statement = null, statement_change = null;
 	ResultSet resultSet = null;
 	int resultSetChange = 0;
+
 %>
 
 <ul>
@@ -163,7 +170,7 @@
   <li><a class="font-face" href="#apie">Apie</a></li>
 </ul>
 
-<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Planai</strong></h2>
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai</strong></h2>
 
 <table align="center" cellpadding="4" cellspacing="2">
 <tr>
@@ -188,6 +195,7 @@
 		
 		
 	} catch(Exception e) {}
+
 	try{ 	
 		String jdbcutf8 = "";
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
@@ -225,7 +233,9 @@
 					+ "," + "'" + pratimai.lygis_sunkumo +"'"
 					+ "," + "'" + pratimai.id_kito_lygio +"'"
 					+ " )";
+
 			out.println ( sql_ins );
+
 				statement_change = connection.createStatement();
 				resultSetChange = statement_change.executeUpdate(sql_ins);			
 			
@@ -233,6 +243,7 @@
 		}
 			statement=connection.createStatement();		
 			String sql ="SELECT * FROM `pratimai`  WHERE 1";
+
 			resultSet = statement.executeQuery(sql);
 			
 			
@@ -271,6 +282,7 @@
 	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
 		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%=pratimai2.id%>" type="button" value="X">
 </tr>
+
 <% 		
 		}
 		}catch (Exception e) {
@@ -281,11 +293,13 @@
 		
 		
 %>
+
 </table>
 <div align="center">
 <input class="ui-button ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">
 </div>
 <center>
+
 <div id="dialog" title="Pavadinimas">
 	<form method="post" action="">
 	<table align="center" cellpadding="5" cellspacing="5" >
@@ -295,6 +309,7 @@
 	<th>Sunkumo lygis</th>
 	<th>x</th>
 </tr>
+
 <tr>
 	<td>
 		<input type="text" name="pav" id="pav" value="">
@@ -388,6 +403,7 @@
 <br>
 <br>
 </div>
+
 <input type="hidden" class="edit" id="pratimai2_id" name="pratimai2_id" value="0">
 </form>
 <form method="post" action="" id="remove">
