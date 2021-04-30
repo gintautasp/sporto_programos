@@ -15,7 +15,7 @@
 		public String raumenu_grupe;
 		
 		public RaumenuGrupes[] raumenu_grupes;
-		int kiek_raumenu_grupiu = 0;
+		public int kiek_raumenu_grupiu = 0;
 
 		public RaumenysIrGrupes() {
 			

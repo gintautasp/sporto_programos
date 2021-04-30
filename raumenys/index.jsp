@@ -128,10 +128,10 @@
       var valid = true;
       allFields.removeClass( "ui-state-error" );
 
-      valid = valid && checkLength( raumenu_grupe, "raumenu grupe", 3, 16 );
+      valid = valid && checkLength( raumenu_grupe, "raumenu grupe", 1, 10 );
       valid = valid && checkLength( raumens_pav, "raumens pav", 6, 80 );
 
-      valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
+   //   valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
       valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
       /*if ( valid ) {
@@ -219,21 +219,26 @@
 		// cia keliam irasyma i duomenu baze
 
 		RaumenysIrGrupes raumenys = new RaumenysIrGrupes();
+		raumenys.pasiimtiRaumenuGrupes( connection );
 
 		    String add;
 
 		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 		      
 			raumenys.pav = request.getParameter( "raumens_pav" );
+			
+			/*
 			String raumenu_grupe_is_formos = request.getParameter( "raumenu_grupe" );
 			
-			raumenys.pasiimtiRaumenuGrupes( connection );
+			
 			raumenys.id_raumenu_grupes = raumenys.surastiRaumenuGrupesId ( raumenu_grupe_is_formos );
 
 			if ( raumenys.id_raumenu_grupes == 0 ) {
 	
 				 raumenys.id_raumenu_grupes = raumenys.pridetiRaumenuGrupe ( connection, raumenu_grupe_is_formos );
 			}
+			*/
+			raumenys.id_raumenu_grupes = Integer.parseInt ( request.getParameter( "raumenu_grupe" ) );
 		      
 			raumenys.id_raumens = Integer.parseInt ( request.getParameter("raumenys2_id") );
 
@@ -294,7 +299,15 @@
   <form id="raumenu_sarasas" method="POST" action="">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
-      <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
+      <select name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
+      <%
+		for (int i=0; i < raumenys.kiek_raumenu_grupiu; i++ ) {
+      %>
+		<option value="<%= raumenys.raumenu_grupes [ i ].id %>"><%= raumenys.raumenu_grupes [ i ].raumenu_grupe %>
+      <%
+		}
+      %>
+      </select>
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
 	//<!-- prisideti input type="hidden" name="add" value=" .. ".. -->
