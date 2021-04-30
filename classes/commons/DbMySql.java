@@ -61,12 +61,7 @@
 			return result_update;
 		}
 		
-		/**
-		* vykdo standartinį veiksmą vykdantį java duomenų bazės išrinimo užklausą SELECT, taip pat iškelia vėliavėlę nurodančią, kad rezultate yra gautų nepasiimtų eilučių .t.y. rezultatą po įvykdymo next() su ResultSet tipo objektu, 
-		* @param String query_name - užklausos pavadinimas, bet kokia unikali eilutė, kad atskirti užklausų struktūras, užklausų struktūrų masyve, pvz.: įterpimas į lentelę
-		* @param String sql_update - SQL užklausa vykdatnti duomenų keitimą, gali būti SELECT .. ir pan.  ?
-		* @param String[]  row_columns - užklausos rezultatų lentelės stulpelių laukų pavadinimai, naudojami pasimant duomenis su giveSelectedRow
-		*/		
+			
 		public boolean select ( String query_name, String sql_select, String[] row_columns ) {
 			
 			row_cols = row_columns;
