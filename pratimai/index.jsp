@@ -40,12 +40,18 @@
 				background-color: #D8BFD8;
 				border: none;
 				color: black;
-				padding: 7px 10px;
+				padding: 5px 15px;
 				text-align: center;
 				text-decoration: none;
 				display: inline-block;
 				font-size: 20px;
-				margin: 4px 2px;
+				margin: 0px 0px;
+				transition-duration: 0.4s;
+			
+			}
+				.button:hover {
+				background-color: #555555;
+				color: white;
 			}
 			ul {
 				list-style-type: none;
@@ -104,7 +110,9 @@
 		$( '.remove' ).click( function() {
 						
 			pratimai.id  = $( this ).data ( 'id' );
-								
+									
+			alert(pratimai.id);
+			
 			$( '#pratimai2_idx' ).val ( pratimai.id  );
 			
 			$( '#remove' ).submit();
@@ -187,7 +195,7 @@
 </tr>
 <%
 	Pratimai pratimai   = new Pratimai();
-	//Pratimai pratimai2 = new Pratimai();
+	Pratimai pratimai2 = new Pratimai();
 	try{	     
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -253,8 +261,8 @@
 				
 				String sql_ins;
 											
-				String pratimai2_id=request.getParameter("pratimai.id");
-				//out.println (pratimai2_idx );
+				String pratimai2_id=request.getParameter("pratimai2_idx");
+				System.out.println(pratimai2_id);
 					sql_ins=
 						"DELETE FROM `pratimai` WHERE `pratimai`.`id` = "+ "'" + pratimai2_id + "'" +";";
 						
@@ -263,7 +271,7 @@
 				int istrinta=statement.executeUpdate(sql_ins);		
 			
 			 }	
-			Pratimai pratimai2 = new Pratimai();
+			
 			while( resultSet.next() ){
 		
 			pratimai2.pav = resultSet.getString ( "pav" );
@@ -278,8 +286,8 @@
 	<td style="color:#fff"><%= resultSet.getString ("pastabos" ) %></td>
 	<td style="color:#fff"><%=resultSet.getString ( "lygis_sunkumo" ) %></td>
 	<td style="color:#fff"><%=resultSet.getString ( "id_kito_lygio" ) %></td>
-	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
-		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%=pratimai2.id%>" type="button" value="X">
+	<td><input class="dialog-link button5 edit ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
+		<input class="ui-corner-all ui-widget button button5 remove" data-id="<%=pratimai2.id%>" type="button" value="&#9747;">
 </tr>
 
 <% 		
@@ -295,7 +303,7 @@
 
 </table>
 <div align="center">
-<input class="ui-button ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">
+<input class="button5 ui-corner-all ui-widget dialog-link button font-face" data-id="" type="button" value="Prideti">
 </div>
 <center>
 
@@ -406,7 +414,7 @@
 <input type="hidden" class="edit" id="pratimai2_id" name="pratimai2_id" value="0">
 </form>
 <form method="post" action="" id="remove">
-<input type="hidden" class="edit" id="pratimai2_idx" name="pratimai2_id" value="1">
+<input type="hidden" class="edit" id="pratimai2_idx" name="pratimai2_idx" value="1">
 <input type="hidden" name="trinti" id="trinti" value="trinti">
 </form>
 </center>
