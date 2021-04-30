@@ -128,10 +128,10 @@
       var valid = true;
       allFields.removeClass( "ui-state-error" );
 
-      valid = valid && checkLength( raumenu_grupe, "raumenu grupe", 3, 16 );
+      valid = valid && checkLength( raumenu_grupe, "raumenu grupe", 1, 10 );
       valid = valid && checkLength( raumens_pav, "raumens pav", 6, 80 );
 
-      valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
+   //   valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
       valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
       /*if ( valid ) {
@@ -218,9 +218,76 @@
 
 		// cia keliam irasyma i duomenu baze
 
+		RaumenysIrGrupes raumenys = new RaumenysIrGrupes();
+		raumenys.pasiimtiRaumenuGrupes( connection );
 
+		    String add;
 
-		statement=connection.createStatement();
+		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		      
+			raumenys.pav = request.getParameter( "raumens_pav" );
+			
+			/*
+			String raumenu_grupe_is_formos = request.getParameter( "raumenu_grupe" );
+			
+			
+			raumenys.id_raumenu_grupes = raumenys.surastiRaumenuGrupesId ( raumenu_grupe_is_formos );
+
+			if ( raumenys.id_raumenu_grupes == 0 ) {
+	
+				 raumenys.id_raumenu_grupes = raumenys.pridetiRaumenuGrupe ( connection, raumenu_grupe_is_formos );
+			}
+			*/
+			raumenys.id_raumenu_grupes = Integer.parseInt ( request.getParameter( "raumenu_grupe" ) );
+		      
+			raumenys.id_raumens = Integer.parseInt ( request.getParameter("raumenys2_id") );
+
+			String sql_ins ="";
+
+			  if (raumenys.id_raumens !=0){
+
+			    sql_ins=
+			      "UPDATE `raumenys` SET "
+				+ "`pav`"					+ '=' + "'" + raumenys.pav  + "'"
+			      + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
+			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
+			  } else {
+
+			    sql_ins =
+			      "INSERT INTO `raumenys`"
+			      + " ( `pav`, `id_raumens`, `id_raumenu_grupes`)"
+			      + " VALUES ( "
+			      + "'" 	   	+ raumenys.pav               +"'"
+			      + "," + "'" + raumenys.id_raumens        +"'"
+			      + "," + "'" + raumenys.id_raumenu_grupes +"'"
+			      + " )";
+				out.println ( sql_ins );
+			    statement_change = connection.createStatement();
+			    resultSetChange = statement_change.executeUpdate(sql_ins);
+
+			  }
+		      }
+
+  
+
+        String remove= "";
+
+        if  ( ( ( remove = request.getParameter("trinti")  ) != null ) && remove.equals ( "trinti" ) ){
+
+          String sql_ins;
+
+          String raumenys2_id=request.getParameter("raumenys.id");
+
+            sql_ins=
+              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id+ "'" +";";
+
+          System.out.println(sql_ins);
+          statement=connection.createStatement();
+          int istrinta=statement.executeUpdate(sql_ins);
+
+        }
+
+	statement=connection.createStatement();
 		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
@@ -232,16 +299,26 @@
   <form id="raumenu_sarasas" method="POST" action="">
     <fieldset>
       <label for="raumenu_grupe">raumenu grupe</label>
-      <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
+      <select name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
+      <%
+		for (int i=0; i < raumenys.kiek_raumenu_grupiu; i++ ) {
+      %>
+		<option value="<%= raumenys.raumenu_grupes [ i ].id %>"><%= raumenys.raumenu_grupes [ i ].raumenu_grupe %>
+      <%
+		}
+      %>
+      </select>
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
-	<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
+	//<!-- prisideti input type="hidden" name="add" value=" .. ".. -->
+      <input type="hidden" class="edit" id="raumenys2_id" name="raumenys2_id" value="0">
+      <input type="hidden" name="add" id="trinti" value="papildyti">
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
   </form>
 </div>
-
+<input type="hidden" name="trinti" id="trinti" value="trinti">
 
 <div id="users-contain" class="ui-widget">
   <h1>Esamos raumenu grupes</h1>
