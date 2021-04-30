@@ -223,10 +223,19 @@
 		    String add;
 
 		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
+		      
+			raumenys.pav = request.getParameter( "raumens_pav" );
+			String raumenu_grupe_is_formos = request.getParameter( "raumenu_grupe" );
+			
+			raumenys.pasiimtiRaumenuGrupes( connection );
+			raumenys.id_raumenu_grupes = raumenys.surastiRaumenuGrupesId ( raumenu_grupe_is_formos );
 
-			raumenys.pav = request.getParameter("pav");
-			raumenys.id_raumens = Integer.parseInt ( request.getParameter("id_raumens") );
-			raumenys.id_raumenu_grupes = Integer.parseInt(request.getParameter("id_raumenu_grupes"));
+			if ( raumenys.id_raumenu_grupes == 0 ) {
+	
+				 raumenys.id_raumenu_grupes = raumenys.pridetiRaumenuGrupe ( connection, raumenu_grupe_is_formos );
+			}
+		      
+			raumenys.id_raumens = Integer.parseInt ( request.getParameter("raumenys2_id") );
 
 			String sql_ins ="";
 
@@ -234,7 +243,7 @@
 
 			    sql_ins=
 			      "UPDATE `raumenys` SET "
-				+ "`pav`"					+ '=' + "'" + raumenys.pav 			          + "'"
+				+ "`pav`"					+ '=' + "'" + raumenys.pav  + "'"
 			      + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
 			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
 			  } else {
@@ -247,16 +256,14 @@
 			      + "," + "'" + raumenys.id_raumens        +"'"
 			      + "," + "'" + raumenys.id_raumenu_grupes +"'"
 			      + " )";
-			  out.println ( sql_ins );
+				out.println ( sql_ins );
 			    statement_change = connection.createStatement();
 			    resultSetChange = statement_change.executeUpdate(sql_ins);
 
 			  }
 		      }
 
-        statement=connection.createStatement();
-        String sql ="SELECT * FROM `raumenys`  WHERE 1";
-        resultSet = statement.executeQuery(sql);
+  
 
         String remove= "";
 
@@ -276,7 +283,7 @@
         }
 
 	statement=connection.createStatement();
-		sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
+		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
   %>
@@ -290,15 +297,15 @@
       <input type="text" name="raumenu_grupe" id="raumenu_grupe" value="" class="text ui-widget-content ui-corner-all">
       <label for="raumens_pav">raumens pav</label>
       <input type="text" name="raumens_pav" id="raumens_pav" value="" class="text ui-widget-content ui-corner-all">
-	//<!-- prisideti input type="hidden" name="add" value=" .. ".. !>
+	//<!-- prisideti input type="hidden" name="add" value=" .. ".. -->
       <input type="hidden" class="edit" id="raumenys2_id" name="raumenys2_id" value="0">
-      <input type="hidden" name="trinti" id="trinti" value="trinti">
+      <input type="hidden" name="add" id="trinti" value="papildyti">
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
   </form>
 </div>
-
+<input type="hidden" name="trinti" id="trinti" value="trinti">
 
 <div id="users-contain" class="ui-widget">
   <h1>Esamos raumenu grupes</h1>
