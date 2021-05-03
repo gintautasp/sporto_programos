@@ -49,9 +49,12 @@
 				transition-duration: 0.4s;
 			
 			}
-				.button:hover {
+			.button:hover {
 				background-color: #555555;
 				color: white;
+			}
+			.dialog-link{
+				color: black;
 			}
 			ul {
 				list-style-type: none;
