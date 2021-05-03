@@ -81,8 +81,8 @@
     .validateTips { border: 1px solid transparent; padding: 0.3em; }
 </style>
 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
 
@@ -223,18 +223,18 @@
 		    String add;
 
 		      if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
-		      
+
 			raumenys.pav = request.getParameter( "raumens_pav" );
 			String raumenu_grupe_is_formos = request.getParameter( "raumenu_grupe" );
-			
+
 			raumenys.pasiimtiRaumenuGrupes( connection );
 			raumenys.id_raumenu_grupes = raumenys.surastiRaumenuGrupesId ( raumenu_grupe_is_formos );
 
 			if ( raumenys.id_raumenu_grupes == 0 ) {
-	
+
 				 raumenys.id_raumenu_grupes = raumenys.pridetiRaumenuGrupe ( connection, raumenu_grupe_is_formos );
 			}
-		      
+
 			raumenys.id_raumens = Integer.parseInt ( request.getParameter("raumenys2_id") );
 
 			String sql_ins ="";
@@ -263,7 +263,7 @@
 			  }
 		      }
 
-  
+
 
         String remove= "";
 
