@@ -73,12 +73,16 @@
 <script>
 
   $( function() {
-    var dialog,
 
-    raumenu_grupe = $( "#raumenu_grupe" ),
-    raumens_pav = $( "#raumens_pav" ),
-    allFields = $( [] ).add( raumenu_grupe ).add( raumens_pav ),
-    tips = $( ".validateTips" );
+    var dialog, form,
+      raumens_id = $( "#id" ),
+      raumens_pav = $( "#pav" ),
+      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
+      raumenu_grupe = $( "#raumenu_grupe" ),
+      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
+
+       allFields = $( [] ).add( id ).add( pav ).add( raumenu_grupes_id ).add( raumenu_grupe ).add( raumenu_grupes_id ),
+       tips = $( ".validateTips" );
 
     function updateTips( t ) {
         tips
@@ -167,21 +171,15 @@
       $( '#id' ).val ( raumenu_grupe.id );
     });
 
+  	dialog.dialog( "open" );
+
+  });
+
     $( '.remove' ).click( function() {
 			raumenys.id  = $( this ).data ( 'id' );
 			alert(raumenys.id);
 			$( '#raumenys2_idx' ).val ( raumenys.id  );
 			$( '#remove' ).submit();
-
-    var dialog, form,
-      raumens_id = $( "#id" ),
-      raumens_pav = $( "#pav" ),
-      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
-      raumenu_grupe = $( "#raumenu_grupe" ),
-      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
-
-       allFields = $( [] ).add( id ).add( pav ).add( raumenu_grupes_id ).add( raumenu_grupe ).add( raumenu_grupes_id ),
-       tips = $( ".validateTips" );
 		});
 			// pasiimti reiksmes iš data laukelių
 			// pvz. :   pav =$( this ).data ( 'pav' )
@@ -190,11 +188,7 @@
 			// ir nepamiršti nustatyti id_raumens, kurio reikšmę pasiimti iš data laukelių
 
 			// tada padaryti
-			dialog.dialog( "open" );
-
-		})
-	});
-  } );
+  });
 
 
   </script>
@@ -273,8 +267,6 @@
 
 			  }
 		      }
-
-
 
         String remove= "";
 
