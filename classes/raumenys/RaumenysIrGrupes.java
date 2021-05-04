@@ -51,7 +51,7 @@
 				
 				if ( raumenu_grupes [ i ].raumenu_grupe.equals ( raumenu_grupe_is_formos ) ) {
 				
-					raumenu_grupes_id = raumenu_grupes [ kiek_raumenu_grupiu ].id;
+					raumenu_grupes_id = raumenu_grupes [ i ].id;
 				}
 			}		
 			return raumenu_grupes_id;

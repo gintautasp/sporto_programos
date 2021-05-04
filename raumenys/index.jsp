@@ -134,16 +134,6 @@
       valid = valid && checkRegexp( raumenu_grupe, /^[a-z]([0-9a-z_\s])+$/i, "" );
       valid = valid && checkRegexp( raumens_pav, /^[a-z]([0-9a-z_\s])+$/i, "" );
 
-      /*if ( valid ) {
-        $( "#users tbody" ).append( "<tr>" +
-          "<td>" + raumenu_grupe.val() + "</td>" +
-          "<td>" + raumens_pav.val() + "</td>" +
-        	"</tr>" );
-        	dialog.dialog( "close" );
-      }
-      return valid;
-    }
-    */
     if ( valid ) {
       $( "#raumenu_sarasas" ).submit();
     }
@@ -163,29 +153,32 @@
         }
       },
       close: function() {
-        //form[ 0 ].reset();
         allFields.removeClass( "ui-state-error" );
       }
     });
 
-    /*form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      PridetiRaumeni();
-
-    });
-    */
-
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
     });
-
-    /*  $.ajax({
-      url: "file:///darbai.csv",
-      }).done(function(data) {
-        alert(data);
-      });
-    */
+    
+	$( '.redagavimas' ).each( function() {
+	
+		$( this ).click ( function() {
+		
+			// pasiimti reiksmes iš data laukelių
+			// pvz. :   pav =$( this ).data ( 'pav' )
+			// ir sudėti į formos dialog-form, laukelius
+			// $( '#pav' ).val( pav )
+			// ir nepamiršti nustatyti id_raumens, kurio reikšmę pasiimti iš data laukelių
+			
+			// tada padaryti 
+			dialog.dialog( "open" );
+		
+		})
+	});    
   } );
+  
+
   </script>
 </head>
 
@@ -283,9 +276,23 @@
         }
 
 	statement=connection.createStatement();
-		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`,"
-		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
-		resultSet = statement.executeQuery(sql);
+	String sql =
+	
+		"SELECT " 
+			+ "`raumenys`.`id_raumens`" 
+			+  ",`raumenys`.`pav`"  
+			+  ",`raumenys`.`id_raumenu_grupes`" 
+			+ ",`raumenu_grupes`.`raumenu_grupe` "
+		+ " FROM " 
+			+ "`raumenys`" 
+		+ " LEFT JOIN "
+			+ "`raumenu_grupes` ON ( " + 
+				"`raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` "
+			+")" 
+		+" WHERE " 
+			+ " 1"
+	;
+	resultSet = statement.executeQuery(sql);
   %>
 
 <div id="dialog-form" title="prideti nauja raumeni">
