@@ -21,7 +21,7 @@
 
 	DbMySql db_mysql = new DbMySql();
 
-	CrudXY crud_programos = new CrudXY ( db_mysql, "programos", lent_programos );
+	CrudXYsimple crud_programos = new CrudXYsimple ( db_mysql, "programos", lent_programos );
 	try {
 
 		QuerySaveResult qrs = new QuerySaveResult();
@@ -92,8 +92,6 @@
 				background: lightgreen;
 			}
 		</style>
-
-		<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 		<script>
 			<%= crud_programos.jsRedagavimui ( "id_programos" ) %>
 			<%= crud_programos.jsValymui() %>
@@ -171,17 +169,9 @@
 %>
 <tr>
 	<td>
-		<input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_gal="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )">
-		<input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_gal="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )">
+		<input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_rec="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )">
+		<input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_rec="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )">
 	</td>
-
-<%
-		for ( int i = 1; i < lauk_programos.length; i++ ) {
-%>
-	<td><%=  lst_row_fields.giveMe (  lent_programos [ i ]  ) %></td>
-<%
-		}
-%>
 </tr>
 <%
 		}
