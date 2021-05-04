@@ -283,7 +283,7 @@
         }
 
 	statement=connection.createStatement();
-		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`"
+		String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`,"
 		+ "FROM `raumenys` LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` ) WHERE 1";
 		resultSet = statement.executeQuery(sql);
   %>
