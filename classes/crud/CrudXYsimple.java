@@ -75,9 +75,17 @@
 			return js_funkcija_i_redagavima;
 		}
 		
-		public String htmlRecRow ( String glue ) {
+		public String htmlRecRow ( String glue, AssocArrayList lst_row_fields  ) {
+			
+			String html_rec_row = "";
+			
+			String gluex = "";
 		
-			
-			
+			for ( int i = 1; i < laukai.length; i++ ) {
+				
+				html_rec_row += gluex + lst_row_fields.giveMe (  laukai [ i ]  );
+				gluex = glue;
+			}			
+			return html_rec_row;
 		}
 	}

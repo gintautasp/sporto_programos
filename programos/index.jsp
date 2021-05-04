@@ -172,6 +172,9 @@
 		<input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_rec="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )">
 		<input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_rec="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )">
 	</td>
+	<td>
+		<%= crud_programos.htmlRecRow ( "</td><td>", lst_row_fields ) %>
+	</td>
 </tr>
 <%
 		}

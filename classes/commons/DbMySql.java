@@ -29,6 +29,7 @@
 			try {
 		
 				connection = DriverManager.getConnection ( connectionUrl + dbName + "?useUnicode=yes&characterEncoding=UTF-8", userId, password );
+				System.out.println ( "Connect to db - ok" );				
 				
 			} catch ( Exception e ) {
 				
