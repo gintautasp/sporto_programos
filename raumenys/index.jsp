@@ -56,20 +56,6 @@
       margin: 4px 2px;
     }
 
-    /*
-    body {
-    font-family: Arial, Helvetica, sans-serif;
-    }
-
-    table {
-    font-size: 1em;
-    }
-
-    .ui-draggable, .ui-droppable {
-    background-position: top;
-    }
-    */
-
     label, input { display:block; }
     input.text { margin-bottom:12px; width:95%; padding: .4em; }
     fieldset { padding:0; border:0; margin-top:25px; }
@@ -160,24 +146,56 @@
     $( "#create-user" ).button().on( "click", function() {
       dialog.dialog( "open" );
     });
-    
+
+    raumenys = { id:0, pav:'', raumenu_grupes_id:0}
+    raumenu_grupes = {raumenu_grupe:'', id:0}
+
 	$( '.redagavimas' ).each( function() {
-	
+
 		$( this ).click ( function() {
-		
+
+      raumenys.id 			           	= $( this ).data( 'id' );
+      raumenys.pav			           	= $( this ).data( 'pav' );
+      raumenys.raumenu_grupes_id 		= $( this ).data( 'raumenu_grupes_id' );
+      raumenu_grupes.raumenu_grupe 	= $( this ).data( 'raumenu_grupe' );
+      raumenu_grupes.id			        = $( this ).data( 'id' );
+
+      $( '#id' ).val ( raumenys.id );
+      $( '#pav' ).val ( raumenys.pav );
+      $( '#raumenu_grupes_id' ).val ( raumenys.raumenu_grupes_id );
+      $( '#raumenu_grupe' ).val ( raumenu_grupe.raumenu_grupes);
+      $( '#id' ).val ( raumenu_grupe.id );
+    });
+
+    $( '.remove' ).click( function() {
+			raumenys.id  = $( this ).data ( 'id' );
+			alert(raumenys.id);
+			$( '#raumenys2_idx' ).val ( raumenys.id  );
+			$( '#remove' ).submit();
+
+    var dialog, form,
+      raumens_id = $( "#id" ),
+      raumens_pav = $( "#pav" ),
+      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
+      raumenu_grupe = $( "#raumenu_grupe" ),
+      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
+
+       allFields = $( [] ).add( id ).add( pav ).add( raumenu_grupes_id ).add( raumenu_grupe ).add( raumenu_grupes_id ),
+       tips = $( ".validateTips" );
+		});
 			// pasiimti reiksmes iš data laukelių
 			// pvz. :   pav =$( this ).data ( 'pav' )
 			// ir sudėti į formos dialog-form, laukelius
 			// $( '#pav' ).val( pav )
 			// ir nepamiršti nustatyti id_raumens, kurio reikšmę pasiimti iš data laukelių
-			
-			// tada padaryti 
+
+			// tada padaryti
 			dialog.dialog( "open" );
-		
+
 		})
-	});    
+	});
   } );
-  
+
 
   </script>
 </head>
@@ -277,19 +295,19 @@
 
 	statement=connection.createStatement();
 	String sql =
-	
-		"SELECT " 
-			+ "`raumenys`.`id_raumens`" 
-			+  ",`raumenys`.`pav`"  
-			+  ",`raumenys`.`id_raumenu_grupes`" 
+
+		"SELECT "
+			+ "`raumenys`.`id_raumens`"
+			+  ",`raumenys`.`pav`"
+			+  ",`raumenys`.`id_raumenu_grupes`"
 			+ ",`raumenu_grupes`.`raumenu_grupe` "
-		+ " FROM " 
-			+ "`raumenys`" 
+		+ " FROM "
+			+ "`raumenys`"
 		+ " LEFT JOIN "
-			+ "`raumenu_grupes` ON ( " + 
+			+ "`raumenu_grupes` ON ( " +
 				"`raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` "
-			+")" 
-		+" WHERE " 
+			+")"
+		+" WHERE "
 			+ " 1"
 	;
 	resultSet = statement.executeQuery(sql);
