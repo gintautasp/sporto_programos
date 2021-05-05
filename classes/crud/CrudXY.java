@@ -42,7 +42,9 @@
 			
 			while ( db_mysql.flag_got_rows ) {
 				
-				options += "<option value=\"" + db_mysql.result_select.getString ( flied_value ) + "\">" +  db_mysql.result_select.getString ( flied_name  ) + "</option>";
+				 AssocArrayList option  = db_mysql.giveSelectedRow();
+				
+				options += "<option value=\"" + option.giveMe ( flied_value ) + "\">" +  option.giveMe ( flied_name  ) + "</option>";
 			}
 			return options;
 		}
