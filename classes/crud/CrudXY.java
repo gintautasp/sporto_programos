@@ -31,4 +31,19 @@
 			}			
 			return qrs;
 		}
+		
+		public String getListAsOptions ( String table, String field_value, String field_name  ) {
+			
+			String sql_list = "SELECT `" + field_value + "`, `"  + field_name + "` FROM `" + table + "` WHERE 1";
+
+			db_mysql. select ( "list_options", sql_list, { field_value, field_name } );
+			
+			String options = "";
+			
+			while ( db_mysql.flag_got_rows ) {
+				
+				options += "<option value=\"" + db_mysql.result_select.getString ( flied_value ) + "\">" +  db_mysql.result_select.getString ( flied_name  ) + "</option>";
+			}
+			return options;
+		}
 	}
