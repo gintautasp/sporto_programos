@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,klientai.Kliento_krit" %>
+<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,klientai_treniruociu_planai.KlientaiTreniruociuPlanai" %>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -28,7 +28,6 @@
 				src: local('Race Sport Free Regular'), url(../pratimai/RaceSport-nR1j0.woff) format('woff');
 			}
 			table {
-				
 				border-radius:6px;
 			}
 			td, th {
@@ -37,18 +36,6 @@
 				border-radius:6px;
 				background-color: #9370DB;				
 			}
-
-			<!--
-			#listKlientai th, #listKlientai td {
-				margin: 5px; 
-				padding: 1px;
-				border: 1px solid black;
-			}
-			#users th, #users td {
-				margin: 5px; 
-				padding: 5px;
-				border: 1px solid black;
-			} -->
 			mygtukas{
 				background-color: #D8BFD8;
 				border: none;
@@ -118,15 +105,12 @@
 				var dialog, form,
 				 
 				id = $( "#id" ),
-				pav = $( "#pav" ),
-				amzius = $( "#amzius" ),
-				ugis = $( "#ugis" ),
-				lytis = $( "#lytis" ),
-				svoris = $( "#svoris" ),
-				pasiruosimo_lygis = $( "#pasiruosimo_lygis" ),
-				traumos_ligos = $( "#traumos_ligos" ),
+				id_kliento = $( "#id_kliento" ),
+				pav_treniruotes_plano = $( "#pav_treniruotes_plano" ),
+				data = $( "#data" ),
+				rezultatai = $( "#rezultatai" ),
 				
-				allFields = $( [] ).add( id ).add( pav ).add( amzius ).add( ugis ).add( lytis ).add( svoris ).add( pasiruosimo_lygis ).add( traumos_ligos ),
+				allFields = $( [] ).add( id ).add( id_kliento ).add( pav_treniruotes_plano ).add( data ).add( rezultatai ),
 				tips = $( ".validateTips" );
 				 
 				function updateTips( t ) {
@@ -163,14 +147,9 @@
 					var valid = true;
 					allFields.removeClass( "ui-state-error" );
 					 
-					valid = valid && checkLength( pav, "Vardas", 3, 30 );
-					valid = valid && checkLength( amzius, "Amžius", 1, 2 );
-					valid = valid && checkLength( ugis, "Ūgis", 1, 3 );
-					valid = valid && checkLength( svoris, "Svoris", 1, 3 );
-					valid = valid && checkLength( pasiruosimo_lygis, "Pasiruosimo lygis", 5, 80 );
-					valid = valid && checkLength( traumos_ligos, "Traumos / Ligos", 5, 30);
+					valid = valid && checkLength( rezultatai, "rezultaitai", 3, 30 );
 				 
-					valid = valid && checkRegexp( pav, /^[a-ząčęėįšųūž]([0-9a-ząčęėįšųūž_\s])+$/i, "Vardą gali sudaryti tik raidės" );
+					//valid = valid && checkRegexp( lytis, /^[a-ząčęėįšųūž]([0-9a-ząčęėįšųūž_\s])+$/i, "Vardą gali sudaryti tik raidės" );
 				 
 					if ( valid ) {
 					$("#ivedimoForm").submit();
@@ -192,6 +171,11 @@
 					},
 					close: function() {
 					allFields.removeClass( "ui-state-error" );
+					
+					$( '#id' ).val ( 0 );						//nurodom id iš ivedimo eilutes apacioje, kad pakeisti jo reikšmę
+					$( '#pav_treniruotes_plano' ).val ( 0 );
+					$( '#data' ).val ( "2021-04-30" );
+					$( '#rezultatai' ).val ( "rezultatas" );	
 					}
 				});
 				 
@@ -201,25 +185,20 @@
 				
 				$( '.reda' ).click ( function() {
 				
-					kriterijai2 = { id: 0, pav: 0, amzius:0, ugis: 0, lytis: 0, svoris: 0 , pasiruosimas:0, traumos:0};
+					kriterijai2 = { id: 0, pav_treniruotes_plano:0,id_treniruotes_plano:0, data: 0, rezultatai: 0};
 					
 					kriterijai2.id				= $( this ).data('id');
-					kriterijai2.pav		  		= $( this ).data( 'pav' );
-					kriterijai2.amzius  			= $( this ).data( 'amzius' );
-					kriterijai2.ugis  				= $( this ).data( 'ugis' );
-					kriterijai2.lytis  				= $( this ).data( 'lytis' );
-					kriterijai2.svoris  			= $( this ).data( 'svoris' );			
-					kriterijai2.pasiruosimas  		= $( this ).data( 'pasiruosimo_lygis' );			
-					kriterijai2.traumos  			= $( this ).data( 'traumos_ligos' );			
 					
-					$( '#kliento_id' ).val ( kriterijai2.id );						//nurodom id iš ivedimo eilutes apacioje, kad pakeisti jo reikšmę
-					$( '#pav' ).val ( kriterijai2.pav );
-					$( '#amzius' ).val ( kriterijai2.amzius );
-					$( '#ugis' ).val ( kriterijai2.ugis );
-					$( '#lytis' ).val ( kriterijai2.lytis );			
-					$( '#svoris' ).val ( kriterijai2.svoris );			
-					$( '#pasiruosimo_lygis' ).val ( kriterijai2.pasiruosimas );			
-					$( '#traumos_ligos' ).val ( kriterijai2.traumos );
+					kriterijai2.id_treniruotes_plano	= $( this ).data( 'id_treniruotes_plano' );
+					kriterijai2.data  				= $( this ).data( 'data' );
+					kriterijai2.rezultatai  			= $( this ).data( 'rezultatai' );			
+					
+					$( '#id' ).val ( kriterijai2.id );						//nurodom id iš ivedimo eilutes apacioje, kad pakeisti jo reikšmę
+					
+					$( '#id_treniruotes_plano' ).val ( kriterijai2.id_treniruotes_plano );
+					$( '#data' ).val ( kriterijai2.data );
+					$( '#rezultatai' ).val ( kriterijai2.rezultatai );			
+
 				
 					dialog.dialog( "open" );
 				
@@ -268,7 +247,6 @@
   <li><a class="font-face" href="#apie">Apie</a></li>
 </ul>
 
-<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Klientu informacija</strong></h2>
 <div id="users-contain" class="ui-widget"> 
 <table style="padding: 2px; margin: 10px; margin-left: auto; margin-right: auto" id="users" >		<!--Lenteles parametrai-->
 <tr >
@@ -276,20 +254,17 @@
 </tr>
 <tr>							<!-- Virsus -->
 	<th class="font-face">ID</th>
-	<th class="font-face">Pavadinimas</th>
-	<th class="font-face">Amžius</th>
-	<th class="font-face">Ugis cm</th>
-	<th class="font-face">Lytis</th>
-	<th class="font-face">Svoris kg</th>
-	<th class="font-face">Pasiruosimo lygis</th>
-	<th class="font-face">Traumos bei ligos</th>
+	<th class="font-face">K. ID</th>
+	<th class="font-face">Treniruotes planas</th>
+	<th class="font-face">Data</th>
+	<th class="font-face">Rezultatai</th>
 	<th class="font-face">Veiksmai</th>
 	
 </tr>
 <%
 
-	Kliento_krit kriterijai = new Kliento_krit ();
-	Kliento_krit kriterijai2 = new Kliento_krit ();
+	KlientaiTreniruociuPlanai kriterijai = new KlientaiTreniruociuPlanai ();
+	KlientaiTreniruociuPlanai kriterijai2 = new KlientaiTreniruociuPlanai ();
 	
 	try{
 	     
@@ -298,59 +273,52 @@
 		response.setCharacterEncoding("UTF-8");		
 		
 	} catch(Exception e) {}
-
+	
+	String id_asmens = request.getParameter ( "ik" );
 	try{ 
 	
 		String jdbcutf8 = ""; //  "&useUnicode=true&characterEncoding=UTF-8";	
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );
 		
 		String add;	
-		String trintis;
+		String trintis;		
 
 		String manoId = request.getParameter( "idd" );  
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "Papildyti" ) ) {
 		
 		kriterijai2.id =  request.getParameter( "id" );
-		kriterijai.pav =  request.getParameter( "pav" );
-		kriterijai.amzius =  request.getParameter( "amzius" );
-		kriterijai.ugis =  request.getParameter( "ugis" );
-		kriterijai.lytis =  request.getParameter( "lytis" );
-		kriterijai.svoris =  request.getParameter( "svoris" );	
-		kriterijai.pasiruosimas =  request.getParameter( "pasiruosimo_lygis" );	
-		kriterijai.traumos =  request.getParameter( "traumos_ligos" );	
+		kriterijai.pav_treniruotes_plano =  request.getParameter( "pav_treniruotes_plano" );
+		kriterijai.data =  request.getParameter( "data" );
+		kriterijai.rezultatai =  request.getParameter( "rezultatai" );
+		kriterijai.id_treniruotes_plano =  request.getParameter( "id_treniruotes_plano" );
+
 			
 			String sql_ins ="";			
 			if (Integer.parseInt(kriterijai2.id) !=0){
 			
 				sql_ins =
-					"UPDATE `klientai` SET "
-						+"`pav` ='"+ kriterijai.pav +"', "
-						+"`amzius`='" + kriterijai.amzius +"', "
-						+"`ugis`='"+ kriterijai.ugis +"', "
-						+"`lytis`='"+ kriterijai.lytis +"', "
-						+"`svoris` = '"+ kriterijai.svoris +"',"
-						+"`pasiruosimo_lygis` = '"+ kriterijai.pasiruosimas +"',"
-						+"`traumos_ligos` = '"+ kriterijai.traumos +"'"
-						+ " WHERE `klientai`.`id` = "+kriterijai2.id+";";
+					"UPDATE `klientai_treniruociu_planai` SET "
+						+"`id_kliento` ='"+ id_asmens+"', "
+						+"`id_treniruotes_plano`='" + kriterijai.id_treniruotes_plano +"', "
+						+"`data`='"+ kriterijai.data +"', "
+						+"`rezultatai`='"+ kriterijai.rezultatai +"'"
+						+ " WHERE `klientai_treniruociu_planai`.`id` = "+kriterijai2.id+";";
 			
 			}else{
 			
 				sql_ins = 
-				"INSERT INTO `klientai`"
-					+ " ( `id`,`pav`, `amzius`, `ugis`,`lytis`, `svoris`,`pasiruosimo_lygis`,`traumos_ligos` )"
+				"INSERT INTO `klientai_treniruociu_planai`"
+					+ " ( `id`,`id_kliento`, `id_treniruotes_plano`, `data`,`rezultatai` )"
 					+ " VALUES ( "	
 						+"NULL"
-						+ ", '" + kriterijai.pav + "' "
-						+ ", '" + kriterijai.amzius + "' "
-						+ ", '" + kriterijai.ugis + "' "
-						+ ", '" + kriterijai.lytis + "' "
-						+ ", '" + kriterijai.svoris + "' "
-						+ ", '" + kriterijai.pasiruosimas + "' "
-						+ ", '" + kriterijai.traumos + "' "
+						+ ", '" + id_asmens + "' "
+						+ ", '" + kriterijai.id_treniruotes_plano + "' "
+						+ ", '" + kriterijai.data + "' "
+						+ ", '" + kriterijai.rezultatai + "' "
 					+ " );";
 			}
-			//out.println ( sql_ins );   //print ln pasitikrinimui inserto
+			out.println ( sql_ins );   //print ln pasitikrinimui inserto
 
 			statement_change = connection.createStatement();
 			resultSetChange = statement_change.executeUpdate(sql_ins);
@@ -359,50 +327,56 @@
 			
 			if((Integer.parseInt(manoId))!=0){
 			String sql_ins ="";
-			sql_ins = "DELETE FROM `klientai` WHERE `klientai`.`id` = "+manoId+";";
+			sql_ins = "DELETE FROM `klientai_treniruociu_planai` WHERE `klientai_treniruociu_planai`.`id` = "+manoId+";";
 			
-			//out.println ( sql_ins );   //print ln pasitikrinimui inserto
+			out.println ( sql_ins );   //print ln pasitikrinimui inserto
 
 			statement_change = connection.createStatement();
 			resultSetChange = statement_change.executeUpdate(sql_ins);
 			}			
 		 }
-		
 		statement=connection.createStatement();		
-		String sql ="SELECT * FROM `klientai`  WHERE 1";
+		String sql =
+		"SELECT `klientai_treniruociu_planai`.`id`,`klientai`.`id` AS `id_kliento`"
+			+", `klientai`.`pav` AS `vardas` ,`treniruociu_planai`.`pav` AS `pav_treniruotes_plano`, `klientai_treniruociu_planai`.`id_treniruotes_plano` AS `id_treniruotes_plano` "
+			+",`klientai_treniruociu_planai`.`data` ,`klientai_treniruociu_planai`.`rezultatai` "
+			+"FROM `klientai_treniruociu_planai` "
+			+"JOIN `klientai` ON ( `klientai_treniruociu_planai`.`id_kliento`=`klientai`.`id` ) "
+			+"JOIN `treniruociu_planai` ON ( `klientai_treniruociu_planai`.`id_treniruotes_plano`= `treniruociu_planai`.`id` )"
+			+" WHERE id_kliento='"+id_asmens+"'";
 
 		resultSet = statement.executeQuery(sql);
-		 
+		
+
+
 		while( resultSet.next() ){
 			
 			kriterijai2.id = resultSet.getString ( "id" );
-			kriterijai2.pav = resultSet.getString ( "pav" );
-			kriterijai2.amzius = resultSet.getString ( "amzius" );
-			kriterijai2.ugis = resultSet.getString ( "ugis" );
-			kriterijai2.lytis = resultSet.getString  ("lytis" ) ;
-			kriterijai2.svoris = resultSet.getString ( "svoris" );
-			kriterijai2.pasiruosimas = resultSet.getString ( "pasiruosimo_lygis" );
-			kriterijai2.traumos = resultSet.getString ( "traumos_ligos" );
+			kriterijai2.id_kliento = resultSet.getString ( "id_kliento" );
+			kriterijai2.pav_treniruotes_plano = resultSet.getString ( "pav_treniruotes_plano" );
+			kriterijai2.data = resultSet.getString ( "data" );
+			kriterijai2.rezultatai = resultSet.getString  ("rezultatai" ) ;
+			kriterijai2.vardas = resultSet.getString  ( "vardas" ) ;
+			kriterijai2.id_treniruotes_plano = resultSet.getString  ("id_treniruotes_plano" ) ;
 %>	
 
 <tr style="background-color: ##DEB887; padding: 1px " >    
 	<td style="color:#fff"><%=kriterijai2.id %></td>
-	<td style="color:#fff"><a href="/sporto_programos/klientai_treniruociu_planai?ik=<%= kriterijai2.id %>"><%=kriterijai2.pav %></a></td>
-	<td style="color:#fff"><%=kriterijai2.amzius %></td>
-	<td style="color:#fff"><%=kriterijai2.ugis  %></td>
-	<td style="color:#fff"><%=kriterijai2.lytis%></td>
-	<td style="color:#fff"><%=kriterijai2.svoris %></td>
-	<td style="color:#fff"><%=kriterijai2.pasiruosimas %></td>
-	<td style="color:#fff"><%=kriterijai2.traumos %></td>
+	<td style="color:#fff"><%=kriterijai2.id_kliento %></td>
+	<td style="color:#fff"><%=kriterijai2.pav_treniruotes_plano %></td>
+	<td style="color:#fff"><%=kriterijai2.data  %></td>
+	<td style="color:#fff"><%=kriterijai2.rezultatai%></td>
 	<td>
-		<input data-id="<%=kriterijai2.id%>"data-pav="<%=kriterijai2.pav%>" data-amzius="<%=kriterijai2.amzius%>" data-ugis="<%=kriterijai2.ugis%>" data-lytis="<%=kriterijai2.lytis%>" data-svoris="<%=kriterijai2.svoris%>" data-pasiruosimo_lygis="<%=kriterijai2.pasiruosimas%>" data-traumos_ligos="<%=kriterijai2.traumos%>" type="button" value="&#9881" class="reda" style="mygtukas">
+		<input data-id="<%=kriterijai2.id%>"data-id_kliento="<%=kriterijai2.id_kliento%>"data-id_treniruotes_plano="<%=kriterijai2.id_treniruotes_plano%>" data-pav_treniruotes_plano="<%=kriterijai2.pav_treniruotes_plano%>" data-data="<%=kriterijai2.data%>" data-rezultatai="<%=kriterijai2.rezultatai%>" type="button" value="&#9881" class="reda">
 		<input data-id="<%=kriterijai2.id%>"type="button" value="X" class="trinti" >
 	</td>
 </tr>
 
 <% 
 		}
-
+		 %>
+			<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong><%=kriterijai2.vardas%></strong></h2>
+		<%
 	} catch (Exception e) {
 	
 		e.printStackTrace();
@@ -411,26 +385,39 @@
 </table >  <!-- Ivedimo lenteles parametrai-->
 </div > 
 <div style="text-align: center;"> 
-<button id="create-user" class="ui-button ui-corner-all ui-widget dialog-link button font-face"><strong>Sukurti nauja klienta</strong></button>
+<button id="create-user" class="ui-button ui-corner-all ui-widget dialog-link button font-face"><strong>Priskirti programa klientui</strong></button>
 </div>
 <div id="dialog-form" title="Naujas klientas" >
 	<p class="validateTips">Užpildykite visus laukus</p>
 	<fieldset>
 		<form method="post" action="" id="ivedimoForm">
 		<table style="border: 5px solid black" id="listKlientai">
-		<!-- Apacia -->	
-		<tr>		<th>Kliento vardas	</th>	<td>	<input type="text" name="pav" value="Vardas Pavardė" id="pav" class="text ui-widget-content ui-corner-all">							</td></tr>
-		<tr>		<th>Amžius		</th>	<td>	<input type="number" name="amzius" value="1" id="amzius" class="text ui-widget-content ui-corner-all">								</td></tr>
-		<tr>		<th>Ūgis cm		</th>	<td>	<input type="number" name="ugis" value="1" id="ugis" class="text ui-widget-content ui-corner-all">									</td></tr>
-		<tr>		<th>Lytis			</th>	<td>	<select name="lytis" id="lytis" class="text ui-widget-content ui-corner-all">
-												<option value="" selected disabled hidden>Pasirinkite lytį</option>
-												<option value="Vyras">Vyras</option>
-												<option value="Moteris">Moteris</option> </select>																		</td></tr>
-		<tr>		<th>Svoris kg		</th>	<td ><input type="number" name="svoris" value="1" id="svoris" class="text ui-widget-content ui-corner-all">									</td></tr>
-		<tr>		<th>Pasiruošimo lygis	</th>	<td ><input type="text" name="pasiruosimo_lygis" value="(val/sav) / pask. metus" id="pasiruosimo_lygis" class="text ui-widget-content ui-corner-all">		</td></tr>
-		<tr>		<th>Traumos bei ligos	</th>	<td ><input type="text" name="traumos_ligos" value="Atkreiptinos traumos/ligos" id="traumos_ligos" class="text ui-widget-content ui-corner-all">			</td></tr>
+		<!-- Apacia -->						
+		<tr>		<th>Treniruotes plano ID</th>	
+			<td>
+				<select id="id_treniruotes_plano" name="id_treniruotes_plano" >
+					<option value="0" selected disabled hidden>Pasirinkite treniruotės planą</option>
+						<%
+							try{ 	
+								String sql ="SELECT * FROM `treniruociu_planai`  WHERE 1";
+
+								resultSet = statement.executeQuery(sql);
+								while( resultSet.next() ){
+									kriterijai2.id = resultSet.getString ( "id" );
+									kriterijai2.pav_treniruotes_plano = resultSet.getString ( "pav" );%>
+											
+									<option value="<%=kriterijai2.id %>"> <%=kriterijai2.id %> - <%=kriterijai2.pav_treniruotes_plano %></option>
+											
+									<%	} }catch (Exception e) { e.printStackTrace(); }	%>
+				</select>				
+			</td>
+		</tr>
+		<% SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); %>
+		<tr>		<th>Data					</th>	<td>	<input type="date" name="data" value="<%= sdf.format(new Date()) %>" id="data" class="text ui-widget-content ui-corner-all">									</td></tr>
+		<tr>		<th>Rezultatai				</th>	<td>	<input type="text" name="rezultatai" value="rezultatas" id="rezultatai" class="text ui-widget-content ui-corner-all">							</td></tr>
+
 		</table>
-		<input type="hidden" id="kliento_id" name="id" value="0">  
+		<input type="hidden" id="id" name="id" value="0">  
 		<input type="hidden" name="add" value="Papildyti">
 </form>
 </fieldset>
