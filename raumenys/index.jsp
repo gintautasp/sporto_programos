@@ -75,13 +75,11 @@
   $( function() {
 
     var dialog, form,
-      raumens_id = $( "#id" ),
-      raumens_pav = $( "#pav" ),
-      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
-      raumenu_grupe = $( "#raumenu_grupe" ),
+      raumens_id = $( "#raumenys2_id" ),
+      raumens_pav = $( "#raumens_pav" ),
       raumenu_grupes_id = $( "#raumenu_grupes_id" ),
 
-       allFields = $( [] ).add( id ).add( pav ).add( raumenu_grupes_id ).add( raumenu_grupe ).add( raumenu_grupes_id ),
+       allFields = $( [] ).add( raumens_id ).add( raumens_pav ).add( raumenu_grupe ),
        tips = $( ".validateTips" );
 
     function updateTips( t ) {
@@ -169,10 +167,8 @@
       $( '#raumenu_grupes_id' ).val ( raumenys.raumenu_grupes_id );
       $( '#raumenu_grupe' ).val ( raumenu_grupe.raumenu_grupes);
       $( '#id' ).val ( raumenu_grupe.id );
+      dialog.dialog( "open" );
     });
-
-  	dialog.dialog( "open" );
-
   });
 
     $( '.remove' ).click( function() {
@@ -249,7 +245,7 @@
 			    sql_ins=
 			      "UPDATE `raumenys` SET "
 				+ "`pav`"					+ '=' + "'" + raumenys.pav  + "'"
-			      + ","	+ "`pastabos`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
+			      + ","	+ "`id_raumenu_grupes`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
 			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
 			  } else {
 
