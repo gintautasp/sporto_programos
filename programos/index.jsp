@@ -157,20 +157,13 @@
 		String sql = crud_programos.select( "" );
 
 		while( crud_programos.db_mysql.flag_got_rows ) {
-
-			String rec_data = "";
-
+		
 			AssocArrayList lst_row_fields = crud_programos.db_mysql.giveSelectedRow();
-
-			for ( int i = 1; i < lauk_programos.length; i++ ) {
-				rec_data += " data-"  + ( lent_programos [ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_programos [ i ]  ) ) + "\"";
-			}
-			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
 %>
 <tr>
 	<td>
-		<input type="button" class="record_edit"  id="toEdit_<%= id_rec  %>" data-id_rec="<%= id_rec  %>"<%= rec_data %> value="&#9998;" onClick="iRedagavima( <%= id_rec %> )">
-		<input type="button" class="delete"  id="toDelete_<%= id_rec  %>" data-id_rec="<%= id_rec %>" value="&#10007;" onClick="iTrinima( <%= id_rec %> )">
+		<input type="button" class="record_edit" <%= crud_programos.getDataList() %> value="&#9998;" onClick="iRedagavima( <%= lst_row_fields.giveMe (  "id" ) %> )">
+		<input type="button" class="delete" value="&#10007;" onClick="iTrinima( <%= lst_row_fields.giveMe (  "id" ) %> )">
 	</td>
 	<td>
 		<%= crud_programos.htmlRecRow ( "</td><td>", lst_row_fields ) %>
