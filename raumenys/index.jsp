@@ -267,10 +267,10 @@
 
           String sql_ins;
 
-          String raumenys2_id=request.getParameter("raumenys.id");
+          String raumenys2_id=request.getParameter("idx");
 
             sql_ins=
-              "DELETE FROM `raumenys` WHERE `raumenys`.`id` = "+ "'" + raumenys2_id+ "'" +";";
+              "DELETE FROM `raumenys` WHERE `raumenys`.`id_raumens` = "+ "'" + raumenys2_id+ "'" +";";
 
           System.out.println(sql_ins);
           statement=connection.createStatement();
@@ -349,7 +349,7 @@
 	//<td><%= raumenys2.id_raumenu_grupes %></td>
 	<td><%= raumenys2.raumenu_grupe %></td>
 	<td><input class="dialog-link edit ui-button ui-corner-all ui-widget button redagavimas" data-pav="<%= raumenys2.pav %>" data-id_raumens="<%= raumenys2.id_raumens %>" data-id_raumenu_grupes="<%= raumenys2.id_raumenu_grupes %>" data-raumenu_grupe="<%= raumenys2.raumenu_grupe %>" data-id="" type="button" value="&#9881" id="keiciam">
-		<input class="ui-button ui-corner-all ui-widget dialog-link button" data-id="<%= raumenys2.id_raumens %>" type="button" value="X">
+		<input class="ui-button ui-corner-all ui-widget dialog-link button remove" data-id="<%= raumenys2.id_raumens %>" type="button" value="X">
 
 </tr>
 <%
