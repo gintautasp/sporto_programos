@@ -77,7 +77,7 @@
     var dialog, form,
       raumens_id = $( "#raumenys2_id" ),
       raumens_pav = $( "#raumens_pav" ),
-      raumenu_grupes_id = $( "#raumenu_grupes_id" ),
+      raumenu_grupe = $( "#raumenu_grupe" ),
 
        allFields = $( [] ).add( raumens_id ).add( raumens_pav ).add( raumenu_grupe ),
        tips = $( ".validateTips" );
@@ -150,26 +150,23 @@
     });
 
     raumenys = { id:0, pav:'', raumenu_grupes_id:0}
-    raumenu_grupes = {raumenu_grupe:'', id:0}
+    raumenu_grupes = { raumenu_grupe:'', id:0 }
 
 	$( '.redagavimas' ).each( function() {
 
 		$( this ).click ( function() {
 
-      raumenys.id 			           	= $( this ).data( 'id' );
-      raumenys.pav			           	= $( this ).data( 'pav' );
-      raumenys.raumenu_grupes_id 		= $( this ).data( 'raumenu_grupes_id' );
-      raumenu_grupes.raumenu_grupe 	= $( this ).data( 'raumenu_grupe' );
-      raumenu_grupes.id			        = $( this ).data( 'id' );
+			raumenys.id 			           	= $( this ).data( 'id_raumens' );
+			raumenys.pav			           	= $( this ).data( 'pav' );
+			raumenu_grupes.raumenu_grupe 		= $( this ).data( 'raumenu_grupe' );
 
-      $( '#id' ).val ( raumenys.id );
-      $( '#pav' ).val ( raumenys.pav );
-      $( '#raumenu_grupes_id' ).val ( raumenys.raumenu_grupes_id );
-      $( '#raumenu_grupe' ).val ( raumenu_grupe.raumenu_grupes);
-      $( '#id' ).val ( raumenu_grupe.id );
-      dialog.dialog( "open" );
-    });
-  });
+			$( '#raumenys2_id' ).val ( raumenys.id );
+			$( '#raumens_pav' ).val ( raumenys.pav );
+			$( '#raumenu_grupe' ).val ( raumenu_grupes.raumenu_grupe );
+
+			dialog.dialog( "open" );
+		});
+	});
 
     $( '.remove' ).click( function() {
 			raumenys.id  = $( this ).data ( 'id' );
@@ -244,9 +241,10 @@
 
 			    sql_ins=
 			      "UPDATE `raumenys` SET "
-				+ "`pav`"					+ '=' + "'" + raumenys.pav  + "'"
-			      + ","	+ "`id_raumenu_grupes`" 		+ '=' + "'" + raumenys.id_raumenu_grupes 	+ "'"
-			      + ","	+ "WHERE `id_raumens`=" + raumenys.id_raumens ;
+				+ "`pav`='" + raumenys.pav  + "'"
+			      + ","	+ "`id_raumenu_grupes`='" + raumenys.id_raumenu_grupes 	+ "'"
+			      + " WHERE `id_raumens`=" + raumenys.id_raumens ;
+
 			  } else {
 
 			    sql_ins =
@@ -257,11 +255,10 @@
 			      + "," + "'" + raumenys.id_raumens        +"'"
 			      + "," + "'" + raumenys.id_raumenu_grupes +"'"
 			      + " )";
-				out.println ( sql_ins );
-			    statement_change = connection.createStatement();
-			    resultSetChange = statement_change.executeUpdate(sql_ins);
-
 			  }
+			  System.out.println ( sql_ins );
+			   statement_change = connection.createStatement();
+			   resultSetChange = statement_change.executeUpdate(sql_ins);
 		      }
 
         String remove= "";
@@ -318,6 +315,12 @@
     </fieldset>
   </form>
 </div>
+
+<form id="remove" method="POST" action="">
+	<input type="hidden" id="raumenys2_idx" name="idx" value="0">
+	<input type="hidden" name="trinti" id="trinti" value="trinti">
+</form>
+
 <input type="hidden" name="trinti" id="trinti" value="trinti">
 
 <div id="users-contain" class="ui-widget">
