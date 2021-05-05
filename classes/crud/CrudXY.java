@@ -46,7 +46,7 @@
 					
 					AssocArrayList option  = db_mysql.giveSelectedRow();
 					
-					options += "<option value=\"" + option.giveMe ( flied_value ) + "\">" +  option.giveMe ( flied_name  ) + "</option>";
+					options += "<option value=\"" + option.giveMe ( field_value ) + "\">" +  option.giveMe ( field_name  ) + "</option>";
 				}
 				
 			} catch(Exception e){
