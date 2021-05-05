@@ -39,7 +39,7 @@
 			return qrs;
 		}
 
-		public String select ( String by ) {
+		public String select ( String by, String add_fields, String joins ) {
 
 			String comma = "";
 			String sql_sel = "SELECT ";
@@ -50,8 +50,10 @@
 				comma = ",";
 			}
 
-			sql_sel 	+= " FROM"
+			sql_sel 	+= add_fields
+					+ " FROM"
 					+ " `" + lent + "` "
+					+ joins
 					+ " WHERE "
 							+ "1"
 							+  by

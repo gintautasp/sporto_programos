@@ -154,7 +154,7 @@
 <%
 	try {
 
-		String sql = crud_programos.select( "" );
+		String sql = crud_programos.select( "", "", "" );
 
 		while( crud_programos.db_mysql.flag_got_rows ) {
 		
@@ -162,8 +162,8 @@
 %>
 <tr>
 	<td>
-		<input type="button" class="record_edit" <%= crud_programos.getDataList() %> value="&#9998;" onClick="iRedagavima( <%= lst_row_fields.giveMe (  "id" ) %> )">
-		<input type="button" class="delete" value="&#10007;" onClick="iTrinima( <%= lst_row_fields.giveMe (  "id" ) %> )">
+		<input type="button" class="record_edit"  id="toEdit_<%= lst_row_fields.giveMe (  "id" )  %>" <%= crud_programos.getDataList() %> value="&#9998;" onClick="iRedagavima( <%= lst_row_fields.giveMe (  "id" ) %> )">
+		<input type="button" class="delete" value="&#10007;"   id="toDelete_<%= lst_row_fields.giveMe (  "id" )  %>" onClick="iTrinima( <%= lst_row_fields.giveMe (  "id" ) %> )">
 	</td>
 	<td>
 		<%= crud_programos.htmlRecRow ( "</td><td>", lst_row_fields ) %>
