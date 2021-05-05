@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)http://localhost:8080/sporto_programos/raumenys/index-crud2.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		
+		<style>
+			table {
+				border-collapse: collapse;
+			}
+			form {
+				float: right;
+			}
+			input {
+				width: 111px;
+			}
+			th, td {
+				padding: 3px 4px;
+				border: 1px solid black;
+			}
+			th {
+				background-color: #A52A2A;
+			}
+			td {
+				background-color: #DEB887;
+			}
+		</style>
+
+		<script src="./index-crud2.jsp_files/jquery-3.5.1.js.atsisiųsti" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+		<script>
+				function iRedagavima ( id_rec ) {
+
+		if ( mygtukas = document.getElementById ( 'toEdit_' + id_rec ) ) {
+			document.getElementById( 'pav' ).value =  mygtukas.dataset.pav;
+			document.getElementById( 'id_raumenu_grupes' ).value =  mygtukas.dataset.id_raumenu_grupes;
+		}
+		document.getElementById ( 'id_raumens' ).value = id_rec;
+	}
+
+			function iValyma () {
+
+document.getElementById( 'pav' ).value =  ""
+document.getElementById( 'id_raumenu_grupes' ).value =  ""
+}
+
+			function iTrinima ( id_rec ) {
+
+mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );
+
+pav =  mygtukasEdit.dataset.pav;
+
+var r = confirm( 'Ar norite pasalinti raumenys ' + pav + '?' );
+
+if ( r == true ) {
+
+document.getElementById ( 'r_del' ).value = id_rec
+forma_del = document.getElementById ( 'del_rec' )
+forma_del.submit();
+}
+}
+
+		</script>
+	</head>
+<body>
+<form method="post" action="http://localhost:8080/sporto_programos/raumenys/index-crud2.jsp">
+	<input type="button" name="clear" value="valyti" onclick="iValyma()"><input type="submit" name="add" value="saugoti"><table style="border: 5px solid black" id="listRaumenys">
+		<tbody><tr>		<th>Raumenu grupe				</th>	<td>	<input type="text" name="raumenu_grupe" value="Raumenų grupė" id="pav" class="text ui-widget-content ui-corner-all">		</td></tr>
+		<tr>		<th>Raumens pavadinimas	</th>	<td>	<input type="text" name="pav" value="pav" id="id_raumens" class="text ui-widget-content ui-corner-all">									</td></tr>
+				
+				
+			
+		
+	</tbody></table>
+	<input type="hidden" id="id_raumens" name="id_raumens" value="0">
+	<input type="hidden" id="alert" name="alert" value="0">
+</form>
+<table align="center">
+<tbody><tr>
+</tr>
+<tr>
+	<th>Veiksmai</th>
+	<th>Raumenu grupe</th>
+	<th>Raumuo</th>
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="tricepsas" data-id_raumenu_grupes="5" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>tricepsas</td>
+
+	<td>5</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="peciai" data-id_raumenu_grupes="5" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>peciai</td>
+
+	<td>5</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="bicepsas" data-id_raumenu_grupes="5" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>bicepsas</td>
+
+	<td>5</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="dvigalvis" data-id_raumenu_grupes="4" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>dvigalvis</td>
+
+	<td>4</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="keturgalvis" data-id_raumenu_grupes="4" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>keturgalvis</td>
+
+	<td>4</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="blauzda" data-id_raumenu_grupes="4" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>blauzda</td>
+
+	<td>4</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="sedmenys" data-id_raumenu_grupes="4" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>sedmenys</td>
+
+	<td>4</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="Krutine" data-id_raumenu_grupes="3" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>Krutine</td>
+
+	<td>3</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="Nugara" data-id_raumenu_grupes="1" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>Nugara</td>
+
+	<td>1</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="Pilvo presas" data-id_raumenu_grupes="2" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>Pilvo presas</td>
+
+	<td>2</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="testinis xx" data-id_raumenu_grupes="6" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>testinis xx</td>
+
+	<td>6</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="plastaka" data-id_raumenu_grupes="5" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>plastaka</td>
+
+	<td>5</td>
+
+</tr>
+
+<tr>
+	<td>
+		<input type="button" class="record_edit" id="toEdit_null" data-id_gal="null" data-pav="testuojam" data-id_raumenu_grupes="6" value="✎" onclick="iRedagavima( null )">
+		<input type="button" class="delete" id="toDelete_null" data-id_gal="null" value="✗" onclick="iTrinima( null )">
+	</td>
+
+
+	<td>testuojam</td>
+
+	<td>6</td>
+
+</tr>
+
+</tbody></table>
+
+
+</body></html>
