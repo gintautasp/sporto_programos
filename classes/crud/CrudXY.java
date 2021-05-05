@@ -31,4 +31,28 @@
 			}			
 			return qrs;
 		}
+		
+		public String getListAsOptions ( String table, String field_value, String field_name  ) {
+			
+			String sql_list = "SELECT `" + field_value + "`, `"  + field_name + "` FROM `" + table + "` WHERE 1";
+			String options = "";
+			
+			try {
+				
+				String [] fields = { field_value, field_name };
+				db_mysql.select ( "list_options", sql_list, fields );
+				
+				while ( db_mysql.flag_got_rows ) {
+					
+					AssocArrayList option  = db_mysql.giveSelectedRow();
+					
+					options += "<option value=\"" + option.giveMe ( field_value ) + "\">" +  option.giveMe ( field_name  ) + "</option>";
+				}
+				
+			} catch(Exception e){
+
+			}
+			
+			return options;
+		}
 	}
