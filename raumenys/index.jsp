@@ -74,16 +74,15 @@
 
   $( function() {
 
-    $( '.trinti' ).click ( function() {
+    $( '.remove' ).click ( function() {
     r = confirm("Ar tikrai norite ištrinti?");
 
       if (r){
-        id_kliento = $( this ).data('id');
+        id_raumens = $( this ).data('id');
         $('#raumenys2_idx').val (id_raumens);
         $('#remove').submit();
       }
     });
-  }
 
     var dialog, form,
       raumens_id = $( "#raumenys2_id" ),
@@ -178,13 +177,14 @@
 			dialog.dialog( "open" );
 		});
 	});
-
+/*
     $( '.remove' ).click( function() {
 			raumenys.id  = $( this ).data ( 'id' );
 			alert(raumenys.id);
 			$( '#raumenys2_idx' ).val ( raumenys.id  );
 			$( '#remove' ).submit();
 		});
+*/
 			// pasiimti reiksmes iš data laukelių
 			// pvz. :   pav =$( this ).data ( 'pav' )
 			// ir sudėti į formos dialog-form, laukelius
