@@ -1,0 +1,35 @@
+
+			table {
+				border-collapse: collapse;
+			}
+			form {
+				float: right;
+			}
+			input {
+				width: 111px;
+			}
+			th, td {
+				padding: 3px 4px;
+				border: 1px solid black;
+			}
+			th {
+				background-color: #A52A2A;
+			}
+			td {
+				background-color: #DEB887;
+			}
+			nav {
+				width: 700px;
+				text-align: center;
+				margin: 12px auto;
+			}
+			nav a {
+				display: inline-block;
+				border: 1px solid brown;
+				background: yellow;
+				padding: 12px;
+				margin: 12px;
+			}
+			nav a:hover {
+				background: lightgreen;
+			}

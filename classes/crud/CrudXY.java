@@ -55,4 +55,19 @@
 			
 			return options;
 		}
+		
+		public String getDataList () {
+			
+			String data_list = "";
+			
+			if (  db_mysql.flag_got_rows  )  {
+			
+				for ( int i = 0; i < laukai.length; i++ ) {
+
+					data_list += " data-" + laukai [ i ] + "= \"" +  db_mysql.row_values.giveMe (  laukai [ i ] ) + "\"";
+				}
+			
+			}
+			return data_list;
+		}
 	}

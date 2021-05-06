@@ -74,6 +74,17 @@
 
   $( function() {
 
+    $( '.trinti' ).click ( function() {
+    r = confirm("Ar tikrai norite ištrinti?");
+
+      if (r){
+        id_kliento = $( this ).data('id');
+        $('#raumenys2_idx').val (id_raumens);
+        $('#remove').submit();
+      }
+    });
+  }
+
     var dialog, form,
       raumens_id = $( "#raumenys2_id" ),
       raumens_pav = $( "#raumens_pav" ),
@@ -83,11 +94,11 @@
        tips = $( ".validateTips" );
 
     function updateTips( t ) {
-        tips
-          .text( t )
-          .addClass( "ui-state-highlight" );
-        	setTimeout(function() {
-          tips.removeClass( "ui-state-highlight", 1500 );
+      tips
+        .text( t )
+        .addClass( "ui-state-highlight" );
+      	setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
         }, 500 );
       }
 
@@ -139,7 +150,7 @@
         Cancel: function() {
           dialog.dialog( "close" );
         }
-      },
+      },    //kam kablelis?
       close: function() {
         allFields.removeClass( "ui-state-error" );
       }
