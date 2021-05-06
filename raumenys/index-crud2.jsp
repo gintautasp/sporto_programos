@@ -107,8 +107,9 @@
 </tr>
 <%
 	try {
-
-		String sql = crud_raumenys.select( "" );
+		String joins = "JOIN `raumenu_grupes` ON ( `raumenu_grupes`.`id` = `raumenys`.`id_raumenu_grupes`)";
+		String add_fields = ",`raumenu_grupes`.`raumenu_grupe`";
+		String sql = crud_raumenys.select( "", add_fields, joins );
 
 		while( crud_raumenys.db_mysql.flag_got_rows ) {
 
