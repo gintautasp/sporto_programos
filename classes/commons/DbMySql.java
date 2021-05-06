@@ -5,6 +5,8 @@
 	import java.sql.ResultSet;
 	import java.sql.Statement;
 	import java.sql.Connection;
+	
+	import java.util.*;	
 
 	public class DbMySql {
 	
@@ -105,4 +107,24 @@
 			
 			return row_values;
 		}
+		
+		public ArrayList<AssocArrayList> selectListAll ( String sql_list, String[] fields ) {
+			
+			ArrayList<AssocArrayList> list_all = new ArrayList<AssocArrayList>();
+			
+			try {
+		
+				select ( "list_all", sql_list, fields );
+				
+				while ( flag_got_rows ) {
+					
+					list_all.add ( giveSelectedRow() );
+				}
+				
+			} catch ( Exception e ){
+
+			}
+			
+			return list_all;
+		}		
 	}

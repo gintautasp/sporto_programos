@@ -21,8 +21,8 @@
 
 		if ( ( ( del = request.getParameter ( "del" )  ) != null ) && del.equals ( "del1rec" ) ) {
 
-			String id_programos = request.getParameter ( "p_del" );
-			// out.println ( "id programos.: ." + id_programos + "." );
+			String id_programos = request.getParameter ( "r_del" );
+																					// out.println ( "id programos.: ." + id_programos + "." );
 			qrs = crud_programos.delete ( id_programos );
 		}
 

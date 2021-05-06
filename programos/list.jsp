@@ -1,3 +1,4 @@
+<%@page pageEncoding="UTF-8" language="java"%>
 <table align="center">
 <tr>
 </tr>
@@ -18,7 +19,7 @@
 %>
 <tr>
 	<td>
-		<input type="button" class="record_edit"  id="toEdit_<%= lst_row_fields.giveMe (  "id" )  %>" <%= crud_programos.getDataList() %> value="&#9998;" onClick="iRedagavima( <%= lst_row_fields.giveMe (  "id" ) %> )">
+		<input type="button" class="record_edit"  id="toEdit_<%= lst_row_fields.giveMe (  "id" )  %>" <%= HtmlMake.dataList (  lst_row_fields ) %> value="&#9998;" onClick="iRedagavima( <%= lst_row_fields.giveMe (  "id" ) %> )">
 		<input type="button" class="delete" value="&#10007;"   id="toDel_<%= lst_row_fields.giveMe (  "id" )  %>" data-pav="<%= lst_row_fields.giveMe (  "pav" )  %>" onClick="iTrinima( <%= lst_row_fields.giveMe (  "id" ) %> )">
 	</td>
 	<td>
