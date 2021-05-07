@@ -75,21 +75,33 @@
 <script>
 
   $( function() {
-    $( "#remove" ).dialog({
+  
+    var id_raumens;
+    
+    dialog_del = $( "#salinimas" ).dialog({
       resizable: false,
+      autoOpen: false,
       height: "auto",
       width: 400,
       modal: true,
       buttons: {
-        "Delete all items": function() {
-          $( this ).dialog( "close" );
+        "Šalinti raumenį": function() {
+		$('#raumenys2_idx').val (id_raumens);
+		$('#remove').submit();
         },
         Cancel: function() {
           $( this ).dialog( "close" );
         }
       }
     });
-  } );
+  
+      $( '.remove' ).each ( function() {
+		$( this ).click ( function() {
+ 		 id_raumens = $( this ).data('id');
+		dialog_del.dialog( "open" );
+	});
+      });
+  
 /*
   $( function() {
 
@@ -345,17 +357,14 @@
     </fieldset>
   </form>
 </div>
-/*8
-<form id="remove" method="POST" action="">
+
+<div  id="salinimas"  title="šalinimo patvirtinimas">
+  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Ar tikrai norite ištrinti?</p>
+  <form id="remove" method="POST" action="">
 	<input type="hidden" id="raumenys2_idx" name="idx" value="0">
 	<input type="hidden" name="trinti" id="trinti" value="trinti">
 </form>
-*/
-<form>
-  <div id="remove" title="trinti">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Ar tikrai norite ištrinti?</p>
-  </div>
-</form>
+</div>
 
 <input type="hidden" name="trinti" id="trinti" value="trinti">
 
