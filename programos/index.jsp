@@ -23,7 +23,8 @@
 	</head>
 <body>
 <%@include file="../commons/meniu.jsp" %>
-<%@include file="programos_forma.html" %>
+<%@include file="programos_forma.jsp" %>
+<%@include file="salinimo_forma.html" %>
 <%@include file="list.jsp" %>
 </body>
 </html>
