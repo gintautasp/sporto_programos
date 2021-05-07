@@ -50,12 +50,13 @@
 
       String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,"
       + "`raumenu_grupes`.`raumenu_grupe`,"
-      + "`pratimai`.`id`,`pratimai`.`pav`"
       + "COUNT( `pratimai`.`id` ) AS `pratimu_skaicius`"
       + "FROM `raumenys` "
       + "LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` )"
       + "LEFT JOIN `pratimai_raumenys` ON ( `pratimai_raumenys`.`id_raumenys`=`raumenys`.`id` )";
 
+      //sugrupuoti pagal sunkumo lygi group by pgl raumenis (id_raumens) paskui pagal sunkumo lygi
+      //padaryt isrinkima pagal sunkumo lygi WHERE varrianas visi lygiai sunkumo ir kiekvienas atskirai.
 
       /*
       String sql="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`,`pratimai`.`id`,`pratimai`.`pav`"

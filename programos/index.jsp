@@ -11,6 +11,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<title>Treniruočių programos </title>
 		<style>
 			<%@include file="../frontface/crud.css" %>
 		</style>

@@ -15,27 +15,24 @@
 
 		public String jsTrynimui ( String pav_iraso ) {
 			
-			String js_funkcja_i_trynima = "function iTrinima ( id_rec ) {\n\n"
+			String js_funkcja_i_trynima = "\tfunction iTrinima ( id_rec ) {\n\n"
 			
-				+ "mygtukasEdit = document.getElementById ( 'toEdit_' + id_rec );\n\n"
+				+ "\t\tmygtukasDelete = document.getElementById ( 'toDel_' + id_rec );\n\n"
 
-				+ "pav =  mygtukasEdit.dataset.pav;\n\n"
+				+ "\t\tpav =  mygtukasDelete.dataset.pav;\n\n"
 				
-				+ "var r = confirm( 'Ar norite pasalinti " + pav_iraso + " ' + pav + '?' );\n\n"
-				
-				// + "alert( r )\n\n"
-				// + "alert ( r == true )\n\n"
-				
-				+ "if ( r == true ) {\n\n"
-
-				// +	"alert( id_rec + '1' )\n"
-				+	"document.getElementById ( 'r_del' ).value = id_rec\n"
-				// +	"alert( id_rec  + '2' )\n"
-				+	"forma_del = document.getElementById ( 'del_rec' )\n"
-				//+	"alert( forma_del );\n"
-				+	"forma_del.submit();\n"
-				+	"}\n"
-			+ "}\n";
+				+ "\t\tvar r = confirm( 'Ar norite pasalinti " + pav_iraso + " ' + pav + '?' );\n\n"
+																									// + "alert( r )\n\n"
+																									// + "alert ( r == true )\n\n"
+				+ "\t\tif ( r == true ) {\n\n"
+																									// +	"alert( id_rec + '1' )\n"
+				+	"\t\t\tdocument.getElementById ( 'r_del' ).value = id_rec\n"
+																									// +	"alert( id_rec  + '2' )\n"
+				+	"\t\t\tforma_del = document.getElementById ( 'del_rec' )\n"
+																									//+	"alert( forma_del );\n"
+				+	"\t\t\tforma_del.submit();\n"
+				+	"\t\t}\n"
+			+ "\t}\n";
 			
 			return js_funkcja_i_trynima;
 		}
