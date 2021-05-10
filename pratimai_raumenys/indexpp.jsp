@@ -93,21 +93,18 @@
 	<script>
 	$( document ).ready ( function() {
 	
-		pratimai = { pav: 0, pastabos: 0, lygis_sunkumo: 0, id_kito_lygio: 0, id: 0 };
+		pratimai = { id_raumenys: 0, id_pratimai: 0, id: 0 };
 	
 		$( '.edit' ).click ( function() {
 		
 			pratimai.id 				= $( this ).data( 'id' );	
-			pratimai.pav				= $( this ).data( 'pav' );
-			pratimai.lygis_sunkumo 		= $( this ).data( 'lygis_sunkumo' );
-			pratimai.id_kito_lygio 			= $( this ).data( 'id_kito_lygio' );
-			pratimai.pastabos			= $( this ).data( 'pastabos' );
-						
-			$( '#pav' ).val ( pratimai.pav );
-			$( '#pastabos' ).val ( pratimai.pastabos );
-			$( '#lygis_sunkumo' ).val ( pratimai.lygis_sunkumo );
-			$( '#id_kito_lygio' ).val ( pratimai.id_kito_lygio );
-			$( '#id' ).val ( pratimai.id );			
+			pratimai.id_raumenys			= $( this ).data( 'id_raumenys' );
+			pratimai.id_pratimai 			= $( this ).data( 'id_pratimai' );
+			
+			$( '#id' ).val ( pratimai.id );				
+			$( '#id_raumenys' ).val ( pratimai.id_raumenys );
+			$( '#id_pratimai' ).val ( pratimai.id_pratimai );
+					
 		});
 		
 		$( '.remove' ).click( function() {
@@ -124,7 +121,7 @@
 			
 		$( "#dialog" ).dialog({
 			autoOpen: false,
-			width: 1010,
+			width: 500,
 			buttons: [
 			{
 				text: "Ok",
@@ -181,7 +178,7 @@
   <li><a class="font-face" href="#apie">Apie</a></li>
 </ul>
 
-<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai</strong></h2>
+<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong>Pratimai-Raumenys</strong></h2>
 
 <table align="center" cellpadding="4" cellspacing="2">
 <tr>
@@ -189,10 +186,8 @@
 </tr>
 <tr>
 	<th class="font-face">Id</th>
-	<th class="font-face">Pratimas</th>
-	<th class="font-face">Pastabos</th>
-	<th class="font-face">Sunkumo lygis</th>
-	<th class="font-face">x</th>	
+	<th class="font-face">Id Raumenys</th>
+	<th class="font-face">Id Pratimai</th>	
 	<th class="font-face">Veiksmai</th>
 	
 </tr>
@@ -207,7 +202,7 @@
 		
 	} catch(Exception e) {}
 
-	try { 	
+	try{ 	
 		String jdbcutf8 = "";
 		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
 		
@@ -215,37 +210,30 @@
 		
 		if ( ( ( add = request.getParameter("add")  ) != null ) && add.equals ( "papildyti" ) ) {
 				
-			pratimai.pav = request.getParameter("pav");
-			pratimai.pastabos =request.getParameter("pastabos");
-			System.out.println("lygis_sunkumo: "+request.getParameter ( "lygis_sunkumo" ));
-			System.out.println("id_kito_lygio: "+request.getParameter ( "id_kito_lygio" ));
-			System.out.println("id: "+request.getParameter("pratimai2_id"));
-			pratimai.lygis_sunkumo = Integer.parseInt(request.getParameter("lygis_sunkumo"));	
-			pratimai.id_kito_lygio = Integer.parseInt(request.getParameter("id_kito_lygio"));	
-			pratimai.id = Integer.parseInt(request.getParameter("pratimai2_id"));
+			pratimai.lygis_sunkumo = Integer.parseInt(request.getParameter("id_raumens"));	
+			pratimai.id_kito_lygio = Integer.parseInt(request.getParameter("id_pratimai"));	
+			pratimai.id = Integer.parseInt(request.getParameter("id"));
 			
 			String sql_ins ="";    
 						
 			if (pratimai.id !=0){	
 			
 				sql_ins=
-					"UPDATE `pratimai` SET `id`" 
+					"UPDATE `pratimai_raumenys` SET `id`" 
 					+ '=' + "'" + pratimai.id+ "'" 
-					+ ","	+"`pav`"					+ '=' + "'" + pratimai.pav 			+ "'" 
-					+ ","	+"`pastabos`" 				+ '=' + "'" + pratimai.pastabos 		+ "'" 
-					+ ","  +"`lygis_sunkumo`" 			+ '=' + "'" + pratimai.lygis_sunkumo 	+ "'" 
-					+ ","	+"`id_kito_lygio`" 			+ '=' + "'" + pratimai.id_kito_lygio 	+ "'" 
+					+ ","	+"`id_pratimai`"			+ '=' + "'" + pratimai.id_pratimai 			+ "'" 
+					+ ","	+"`id_raumens`" 			+ '=' + "'" + pratimai.id_raumenys 		+ "'" 
 					+ ","	+"WHERE 1;";
 			} else {
 			
 				sql_ins = 
 					"INSERT INTO `pratimai`"
-					+ " ( `pav`, `pastabos`, `lygis_sunkumo`, `id_kito_lygio`)"
+					+ " ( `id`, `id_raumens`, `id_pratimai`)"
 					+ " VALUES ( "			
 					+ "'" 		+ pratimai.pav +"'"
-					+ "," + "'" + pratimai.pastabos +"'"
-					+ "," + "'" + pratimai.lygis_sunkumo +"'"
-					+ "," + "'" + pratimai.id_kito_lygio +"'"
+					+ "," + "'" + pratimai.id_pratimai +"'"
+					+ "," + "'" + pratimai.id_raumens +"'"
+					
 					+ " )";
 
 			out.println ( sql_ins );
@@ -255,7 +243,17 @@
 			
 			}  
 		}
-			
+			statement=connection.createStatement();		
+			String sql ="SELECT `pratimai_raumenys`.`id`,`pratimai`.`id` AS `id_pratimai`"
+						+",`pratimai`.`pav` AS `pratimo_pavadinimas`,`raumenys`.`pav` AS `raumens_pavadinimas`						
+						+"FROM `pratimai_raumenys`"
+						+"JOIN `pratimai` ON ( `pratimai_raumenys`.`id_pratimai`=`pratimai`.`id` ) "
+						+"JOIN `raumenys` ON ( `pratimai_raumenys`.`raumenys.id`= `raumenys`.`id` )"
+						+" WHERE 1";
+
+						
+						
+			resultSet = statement.executeQuery(sql);
 			
 			
 			
@@ -275,27 +273,17 @@
 				int istrinta=statement.executeUpdate(sql_ins);		
 			
 			 }	
-			 
-			statement=connection.createStatement();		
-			String sql ="SELECT * FROM `pratimai`  WHERE 1";
-			resultSet = statement.executeQuery(sql);
-			
-			
 			
 			while( resultSet.next() ){
 		
-			pratimai2.pav = resultSet.getString ( "pav" );
-			pratimai2.pastabos = resultSet.getString  ("pastabos");
-			pratimai2.lygis_sunkumo = Integer.parseInt(resultSet.getString ( "lygis_sunkumo" ));
-			pratimai2.id_kito_lygio = Integer.parseInt(resultSet.getString ( "id_kito_lygio" ));
+			pratimai2.lygis_sunkumo = Integer.parseInt(resultSet.getString ( "id_raumens" ));
+			pratimai2.id_kito_lygio = Integer.parseInt(resultSet.getString ( "id_pratimai" ));
 			pratimai2.id = Integer.parseInt(resultSet.getString("id"));
 %>
 <tr style="background-color: #DEB887" >
-	<td class="font-face" style="color:#fff"><%= resultSet.getString ( "id" ) %></td>
-	<td class="font-face" style="color:#fff"><%= resultSet.getString ( "pav" ) %></td>
-	<td style="color:#fff"><%= resultSet.getString ("pastabos" ) %></td>
-	<td style="color:#fff"><%=resultSet.getString ( "lygis_sunkumo" ) %></td>
-	<td style="color:#fff"><%=resultSet.getString ( "id_kito_lygio" ) %></td>
+	<td style="color:#fff"><%=resultSet.getString ("id" ) %></td>
+	<td style="color:#fff"><%=resultSet.getString ( "id_raumens" ) %></td>
+	<td style="color:#fff"><%=resultSet.getString ( "id_pratimai" ) %></td>
 	<td><input class="dialog-link button5 edit ui-corner-all ui-widget button redagavimas" data-pav="<%=pratimai2.pav%>" data-pastabos="<%=pratimai2.pastabos%>" data-lygis_sunkumo="<%=pratimai2.lygis_sunkumo%>" data-id_kito_lygio="<%=pratimai2.id_kito_lygio%>" data-id="" type="button" value="&#9881" id="keiciam">
 		<input class="ui-corner-all ui-widget button button5 remove" data-id="<%=pratimai2.id%>" type="button" value="&#9747;">
 </tr>
@@ -318,13 +306,11 @@
 <center>
 
 <div id="dialog" title="Pavadinimas">
-	<form id="duomenys" method="post" action="">
+	<form method="post" action="">
 	<table align="center" cellpadding="5" cellspacing="5" >
 <tr>	
 	<th>Pratimas</th>
-	<th>Pastabos</th>
-	<th>Sunkumo lygis</th>
-	<th>x</th>
+	<th>Raumuo</th>
 </tr>
 
 <tr>
@@ -334,12 +320,6 @@
 	<td>
 		<input type="text" name="pastabos" id="pastabos" value="">
 	</td>	
-	<td>
-		<input type="number" name="lygis_sunkumo" id="lygis_sunkumo" value="">
-	</td>
-	<td>
-		<input type="number" name="id_kito_lygio" id="id_kito_lygio" value="">
-	</td>
 	</tr>
 	</table>
 	<input type="hidden" name="add" value="papildyti" class="ui-button ui-corner-all ui-widget">
