@@ -75,9 +75,9 @@
 <script>
 
   $( function() {
-  
+
     var id_raumens;
-    
+
     dialog_del = $( "#salinimas" ).dialog({
       resizable: false,
       autoOpen: false,
@@ -94,14 +94,14 @@
         }
       }
     });
-  
+
       $( '.remove' ).each ( function() {
 		$( this ).click ( function() {
  		 id_raumens = $( this ).data('id');
 		dialog_del.dialog( "open" );
 	});
       });
-  
+
 /*
   $( function() {
 

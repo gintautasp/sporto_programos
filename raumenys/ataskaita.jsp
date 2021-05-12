@@ -56,8 +56,14 @@
       + "LEFT JOIN `pratimai_raumenys` ON ( `pratimai_raumenys`.`id_raumenys`=`raumenys`.`id` )";
 
       //sugrupuoti pagal sunkumo lygi group by pgl raumenis (id_raumens) paskui pagal sunkumo lygi
-      //padaryt isrinkima pagal sunkumo lygi WHERE varrianas visi lygiai sunkumo ir kiekvienas atskirai.
+      //padaryt isrinkima pagal sunkumo lygi WHERE varianas visi lygiai sunkumo ir kiekvienas atskirai.
 
+      String sql = "SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,"
+      + "`pratimai`.`id`,`pratimai`.`pav`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`,"
+      + "GROUP BY `raumenys`.`id_raumens`"
+      + "FROM `raumenys`"
+      + "GROUP BY `pratimai`.`lygis_sunkumo`"
+      + "LEFT JOIN "
       /*
       String sql="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`,`pratimai`.`id`,`pratimai`.`pav`"
       FROM `raumenys`, `raumenu_grupes`, `pratimai`
