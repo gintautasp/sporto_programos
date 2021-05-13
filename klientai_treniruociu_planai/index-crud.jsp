@@ -34,6 +34,7 @@
 
 				lauk_klientai_treniruociu_planai [ i ] = request.getParameter ( lent_klientai_treniruociu_planai[ i ] );
 			}
+			lauk_klientai_treniruociu_planai[1]=request.getParameter("ik");
 			qrs = crud_KlientaiTreniruociuPlanai.save ( id, lauk_klientai_treniruociu_planai );
 		 }
 
@@ -98,7 +99,13 @@
 		<% SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd"); %>
 		<tr>		<th>Data					</th>	<td>	<input type="date" name="data" value="<%= sdf.format(new Date()) %>" id="data" class="text ui-widget-content ui-corner-all">									</td></tr>
 		<tr>		<th>Rezultatai				</th>	<td>	<input type="text" name="rezultatai" value="rezultatas" id="rezultatai" class="text ui-widget-content ui-corner-all">							</td></tr>
-
+		<tr>
+			<td colspan="2">
+				
+				<input type="button" name="clear" value="valyti" onClick = "iValyma()"> 
+				<input type="submit" name="add" value="saugoti">
+			</td>
+		</tr>
 		</table>
 		<input type="hidden" id="id" name="id" value="0">  
 		<input type="hidden" name="add" value="Papildyti">
@@ -109,8 +116,8 @@
 <tr>
 	<th>Veiksmai</th>
 	<th>ID</th>
-	<th>K. ID</th>
-	<th>Treniruotes planas</th>
+	<th>Kliento ID</th>
+	<th>Treniruotes ID</th>
 	<th>Data</th>
 	<th>Rezultatai</th>
 </tr>
@@ -125,7 +132,7 @@
 
 			AssocArrayList lst_row_fields = crud_KlientaiTreniruociuPlanai.db_mysql.giveSelectedRow();
 
-			for ( int i = 1; i < lauk_klientai_treniruociu_planai.length; i++ ) {
+			for ( int i = 0; i < lauk_klientai_treniruociu_planai.length; i++ ) {
 				rec_data += " data-"  + ( lent_klientai_treniruociu_planai[ i ] )   + "=\"" +  ( ( String ) lst_row_fields.giveMe (  lent_klientai_treniruociu_planai[ i ]  ) ) + "\"";
 			}
 			String id_rec =  ( String ) lst_row_fields.giveMe (   "id"  );
@@ -137,7 +144,7 @@
 	</td>
 
 <%
-		for ( int i = 1; i < lauk_klientai_treniruociu_planai.length; i++ ) {
+		for ( int i = 0; i < lauk_klientai_treniruociu_planai.length; i++ ) {
 %>
 	<td><%=  lst_row_fields.giveMe (  lent_klientai_treniruociu_planai [ i ]  ) %></td>
 <%
