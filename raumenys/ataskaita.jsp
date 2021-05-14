@@ -49,29 +49,12 @@
     <script>
 
       String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,"
-      + "`raumenu_grupes`.`raumenu_grupe`,"
-      + "COUNT( `pratimai`.`id` ) AS `pratimu_skaicius`"
-      + "FROM `raumenys` "
-      + "LEFT JOIN `raumenu_grupes` ON ( `raumenys`.`id_raumenu_grupes`=`raumenu_grupes`.`id` )"
-      + "LEFT JOIN `pratimai_raumenys` ON ( `pratimai_raumenys`.`id_raumenys`=`raumenys`.`id` )";
+      + "`pratimai`.`id`,`pratimai`.`pav`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`"
+      + " FROM `pratimai`"
+      + "LEFT JOIN `pratimai_raumenys` ON `pratimai_raumenys`.`id_pratimai` = `pratimai`.`id`"
+      + "LEFT JOIN `raumenys` ON `raumenys`.`id_raumens` = `pratimai_raumenys`.`id_raumenys`"
 
-      //sugrupuoti pagal sunkumo lygi group by pgl raumenis (id_raumens) paskui pagal sunkumo lygi
-      //padaryt isrinkima pagal sunkumo lygi WHERE varianas visi lygiai sunkumo ir kiekvienas atskirai.
-
-      String sql = "SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,"
-      + "`pratimai`.`id`,`pratimai`.`pav`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`,"
-      + "GROUP BY `raumenys`.`id_raumens`"
-      + "FROM `raumenys`"
-      + "GROUP BY `pratimai`.`lygis_sunkumo`"
-      + "LEFT JOIN "
-      /*
-      String sql="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,`raumenu_grupes`.`raumenu_grupe`,`pratimai`.`id`,`pratimai`.`pav`"
-      FROM `raumenys`, `raumenu_grupes`, `pratimai`
-      WHERE `raumenu_grupes`.`raumenu_grupes_id`=`raumenu_grupe`.`id`
-      AND `pratimai`.`pratimai_id`=`pratimai`.`id`
-      */
-      //count pratimai_id
-
+      
     </script>
 
 </head>
