@@ -253,8 +253,6 @@
 
 </tr>
 <tr>							<!-- Virsus -->
-	<th class="font-face">ID</th>
-	<th class="font-face">K. ID</th>
 	<th class="font-face">Treniruotes planas</th>
 	<th class="font-face">Data</th>
 	<th class="font-face">Rezultatai</th>
@@ -359,10 +357,7 @@
 			kriterijai2.vardas = resultSet.getString  ( "vardas" ) ;
 			kriterijai2.id_treniruotes_plano = resultSet.getString  ("id_treniruotes_plano" ) ;
 %>	
-
-<tr style="background-color: ##DEB887; padding: 1px " >    
-	<td style="color:#fff"><%=kriterijai2.id %></td>
-	<td style="color:#fff"><%=kriterijai2.id_kliento %></td>
+<tr style="background-color: ##DEB887; padding: 1px " >  
 	<td style="color:#fff"><%=kriterijai2.pav_treniruotes_plano %></td>
 	<td style="color:#fff"><%=kriterijai2.data  %></td>
 	<td style="color:#fff"><%=kriterijai2.rezultatai%></td>
@@ -375,7 +370,7 @@
 <% 
 		}
 		 %>
-			<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong><%=kriterijai2.vardas%></strong></h2>
+			<h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong><a href="/sporto_programos/klientai_treniruociu_planai/ataskaita.jsp?ik=<%= kriterijai2.id_kliento %>"><%=kriterijai2.vardas%></a></strong></h2>
 		<%
 	} catch (Exception e) {
 	

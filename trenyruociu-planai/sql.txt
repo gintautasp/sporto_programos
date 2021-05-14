@@ -1,0 +1,4 @@
+SELECT `rusis`, COUNT(*) as `count`
+FROM `treniruociu_planai` `tp`
+RIGHT JOIN `pratimai_treniruociu_planai` `ptp` on `ptp`.`id_planai` = `tp`.`id`
+GROUP by `rusis`	

@@ -9,6 +9,8 @@ public class KlientaiTreniruociuPlanai {
 	public String rezultatai ;
 	public String vardas ;
 	public String id_treniruotes_plano ;
+	public String datos_reiksme ;
+	public String rusis ;
 	
 	public KlientaiTreniruociuPlanai (){
 	}

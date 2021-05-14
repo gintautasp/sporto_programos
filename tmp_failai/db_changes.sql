@@ -6,3 +6,5 @@ ALTER TABLE `raumenys` ADD FOREIGN KEY (`id_raumenu_grupes`) REFERENCES `raumenu
 
 ALTER TABLE `treniruociu_planai` ADD `rusis` ENUM('cardio','jegos','bfp','ištvermes','mases auginimas','raumenu ryškinimas','atstatomoji','lankstumo','svorio metimo','kita') NULL DEFAULT 'kita' AFTER `pav`, ADD INDEX (`rusis`);
 
+CREATE USER 'sportas'@'%' IDENTIFIED BY '***';
+GRANT ALL PRIVILEGES ON *.* TO 'sportas'@'%';

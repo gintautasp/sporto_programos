@@ -160,8 +160,8 @@
 	String driverName = "com.mysql.jdbc.Driver";
 	String connectionUrl = "jdbc:mysql://localhost:3306/";
 	String dbName = "sporto_programos";
-	String userid = "root";
-	String password = "";
+	String userid = "sportas";
+	String password = "blabla";
 
 	Connection connection = null;
 	Statement statement = null, statement_change = null;
