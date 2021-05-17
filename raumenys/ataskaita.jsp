@@ -43,8 +43,10 @@
     .validateTips { border: 1px solid transparent; padding: 0.3em; }
   </style>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script  src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>  <!-- Reikia kad veiktu 'reda' funkcija -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="../ext/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 
     <script>
 
@@ -54,7 +56,6 @@
       + "LEFT JOIN `pratimai_raumenys` ON `pratimai_raumenys`.`id_pratimai` = `pratimai`.`id`"
       + "LEFT JOIN `raumenys` ON `raumenys`.`id_raumens` = `pratimai_raumenys`.`id_raumenys`"
 
-      
     </script>
 
 </head>
@@ -74,14 +75,97 @@
   	Statement statement = null, statement_change = null;
   	ResultSet resultSet = null;
   	int resultSetChange = 0;
+  %>
 
-	try{
+<ul>
+  <li><a class="font-face" href="#pagrindinis">Pagrindinis</a></li>
+  <li><a class="font-face" href="http://localhost:8080/sporto_programos/klientai/index.jsp">Vartotojas</a></li>
+  <li><a class="font-face" href="http://localhost:8080/sporto_programos/trenyruociu-planai/index.jsp">Planai</a></li>
+  <li><a class="font-face" href="http://localhost:8080/sporto_programos/pratimai/index.jsp">Pratimai</a></li>
+  <li><a class="font-face" href="http://localhost:8080/sporto_programos/raumenys/index.jsp">Raumenys</a></li>
+  <li><a class="font-face" href="#mityba">Mityba</a></li>
+  <li><a class="font-face" href="#naujienos">Naujienos</a></li>
+  <li><a class="font-face" href="#kontaktai">Kontaktai</a></li>
+  <li><a class="font-face" href="#apie">Apie</a></li>
+</ul>
+
+<div id="users-contain" class="ui-widget">
+<table style="padding: 2px; margin: 10px; margin-left: auto; margin-right: auto" id="users" >
+
+
+  <%
+	PratimaiRaumenys raumenu_info = new PratimaiRaumenys ();
+
+  try{
+
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
 	} catch(Exception e) {}
 
-	try{
+	String id_raumens = request.getParameter ( "ir" );
+
+  try{
+
 		String jdbcutf8 = "";
-		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userid, password );
+		connection = DriverManager.getConnection ( connectionUrl + dbName + jdbcutf8, userId, password );
+
+    statement=connection.createStatement();
+    String sql =
+    "SELECT `raumenys`.`id_raumens`,`raumenys`.`pav` AS `pav_praumens`,`raumenys`.`id_raumenu_grupes`,"
+    + "`pratimai`.`id` AS `id_pratimo`,`pratimai`.`pav` AS `pav_pratimo`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`"
+    + " FROM `pratimai`"
+    + "LEFT JOIN `pratimai_raumenys` ON `pratimai_raumenys`.`id_pratimai` = `pratimai`.`id`"
+    + "LEFT JOIN `raumenys` ON `raumenys`.`id_raumens` = `pratimai_raumenys`.`id_raumenys`"
+
+    resultSet = statement.executeQuery(sql);
+
+    %>
+
+    <tr>							<!-- Lentelės reikšmių pavadinimai -->
+      <th class="font-face">Raumens pavadinimas</th>
+      <th class="font-face">Pratimo pavadinimas</th>
+      <th class="font-face">Sunkumo lygis</th>
+    </tr>
+
+  <%
+  while( resultSet.next() ){				//užpildo lentelę
+
+    PratimaiRaumenys.id_raumens         = resultSet.getString ( "id_raumens" );
+    PratimaiRaumenys.pav_raumens        = resultSet.getString ( "pav_raumens" );
+    PratimaiRaumenys.id_raumenu_grupes  = resultSet.getString ("id_raumenu_grupes" ) ;
+    PratimaiRaumenys.id_pratimo         = resultSet.getString ( "id_pratimo" );
+    PratimaiRaumenys.pav_pratimo        = resultSet.getString ( "pav_pratimo" );
+    PratimaiRaumenys.lygis_sunkumo      = resultSet.getString ( "lygis_sunkumo" );
+    PratimaiRaumenys.id_kito_lygio      = resultSet.getString ("id_kito_lygio" ) ;
+  %>
+
+  <tr style="background-color: ##DEB887; padding: 1px " >
+    <td style="color:#fff"><%=PratimaiRaumenys.pav_raumens %></td>
+    <td style="color:#fff"><%=PratimaiRaumenys.pav_pratimo %></td>
+    <td style="color:#fff"><%=PratimaiRaumenys.lygis_sunkumo  %></td>
+  </tr>
+
+  <%
+      }
+    }
+    statement=connection.createStatement();
+    String sql ="SELECT `klientai`.`pav` FROM `klientai` WHERE `klientai`.`id`='"+id_asmens+"'";
+    resultSet = statement.executeQuery(sql);
+
+    while( resultSet.next() ){
+      kriterijai.vardas= resultSet.getString("pav");
+    }
+     %>
+      <h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong><%=kriterijai.vardas %> ataskaita</strong></h2>
+    <%
+    } catch (Exception e) {
+
+    e.printStackTrace();
+    }
+  %>
+
+</table >  <!-- Ivedimo lenteles parametrai-->
+</div >
+</body>
