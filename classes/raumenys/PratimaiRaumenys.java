@@ -1,4 +1,4 @@
-package pratimai_raumenys;
+package raumenys;
 
 public class PratimaiRaumenys {
 
@@ -10,6 +10,6 @@ public class PratimaiRaumenys {
 	public String lygis_sunkumo;
 	public int id_kito_lygio;
 
-	public KlientaiTreniruociuPlanai (){
+	public PratimaiRaumenys (){
 	}
 }

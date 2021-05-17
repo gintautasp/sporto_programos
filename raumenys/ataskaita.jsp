@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <%@page pageEncoding="UTF-8" language="java"%>
 <%@page contentType="text/html;charset=UTF-8"%>
-<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,raumenys.RaumenysIrGrupes" %>
+<%@page import="java.text.*,java.util.*,java.io.BufferedReader,java.io.IOException,java.io.FileReader,raumenys.PratimaiRaumenys" %>
 
 <html lang="en">
 
@@ -66,7 +66,7 @@
   	String driverName = "com.mysql.jdbc.Driver";
   	String connectionUrl = "jdbc:mysql://localhost:3306/";
   	String dbName = "sporto_programos";
-  	String userid = "root";
+  	String userId = "root";
   	String password = "";
   	Connection connection = null;
   	Statement statement = null, statement_change = null;
@@ -130,24 +130,23 @@
   <%
   while( resultSet.next() ){				//užpildo lentelę
 
-    PratimaiRaumenys.id_raumens         = resultSet.getString ( "id_raumens" );
-    PratimaiRaumenys.pav_raumens        = resultSet.getString ( "pav_raumens" );
-    PratimaiRaumenys.id_raumenu_grupes  = resultSet.getString ( "id_raumenu_grupes" ) ;
-    PratimaiRaumenys.id_pratimo         = resultSet.getString ( "id_pratimo" );
-    PratimaiRaumenys.pav_pratimo        = resultSet.getString ( "pav_pratimo" );
-    PratimaiRaumenys.lygis_sunkumo      = resultSet.getString ( "lygis_sunkumo" );
-    PratimaiRaumenys.id_kito_lygio      = resultSet.getString ( "id_kito_lygio" ) ;
+    raumenu_info.id_raumens         = Integer.parseInt ( resultSet.getString ( "id_raumens" ) );
+    raumenu_info.pav_raumens        = resultSet.getString ( "pav_raumens" );
+    raumenu_info.id_raumenu_grupes  =  Integer.parseInt ( resultSet.getString ( "id_raumenu_grupes" ) );
+    raumenu_info.id_pratimo         =  Integer.parseInt (  resultSet.getString ( "id_pratimo" ) );
+    raumenu_info.pav_pratimo        = resultSet.getString ( "pav_pratimo" );
+    raumenu_info.lygis_sunkumo      = resultSet.getString ( "lygis_sunkumo" );
+    raumenu_info.id_kito_lygio      = Integer.parseInt ( resultSet.getString ( "id_kito_lygio" ) );
   %>
 
   <tr style="background-color: ##DEB887; padding: 1px " >
-    <td style="color:#fff"><%=PratimaiRaumenys.pav_raumens %></td>
-    <td style="color:#fff"><%=PratimaiRaumenys.pav_pratimo %></td>
-    <td style="color:#fff"><%=PratimaiRaumenys.lygis_sunkumo  %></td>
+    <td style="color:#fff"><%=raumenu_info.pav_raumens %></td>
+    <td style="color:#fff"><%=raumenu_info.pav_pratimo %></td>
+    <td style="color:#fff"><%=raumenu_info.lygis_sunkumo  %></td>
   </tr>
 
   <%
       }
-    }
     } catch (Exception e) {
 
     e.printStackTrace();

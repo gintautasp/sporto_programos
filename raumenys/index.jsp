@@ -405,8 +405,6 @@
 		e.printStackTrace();
 
 	}
-
-
 %>
       <tr>
       </tr>
