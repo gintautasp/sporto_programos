@@ -50,11 +50,8 @@
 
     <script>
 
-      String sql ="SELECT `raumenys`.`id_raumens`,`raumenys`.`pav`,`raumenys`.`id_raumenu_grupes`,"
-      + "`pratimai`.`id`,`pratimai`.`pav`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`"
-      + " FROM `pratimai`"
-      + "LEFT JOIN `pratimai_raumenys` ON `pratimai_raumenys`.`id_pratimai` = `pratimai`.`id`"
-      + "LEFT JOIN `raumenys` ON `raumenys`.`id_raumens` = `pratimai_raumenys`.`id_raumenys`"
+    //sugrupuoti pagal sunkumo lygi group by pgl raumenis (id_raumens) paskui pagal sunkumo lygi
+    //padaryt isrinkima pagal sunkumo lygi WHERE varianas visi lygiai sunkumo ir kiekvienas atskirai.
 
     </script>
 
@@ -114,10 +111,11 @@
     statement=connection.createStatement();
     String sql =
     "SELECT `raumenys`.`id_raumens`,`raumenys`.`pav` AS `pav_praumens`,`raumenys`.`id_raumenu_grupes`,"
-    + "`pratimai`.`id` AS `id_pratimo`,`pratimai`.`pav` AS `pav_pratimo`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`"
+    + "COUNT(`pratimai`.`id`) AS `kiekis_pratimu`,`pratimai`.`lygis_sunkumo`,`pratimai`.`id_kito_lygio`"
     + " FROM `pratimai`"
     + "LEFT JOIN `pratimai_raumenys` ON `pratimai_raumenys`.`id_pratimai` = `pratimai`.`id`"
     + "LEFT JOIN `raumenys` ON `raumenys`.`id_raumens` = `pratimai_raumenys`.`id_raumenys`"
+    + "GROUP BY `pratimai`.`lygis_sunkumo`,`raumenys`.`id_raumens`";
 
     resultSet = statement.executeQuery(sql);
 
@@ -134,11 +132,11 @@
 
     PratimaiRaumenys.id_raumens         = resultSet.getString ( "id_raumens" );
     PratimaiRaumenys.pav_raumens        = resultSet.getString ( "pav_raumens" );
-    PratimaiRaumenys.id_raumenu_grupes  = resultSet.getString ("id_raumenu_grupes" ) ;
+    PratimaiRaumenys.id_raumenu_grupes  = resultSet.getString ( "id_raumenu_grupes" ) ;
     PratimaiRaumenys.id_pratimo         = resultSet.getString ( "id_pratimo" );
     PratimaiRaumenys.pav_pratimo        = resultSet.getString ( "pav_pratimo" );
     PratimaiRaumenys.lygis_sunkumo      = resultSet.getString ( "lygis_sunkumo" );
-    PratimaiRaumenys.id_kito_lygio      = resultSet.getString ("id_kito_lygio" ) ;
+    PratimaiRaumenys.id_kito_lygio      = resultSet.getString ( "id_kito_lygio" ) ;
   %>
 
   <tr style="background-color: ##DEB887; padding: 1px " >
@@ -150,16 +148,6 @@
   <%
       }
     }
-    statement=connection.createStatement();
-    String sql ="SELECT `klientai`.`pav` FROM `klientai` WHERE `klientai`.`id`='"+id_asmens+"'";
-    resultSet = statement.executeQuery(sql);
-
-    while( resultSet.next() ){
-      kriterijai.vardas= resultSet.getString("pav");
-    }
-     %>
-      <h2 align="center" class="font-face" style="color: #fff;font-size:42px;"><strong><%=kriterijai.vardas %> ataskaita</strong></h2>
-    <%
     } catch (Exception e) {
 
     e.printStackTrace();
@@ -168,4 +156,25 @@
 
 </table >  <!-- Ivedimo lenteles parametrai-->
 </div >
+
+<fieldset >
+  <form method="post" action="" id="ivedimoForm" align="center">
+  <table style="border: 5px solid black" id="listKlientai" align="center">
+  <!-- Apacia -->
+
+    <label for="lygis_sunkumo">Pasirinkti sunkumo lygi:</label>
+
+    <select name="lygis_sunkumo" id="id_kito_lygio">
+       <option value="1">Pirmas sunkumo lygis</option>
+       <option value="2">Antras sunkumo lygis</option>
+       <option value="3">Trecias sunkumo lygis</option>
+       <option value="4">Visi sunkumo lygiai</option>
+    </select>
+
+  </table>
+  <input type="hidden" id="id" name="id" value="0">
+  <input type="submit" name="add" value="Pasirinkti" style="center">
+  </form>
+</fieldset>
+
 </body>
